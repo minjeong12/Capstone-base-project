@@ -20,6 +20,7 @@ import * as dateFns from "date-fns";
 import { useAuth } from "../../contexts/AuthContext";
 import UpdateJobModal from "./UpdateJobModal";
 import { Link } from "react-router-dom";
+import defaultImage from "../../assets/sampleImage.PNG";
 
 export default (props) => {
   const classes = useStyles();
@@ -49,50 +50,142 @@ export default (props) => {
       <DialogContent>
         <Box>
           <Box className={classes.info} display="flex">
-            <Typography variant="caption">Written by : </Typography>
-            <Typography variant="body2">{props.job.userId}</Typography>
-          </Box>
-          <Box className={classes.info} display="flex">
-            <Typography variant="caption">Posted on : </Typography>
+            <Typography variant="caption">작성일 : </Typography>
             <Typography variant="body2">
               {props.job.postedOn &&
                 dateFns.format(props.job.postedOn, "yyyy-MM-dd HH:MM")}
             </Typography>
           </Box>
+
           <Box className={classes.info} display="flex">
+            <Grid item container fullWidth>
+              <img
+                src={props.imageUrl != null ? props.imageUrl : defaultImage}
+                height="200px"
+                width="355px"
+                alt="testA"
+                style={{ borderRadius: 10 }}
+              />
+            </Grid>
+            <Typography
+              variant="body2"
+              style={{ marginLeft: "-165px", padding: "10px" }}
+            >
+              Project simple description
+            </Typography>
+            <Typography
+              variant="body2"
+              style={{ marginTop: "65px", marginLeft: "-190px" }}
+            >
+              <Grid className={classes.openRewardButton}>
+                {props.job.reward}
+              </Grid>
+            </Typography>
+
+            <Box style={{ marginTop: "159px", marginLeft: "-90px" }}>
+              <DialogActions>
+                <Button
+                  variant="contained"
+                  className={classes.openMessageButton}
+                  disableElevation
+                  disabled={loading}
+                  style={{ marginLeft: "-10px", marginRight: "-20px" }}
+                >
+                  {loading ? (
+                    <CircularProgress color="secondary" size={22} />
+                  ) : (
+                    <>
+                      <Link
+                        to={{
+                          pathname: "/chat",
+                          query: {
+                            userId: props.job.userId ? props.job.userId : null,
+                          },
+                        }}
+                      >
+                        <Typography>쪽지 보내기</Typography>
+                        {/* <MessageIcon /> */}
+                      </Link>
+                    </>
+                  )}
+                </Button>
+              </DialogActions>
+            </Box>
+          </Box>
+
+          <Box
+            className={classes.info}
+            display="flex"
+            style={{ marginBottom: "30px" }}
+          >
+            <Typography variant="caption">
+              -------------------------------------------------------------------------------
+            </Typography>
+          </Box>
+
+          <Box className={classes.info} display="flex">
+            <Typography variant="caption">(부엉이 프로필) : </Typography>
+            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+              {props.job.userId}
+            </Typography>
+          </Box>
+          <Box
+            className={classes.info}
+            display="flex"
+            style={{ marginBottom: "30px" }}
+          >
+            <Typography variant="caption">
+              -------------------------------------------------------------------------------
+            </Typography>
+          </Box>
+          {/* <Box className={classes.info} display="flex">
             <Typography variant="caption">Job title : </Typography>
             <Typography variant="body2">{props.job.title}</Typography>
-          </Box>
-          <Box className={classes.info} display="flex">
+          </Box> */}
+          {/* <Box className={classes.info} display="flex">
             <Typography variant="caption">Job school : </Typography>
             <Typography variant="body2">{props.job.school}</Typography>
+          </Box> */}
+          <Box className={classes.info} display="flex">
+            <Typography variant="caption">작업실 위치 : </Typography>
+            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+              {props.job.location}
+            </Typography>
+          </Box>
+
+          <Box className={classes.info} display="flex">
+            <Typography variant="caption">
+              구하는 부엉이 어시 인원수 :{" "}
+            </Typography>
+            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+              {props.job.nOfPeople}
+            </Typography>
           </Box>
           <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job location : </Typography>
-            <Typography variant="body2">{props.job.location}</Typography>
+            <Typography variant="caption">부엉이 어시 성별 : </Typography>
+            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+              {props.job.sex}
+            </Typography>
           </Box>
-          <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job endDate : </Typography>
-            <Typography variant="body2">{props.job.endDate}</Typography>
-          </Box>
-          <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job number of people : </Typography>
-            <Typography variant="body2">{props.job.nOfPeople}</Typography>
-          </Box>
-          <Box className={classes.info} display="flex">
+          {/* <Box className={classes.info} display="flex">
             <Typography variant="caption">Job type : </Typography>
             <Typography variant="body2">{props.job.type}</Typography>
+          </Box> */}
+
+          <Box className={classes.info} display="flex">
+            <Typography variant="caption">프로젝트 설명 : </Typography>
+            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+              {props.job.description}
+            </Typography>
           </Box>
           <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job reward : </Typography>
-            <Typography variant="body2">{props.job.reward}</Typography>
+            <Typography variant="caption">부엉이 어시 구하는 날 : </Typography>
+            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+              {props.job.endDate}
+            </Typography>
           </Box>
-          <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job description : </Typography>
-            <Typography variant="body2">{props.job.description}</Typography>
-          </Box>
-          <Box ml={0.5}>
-            <Typography variant="caption">Todos : </Typography>
+          <Box ml={0.5} style={{ marginBottom: "30px" }}>
+            <Typography variant="caption">부엉이 어시가 할 일 : </Typography>
             <Grid container alignItems="center">
               {props.job.skills &&
                 props.job.skills.map((skill) => (
@@ -102,12 +195,15 @@ export default (props) => {
                 ))}
             </Grid>
           </Box>
-          <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job Sex : </Typography>
-            <Typography variant="body2">{props.job.sex}</Typography>
-          </Box>
-          <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job Experience : </Typography>
+
+          <Box
+            className={classes.info}
+            display="flex"
+            style={{ marginBottom: "30px" }}
+          >
+            <Typography variant="caption">
+              부엉이 어시 시다경험 유무 :{" "}
+            </Typography>
             <Typography variant="body2">{props.job.experience}</Typography>
           </Box>
         </Box>
@@ -129,14 +225,6 @@ export default (props) => {
               updateJob={props.updateJob}
               job={props.job}
             />
-
-            {/* <Button
-              style={{ backgroundColor: "red" }}
-              variant="contained"
-              onClick={() => setUpdateJobModal(true)}
-            >
-              삭제
-            </Button> */}
             <Button
               style={{ backgroundColor: "red" }}
               variant="contained"
@@ -153,41 +241,6 @@ export default (props) => {
             </Button>
           </Grid>
         ) : null}
-
-        <Button
-          // onClick={props.new}
-          variant="contained"
-          className={classes.openMessageButton}
-          disableElevation
-          disabled={loading}
-        >
-          <Box display="flex" flexDirection="row" paddingTop="6px">
-            {loading ? (
-              <CircularProgress color="secondary" size={22} />
-            ) : (
-              <>
-                {/* <Link to="/chat" className="btn btn-primary btn-lg m-2"> */}
-                <Link
-                  to={{
-                    pathname: "/chat",
-                    query: {
-                      userId: props.job.userId ? props.job.userId : null,
-                    },
-                  }}
-                >
-                  <Grid>
-                    {" "}
-                    <Typography>쪽지 보내기</Typography>
-                  </Grid>
-                  <Grid>
-                    {" "}
-                    <MessageIcon />
-                  </Grid>
-                </Link>
-              </>
-            )}
-          </Box>
-        </Button>
       </DialogActions>
     </Dialog>
   );
@@ -222,5 +275,17 @@ const useStyles = makeStyles((theme) => ({
   },
   openMessageButton: {
     backgroundColor: "#e1bee7",
+  },
+  openRewardButton: {
+    fontSize: "14.5px",
+    height: "70px",
+    width: "70px",
+    borderRadius: "50%",
+    textAlign: "center",
+    lineHeight: "72px",
+    transition: ".3s",
+    fontWeight: 600,
+    color: "#fff",
+    backgroundColor: theme.palette.mainColor.main,
   },
 }));

@@ -1,12 +1,12 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap"); */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 
 :root {
   --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  --light-bg-img: url("../src/bg.svg");
+  /* --light-bg-img: url('../src/bg.svg'); */
   --dark-bg-img: url("../src/darkbg.svg");
   --border: 2px solid #ddd;
-  --primary-bg: #0069d9;
+  --primary-bg: #ffffff;
   --secondary-bg: #32c846;
   --incoming-msg-bg: #0069d9;
   --outgoing-msg-bg: #32c846;
@@ -27,12 +27,13 @@ html {
 
 body {
   /* font-family: "Raleway", sans-serif; */
-  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: var(--body-bg);
+  /* background-image: url("../src/asset/Frame.png"); */
 }
 
 .btn.btn-primary {

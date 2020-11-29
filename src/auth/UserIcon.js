@@ -9,7 +9,7 @@ export default function UserIcon() {
     <a href="/update-profile" className="navbar-brand text-center mt-1">
       {currentUser ? (
         <Grid style={{ width: "150px" }}>
-          <AccountCircle style={{ marginRight: "10px" }} />
+          <AccountCircle style={{ marginRight: "20px" }} />
           <strong style={{ fontSize: "14px" }}>{currentUser.email}</strong>
         </Grid>
       ) : null}

@@ -90,7 +90,7 @@ export default (props) => {
         <>
           <FormControl
             className={classes.formControl}
-            style={{ borderBottom: "2px solid #8C76CC" }}
+            style={{ borderBottom: "5px solid #8C76CC" }}
           >
             <InputLabel shrink htmlFor="location-native-label-placeholder">
               지역

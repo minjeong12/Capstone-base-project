@@ -4,7 +4,7 @@ import React from "react";
 export default (props) => {
   const classes = useStyles();
   return (
-    <Box py={10} bgcolor="gray" color="white">
+    <Box py={10} bgcolor="transparent" color="white">
       <Grid container justify="center">
         <Grid item xs={10}>
           <Box display="flex" justifyContent="space-between">

@@ -31,23 +31,29 @@ export default (props) => {
   }
 
   return (
-    <Box m={2} p={2} className={classes.wrapper} onClick={props.open}>
+    <Box
+      m={2}
+      p={2}
+      className={classes.wrapper}
+      style={{ backgroundColor: "#fff", borderRadius: "20" }}
+      onClick={props.open}
+    >
       {/* <Grid container alignItems="center"> */}
       <Grid container>
         <Grid item container fullWidth>
           <img
             src={props.imageUrl != null ? props.imageUrl : defaultImage}
-            height="150px"
+            height="200px"
             width="355px"
             alt="testA"
-            style={{}}
+            style={{ borderRadius: 10}}
           ></img>
         </Grid>
         <Grid
           item
           container
           fullWidth
-          style={{ marginTop: "10px", alignItem: "center" }}
+          style={{ marginTop: "10px", alignItem: "center", marginleft: "1px" }}
         >
           <Typography className={classes.locationName} variant="subtitle2">
             {props.location}
@@ -95,11 +101,12 @@ const useStyles = makeStyles((theme) => ({
   wrapper: {
     border: "1px solid #e8e8e8",
     cursor: "pointer",
-    height: "300px",
+    height: "350px",
+    borderRadius : "10",
 
     "&:hover": {
-      boxShadow: "0px 5px 25px rgba(0,0,0,0.1)",
-      borderLeft: "6px solid " + `${theme.palette.mainColor.main}`,
+      boxShadow: "0px 25px 25px rgba(0,0,0,0.1)",
+      borderLeft: "1px solid " + `${theme.palette.mainColor.main}`,
     },
   },
   locationName: {

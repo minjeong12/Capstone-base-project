@@ -1,26 +1,32 @@
-import React, { useRef, useState } from "react";
-// import { Form, Button, Card, Alert } from "react-bootstrap";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
-import { Button, Card, CardContent, FormControl } from "@material-ui/core";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
-// import Alert from "@material-ui/lab/Alert";
-// import AlertTitle from "@material-ui/lab/AlertTitle";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import Tooltip from "@material-ui/core/Tooltip";
+import { firebase } from "../firebase/config";
 
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const emailRef2 = useRef();
   const passwordRef2 = useRef();
-  const { login } = useAuth();
+  const { login, currentUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-
   const passwordConfirmRef = useRef();
   const nameRef = useRef();
-  const { signup, updateDisplayName, addUserToDB } = useAuth();
+  const fileRef = useRef();
+  const {
+    signup,
+    updateDisplayName,
+    addUserToDB,
+    updatePhotoImage,
+  } = useAuth();
+  const [file, setFile] = useState(null);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -50,7 +56,8 @@ export default function Login() {
       console.log("pw", passwordRef2.current.value);
       console.log("nm", nameRef.current.value);
       await signup(emailRef2.current.value, passwordRef2.current.value);
-      await updateDisplayName(nameRef.current.value);
+      await updateDisplayName(nameRef.current.value, fileRef.current.value);
+      // addImage();
       await addUserToDB();
 
       history.push("/");
@@ -61,9 +68,39 @@ export default function Login() {
     setLoading(false);
   }
 
+  var imageUrl = "https://ifh.cc/g/v0jZ9D.png";
+
+  const handleClick = () => {
+    fileRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    console.log("Make something");
+    setFile(event.target.files[0]);
+  };
+
+  // function addImage() {
+  //   try {
+  //     const imageRef = firebase.firestore().collection("images").add({
+  //       userEmail: currentUser.email,
+  //       postedOn: firebase.firestore.FieldValue.serverTimestamp(),
+  //     });
+  //     const imageSnapshot = firebase
+  //       .storage()
+  //       .ref(`images/${imageRef.id}.png`)
+  //       .put(file);
+  //     const imageoUrl = imageSnapshot.ref.getDownloadURL();
+  //     imageRef.update({ image: imageoUrl });
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // }
+
+  console.log(file);
+
   return (
     // <div className="w-100" style={{ maxWidth: "400px" }}>
-    <div className="login-register-area pt-100 pb-100">
+    <div className="login-register-area pt-100 pb-100" style={{ marginTop: "220px"}}>
       {error && (
         <section>
           <p>Error</p>
@@ -152,6 +189,36 @@ export default function Login() {
                             ref={emailRef2}
                             required
                           />
+                          {/* <img
+                            src={imageUrl}
+                            alt="profile"
+                            style={{
+                              width: "140px",
+                              height: "140px",
+                              left: "50%",
+                              marginBottom: "10px",
+                            }}
+                          />
+                          <input
+                            id="imageInput"
+                            type="file"
+                            ref={fileRef}
+                            hidden="hidden"
+                            onChange={(e) => handleFileChange(e)}
+                            required
+                          />
+                          <Tooltip
+                            title="Edit profile picture"
+                            placement="top"
+                            style={{ marginTop: "100px" }}
+                          >
+                            <IconButton className="button">
+                              <EditIcon
+                                color="primary"
+                                onClick={() => handleClick()}
+                              />
+                            </IconButton>
+                          </Tooltip> */}
                           <div className="button-box">
                             <button type="submit">
                               <span>Register</span>
