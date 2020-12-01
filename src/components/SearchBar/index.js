@@ -86,94 +86,92 @@ export default (props) => {
 
   return (
     <Box p={2} mt={-5} mb={2} className={classes.wrapper}>
-      {props.filterSelect ? (
-        <>
-          <FormControl
-            className={classes.formControl}
-            style={{ borderBottom: "5px solid #8C76CC" }}
+      <>
+        <FormControl
+          className={classes.formControl}
+          style={{ borderBottom: "5px solid #8C76CC" }}
+        >
+          <InputLabel shrink htmlFor="location-native-label-placeholder">
+            지역
+          </InputLabel>
+          <NativeSelect
+            onChange={handleChange}
+            value={jobSearch.location}
+            name="location"
+            disableUnderline
+            variant="filled"
+            className={classes.selectEmpty}
+            defaultValue={menuItemLoc[0]}
           >
-            <InputLabel shrink htmlFor="location-native-label-placeholder">
-              지역
-            </InputLabel>
-            <NativeSelect
-              onChange={handleChange}
-              value={jobSearch.location}
-              name="location"
-              disableUnderline
-              variant="filled"
-              className={classes.selectEmpty}
-              defaultValue={menuItemLoc[0]}
-            >
-              {menuItemLoc.map((item, i) => {
-                return <option value={item}>{item}</option>;
-              })}
-            </NativeSelect>
-          </FormControl>
-          <FormControl
-            className={classes.formControl}
-            style={{ borderBottom: "2px solid #8C76CC" }}
+            {menuItemLoc.map((item, i) => {
+              return <option value={item}>{item}</option>;
+            })}
+          </NativeSelect>
+        </FormControl>
+        <FormControl
+          className={classes.formControl}
+          style={{ borderBottom: "2px solid #8C76CC" }}
+        >
+          <InputLabel shrink htmlFor="reward-native-label-placeholder">
+            대가 설정
+          </InputLabel>
+          <NativeSelect
+            onChange={handleChange}
+            value={jobSearch.reward}
+            name="reward"
+            disableUnderline
+            variant="filled"
+            className={classes.selectEmpty}
+            defaultValue={menuItemRew[0]}
           >
-            <InputLabel shrink htmlFor="reward-native-label-placeholder">
-              대가 설정
-            </InputLabel>
-            <NativeSelect
-              onChange={handleChange}
-              value={jobSearch.reward}
-              name="reward"
-              disableUnderline
-              variant="filled"
-              className={classes.selectEmpty}
-              defaultValue={menuItemRew[0]}
-            >
-              {menuItemRew.map((item, i) => {
-                return <option value={item}>{item}</option>;
-              })}
-            </NativeSelect>
-          </FormControl>
-          <FormControl
-            className={classes.formControl}
-            style={{ borderBottom: "2px solid #8C76CC" }}
+            {menuItemRew.map((item, i) => {
+              return <option value={item}>{item}</option>;
+            })}
+          </NativeSelect>
+        </FormControl>
+        <FormControl
+          className={classes.formControl}
+          style={{ borderBottom: "2px solid #8C76CC" }}
+        >
+          <InputLabel shrink htmlFor="reward-native-label-placeholder">
+            할 일
+          </InputLabel>
+          <NativeSelect
+            onChange={handleChange}
+            value={jobSearch.skills}
+            name="skills"
+            disableUnderline
+            variant="filled"
+            className={classes.selectEmpty}
+            defaultValue={skills[0]}
           >
-            <InputLabel shrink htmlFor="reward-native-label-placeholder">
-              할 일
-            </InputLabel>
-            <NativeSelect
-              onChange={handleChange}
-              value={jobSearch.skills}
-              name="skills"
-              disableUnderline
-              variant="filled"
-              className={classes.selectEmpty}
-              defaultValue={skills[0]}
-            >
-              {skills.map((item, i) => {
-                return <option value={item}>{item}</option>;
-              })}
-            </NativeSelect>
-          </FormControl>
-          <FormControl
-            className={classes.formControl}
-            style={{ borderBottom: "2px solid #8C76CC" }}
+            {skills.map((item, i) => {
+              return <option value={item}>{item}</option>;
+            })}
+          </NativeSelect>
+        </FormControl>
+        <FormControl
+          className={classes.formControl}
+          style={{ borderBottom: "2px solid #8C76CC" }}
+        >
+          <InputLabel shrink htmlFor="reward-native-label-placeholder">
+            성별
+          </InputLabel>
+          <NativeSelect
+            onChange={handleChange}
+            value={jobSearch.sex}
+            name="sex"
+            disableUnderline
+            variant="filled"
+            className={classes.underline}
+            defaultValue={menuItemSex[0]}
           >
-            <InputLabel shrink htmlFor="reward-native-label-placeholder">
-              성별
-            </InputLabel>
-            <NativeSelect
-              onChange={handleChange}
-              value={jobSearch.sex}
-              name="sex"
-              disableUnderline
-              variant="filled"
-              className={classes.underline}
-              defaultValue={menuItemSex[0]}
-            >
-              {menuItemSex.map((item, i) => {
-                return <option value={item}>{item}</option>;
-              })}
-            </NativeSelect>
-          </FormControl>
-        </>
-      ) : null}
+            {menuItemSex.map((item, i) => {
+              return <option value={item}>{item}</option>;
+            })}
+          </NativeSelect>
+        </FormControl>
+      </>
 
       <FormControl
         className={classes.formControl}
@@ -203,20 +201,14 @@ export default (props) => {
         />
       </FormControl>
 
-      {props.filterSelect ? (
-        <Button
-          disabled={loading}
-          variant="contained"
-          disableElevation
-          onClick={search}
-        >
-          {loading ? (
-            <CircularProgress color="secondary" size={22} />
-          ) : (
-            "Search"
-          )}
-        </Button>
-      ) : null}
+      <Button
+        disabled={loading}
+        variant="contained"
+        disableElevation
+        onClick={search}
+      >
+        {loading ? <CircularProgress color="secondary" size={22} /> : "Search"}
+      </Button>
     </Box>
   );
 };

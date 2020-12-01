@@ -12,7 +12,7 @@ import {
   Paper,
   Toolbar,
 } from "@material-ui/core";
-import SearchBar from "../SearchBar";
+import NavSearchBar from "../SearchBar/NavSearchBar";
 
 const UserIcon = lazy(() => import("../../auth/UserIcon"));
 const Logout = lazy(() => import("../../auth/Logout"));
@@ -119,7 +119,9 @@ export default function Nav() {
             </Link>
             </Button> */}
 
-          <SearchBar fetchJobsCustom={fetchJobsCustom} filterSelect={false} />
+          {currentUser ? null : (
+            <NavSearchBar fetchJobs={fetchJobs} filterSelect={false} />
+          )}
 
           {currentUser ? null : (
             <Button variant="outline-light" style={{ marginRight: "5px" }}>
@@ -135,9 +137,7 @@ export default function Nav() {
         {currentUser ? (
           <Toolbar
             style={{
-              marginRight: "auto",
               flexDirection: "row",
-              marginLeft: "950px",
             }}
           >
             <Paper style={{ width: "120px", marginRight: "10px" }}>
