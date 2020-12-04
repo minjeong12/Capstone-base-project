@@ -88,6 +88,7 @@ export default (props) => {
         console.log(inputVal);
         var receiverID = await emailToID(inputVal);
         console.log(receiverID);
+        console.log(senderID);
 
         if (!receiverID) throw new Error("No friend found with that email 😕");
         if (receiverID === senderID)

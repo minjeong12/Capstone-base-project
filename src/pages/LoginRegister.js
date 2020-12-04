@@ -3,10 +3,6 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
-import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/Edit";
-import Tooltip from "@material-ui/core/Tooltip";
-import { firebase } from "../firebase/config";
 
 export default function Login() {
   const emailRef = useRef();
@@ -56,7 +52,8 @@ export default function Login() {
       console.log("pw", passwordRef2.current.value);
       console.log("nm", nameRef.current.value);
       await signup(emailRef2.current.value, passwordRef2.current.value);
-      await updateDisplayName(nameRef.current.value, fileRef.current.value);
+      // await updateDisplayName(nameRef.current.value, fileRef.current.value);
+      await updateDisplayName(nameRef.current.value);
       // addImage();
       await addUserToDB();
 
@@ -70,9 +67,9 @@ export default function Login() {
 
   var imageUrl = "https://ifh.cc/g/v0jZ9D.png";
 
-  const handleClick = () => {
-    fileRef.current.click();
-  };
+  // const handleClick = () => {
+  //   fileRef.current.click();
+  // };
 
   const handleFileChange = (event) => {
     console.log("Make something");
@@ -100,7 +97,10 @@ export default function Login() {
 
   return (
     // <div className="w-100" style={{ maxWidth: "400px" }}>
-    <div className="login-register-area pt-100 pb-100" style={{ marginTop: "220px"}}>
+    <div
+      className="login-register-area pt-100 pb-100"
+      style={{ marginTop: "220px" }}
+    >
       {error && (
         <section>
           <p>Error</p>

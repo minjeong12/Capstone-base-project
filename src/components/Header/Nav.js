@@ -133,6 +133,16 @@ export default function Nav() {
               </Link>
             </Button>
           )}
+          {currentUser ? (
+            <Button variant="outline-light" style={{ marginRight: "5px" }}>
+              <Link
+                to={"/chat"}
+                style={{ textDecoration: "none", color: "#7563A7" }}
+              >
+                쪽지함
+              </Link>
+            </Button>
+          ) : null}
         </Toolbar>
         {currentUser ? (
           <Toolbar
