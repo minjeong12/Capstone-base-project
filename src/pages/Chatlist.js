@@ -15,7 +15,6 @@ export default function Chatlist(props) {
   const [userId, setUserId] = useState("");
 
   async function getB() {
-    // this.setState({ error: null, loading: true });
     setError(null);
     setLoading(true);
     try {
@@ -39,11 +38,9 @@ export default function Chatlist(props) {
           list.push(element);
         }
       }
-      // this.setState({ friendsList: list, loading: false });
       setFriendsList(list);
       setLoading(false);
     } catch (err) {
-      // this.setState({ error: err.message, loading: false });\
       setError(err.message);
       setLoading(false);
     }
@@ -63,7 +60,6 @@ export default function Chatlist(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    // this.setState({ error: null });
     setError(null);
     var senderID = currentUser.uid;
     if (inputVal) {
@@ -76,7 +72,6 @@ export default function Chatlist(props) {
         var chatID = chatIDGenerator(senderID, receiverID);
         history.push("/chat/" + chatID);
       } catch (error) {
-        // this.setState({ error: error.message });
         setError(error.message);
       }
     }
@@ -192,16 +187,6 @@ export default function Chatlist(props) {
 
         <main className="chatarea px-0">
           <Card className="list-group" style={{ backgroundColor: "#E0F7FA" }}>
-            {/* <Link
-              to={"/chatroom"}
-              className="list-group-item list-group-item-action list-group-item-primary rounded-0"
-            >
-              <div className="d-flex w-100 justify-content-between">
-                <h5 className="my-2 font-weight-bold">
-                  Public Chatroom <i className="fas fa-arrow-right"></i>
-                </h5>
-              </div>
-            </Link> */}
             {friendsList
               .sort((a, b) => {
                 // Filters to prevent any undefined/NaN/null values from getting sorted

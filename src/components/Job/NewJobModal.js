@@ -91,6 +91,7 @@ export default (props) => {
   ];
   const initState = {
     userId: currentUser.email,
+    chatId: currentUser.uid,
     title: "",
     school: "",
     location: menuItemLoc[0],
@@ -138,10 +139,6 @@ export default (props) => {
     const fileRef = storageRef.child(filed.name);
     await fileRef.put(filed);
     setFileUrl(await fileRef.getDownloadURL());
-    // setJobDetails((oldState) => ({
-    //   ...oldState,
-    //   imageUrl: ,
-    // }));
 
     for (let i = 0; i < e.target.files.length; i++) {
       const newFile = e.target.files[i];
@@ -207,6 +204,8 @@ export default (props) => {
     }
     if (!jobDetails.skills.length) return;
     setLoading(true);
+    console.log(jobDetails);
+
     await props.postJob(jobDetails, fileUrl);
     closeModal();
   };

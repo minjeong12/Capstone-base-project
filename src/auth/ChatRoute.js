@@ -9,10 +9,12 @@ export default function ChatRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) => {
-        return currentUser.email !== props.match.params.chatID ? (
+        var cht = "/chat/:" + props.location.query.chatID;
+        console.log(props.location.query.chatID);
+        return currentUser.email !== props.location.query.chatID ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/chat" />
+          <Redirect to={cht} />
         );
       }}
     ></Route>

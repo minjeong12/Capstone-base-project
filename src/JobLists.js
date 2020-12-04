@@ -34,6 +34,7 @@ function JobLists(props) {
       postedOn: job.data().postedOn.toDate(),
     }));
     setJobs(tempJobs);
+    console.log(jobs);
     setLoading(false);
   };
 

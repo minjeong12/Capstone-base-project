@@ -19,23 +19,123 @@ import {
 import * as dateFns from "date-fns";
 import { useAuth } from "../../contexts/AuthContext";
 import UpdateJobModal from "./UpdateJobModal";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import defaultImage from "../../assets/sampleImage.PNG";
+import { db } from "../../firebase/config";
+import { useEffect } from "react";
 
 export default (props) => {
   const classes = useStyles();
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [updateJobModal, setUpdateJobModal] = useState(false);
+  const [error, setError] = useState(null);
+  const [inputVal, setInputVal] = useState("");
+  const history = useHistory();
 
-  console.log("props.job.userId", props.job.userId);
+  console.log("props.job.chatId", props.job.chatId);
 
   const closeModal = () => {
     setLoading(false);
-
-    // props.closeViewModal();
     props.closeModal();
   };
+
+  async function emailToID(email) {
+    const snapshot = await db.ref("users").once("value");
+    for (const key in snapshot.val()) {
+      // skip loop if the property is from prototype
+      if (!snapshot.val().hasOwnProperty(key)) continue;
+      const obj = snapshot.val()[key];
+      for (const prop in obj) {
+        // skip loop if the property is from prototype
+        if (!obj.hasOwnProperty(prop)) continue;
+        if (prop === "email" && obj[prop] === email) return obj["uid"];
+      }
+    }
+    return null;
+  }
+
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+  // async function handleSubmit() {
+  //   console.log("submit");
+  //   setError(null);
+  //   var senderID = currentUser.uid;
+  //   if (inputVal) {
+  //     try {
+  //       var receiverID = await emailToID(inputVal);
+  //       if (!receiverID) throw new Error("No friend found with that email 😕");
+  //       if (receiverID === senderID)
+  //         throw new Error("You can't text yourself 💩");
+  //       await makeFriends(senderID, receiverID);
+  //       var chatID = chatIDGenerator(senderID, receiverID);
+  //       history.push("/chat/" + chatID);
+  //     } catch (error) {
+  //       setError(error.message);
+  //     }
+  //   }
+  // }
+
+  function hist(chatID) {
+    history.push("/chat/" + chatID);
+  }
+
+  const appKeyPress = async (e) => {
+    setError(null);
+    var senderID = currentUser.uid;
+    if (inputVal) {
+      try {
+        console.log(inputVal);
+        var receiverID = await emailToID(inputVal);
+        console.log(receiverID);
+
+        if (!receiverID) throw new Error("No friend found with that email 😕");
+        if (receiverID === senderID)
+          throw new Error("You can't text yourself 💩");
+
+        await makeFriends(senderID, receiverID);
+        console.log(receiverID);
+        console.log(senderID);
+        var chatID = chatIDGenerator(senderID, receiverID);
+        console.log(chatID);
+
+        hist(chatID);
+        // history.push("/chat/" + chatID);
+      } catch (error) {
+        console.log(error.message);
+        console.log("error");
+        setError(error.message);
+      }
+    }
+  };
+
+  async function makeFriends(currentUserID, friendID) {
+    const currentUserObj = await (
+      await db.ref(`users/${currentUserID}`).once("value")
+    ).val();
+    currentUserObj.chatID = chatIDGenerator(currentUserID, friendID);
+    delete currentUserObj.friends; // deleting additional user property
+
+    const friendObj = await (
+      await db.ref(`users/${friendID}`).once("value")
+    ).val();
+    friendObj.chatID = chatIDGenerator(currentUserID, friendID);
+    delete friendObj.friends; // deleting additional user property
+
+    return (
+      db.ref(`users/${currentUserID}/friends/${friendID}`).set(friendObj) &&
+      db.ref(`users/${friendID}/friends/${currentUserID}`).set(currentUserObj)
+    ); // Adding new Friend in both user's document
+  }
+
+  function chatIDGenerator(ID1, ID2) {
+    if (ID1 < ID2) return `${ID1}_${ID2}`;
+    else return `${ID2}_${ID1}`;
+  }
+
+  useEffect(() => {
+    setInputVal(props.job.userId);
+  });
 
   return (
     <Dialog open={!!Object.keys(props.job).length} fullWidth>
@@ -95,17 +195,17 @@ export default (props) => {
                     <CircularProgress color="secondary" size={22} />
                   ) : (
                     <>
-                      <Link
+                      {/* <Link
                         to={{
                           pathname: "/chat",
                           query: {
-                            userId: props.job.userId ? props.job.userId : null,
+                            userId: props.job.userId ? props.job.userId : "a",
                           },
                         }}
-                      >
-                        <Typography>쪽지 보내기</Typography>
-                        {/* <MessageIcon /> */}
-                      </Link>
+                      > */}
+                      <Button onClick={appKeyPress}>쪽지 보내기</Button>
+                      {/* <MessageIcon /> */}
+                      {/* </Link> */}
                     </>
                   )}
                 </Button>
@@ -138,14 +238,6 @@ export default (props) => {
               -------------------------------------------------------------------------------
             </Typography>
           </Box>
-          {/* <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job title : </Typography>
-            <Typography variant="body2">{props.job.title}</Typography>
-          </Box> */}
-          {/* <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job school : </Typography>
-            <Typography variant="body2">{props.job.school}</Typography>
-          </Box> */}
           <Box className={classes.info} display="flex">
             <Typography variant="caption">작업실 위치 : </Typography>
             <Typography variant="body2" style={{ marginBottom: "30px" }}>
@@ -167,10 +259,6 @@ export default (props) => {
               {props.job.sex}
             </Typography>
           </Box>
-          {/* <Box className={classes.info} display="flex">
-            <Typography variant="caption">Job type : </Typography>
-            <Typography variant="body2">{props.job.type}</Typography>
-          </Box> */}
 
           <Box className={classes.info} display="flex">
             <Typography variant="caption">프로젝트 설명 : </Typography>
