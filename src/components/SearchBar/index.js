@@ -60,17 +60,18 @@ export default (props) => {
     }));
   };
 
-  const handleChangeSearch = (e) => {
-    e.persist();
-    setJobSearch((oldState) => ({
-      ...oldState,
-      location: "",
-      reward: "",
-      skills: "",
-      sex: "",
-      title: e.target.value,
-    }));
-  };
+  // const handleChangeSearch = (e) => {
+  //   e.persist();
+  //   setJobSearch((oldState) => ({
+  //     ...oldState,
+  //     location: "",
+  //     reward: "",
+  //     skills: "",
+  //     sex: "",
+  //     title: e.target.value,
+  //   }));
+  // };
+
 
   const search = async () => {
     setLoading(true);
@@ -200,7 +201,7 @@ export default (props) => {
           onKeyPress={onKeyPress}
         />
       </FormControl>
-
+      {/* =================================================================================== */}
       <Button
         disabled={loading}
         variant="contained"

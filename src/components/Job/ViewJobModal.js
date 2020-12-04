@@ -55,27 +55,6 @@ export default (props) => {
     return null;
   }
 
-  // async function handleSubmit(event) {
-  //   event.preventDefault();
-  // async function handleSubmit() {
-  //   console.log("submit");
-  //   setError(null);
-  //   var senderID = currentUser.uid;
-  //   if (inputVal) {
-  //     try {
-  //       var receiverID = await emailToID(inputVal);
-  //       if (!receiverID) throw new Error("No friend found with that email 😕");
-  //       if (receiverID === senderID)
-  //         throw new Error("You can't text yourself 💩");
-  //       await makeFriends(senderID, receiverID);
-  //       var chatID = chatIDGenerator(senderID, receiverID);
-  //       history.push("/chat/" + chatID);
-  //     } catch (error) {
-  //       setError(error.message);
-  //     }
-  //   }
-  // }
-
   function hist(chatID) {
     history.push("/chat/" + chatID);
   }
@@ -185,31 +164,22 @@ export default (props) => {
 
             <Box style={{ marginTop: "159px", marginLeft: "-90px" }}>
               <DialogActions>
-                <Button
-                  variant="contained"
-                  className={classes.openMessageButton}
-                  disableElevation
-                  disabled={loading}
-                  style={{ marginLeft: "-10px", marginRight: "-20px" }}
-                >
-                  {loading ? (
-                    <CircularProgress color="secondary" size={22} />
-                  ) : (
-                    <>
-                      {/* <Link
-                        to={{
-                          pathname: "/chat",
-                          query: {
-                            userId: props.job.userId ? props.job.userId : "a",
-                          },
-                        }}
-                      > */}
+                {loading ? (
+                  <CircularProgress color="secondary" size={22} />
+                ) : (
+                  props.job.userId === currentUser.email && (
+                    <Button
+                      variant="contained"
+                      className={classes.openMessageButton}
+                      disableElevation
+                      disabled={loading}
+                      style={{ marginLeft: "-10px", marginRight: "-20px" }}
+                    >
                       <Button onClick={appKeyPress}>쪽지 보내기</Button>
                       {/* <MessageIcon /> */}
-                      {/* </Link> */}
-                    </>
-                  )}
-                </Button>
+                    </Button>
+                  )
+                )}
               </DialogActions>
             </Box>
           </Box>

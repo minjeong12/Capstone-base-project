@@ -50,8 +50,8 @@ function JobLists(props) {
       .where("reward", "==", jobSearch.reward)
       .where("skills", "array-contains", jobSearch.skills)
       .where("sex", "==", jobSearch.sex)
-      .where("title", ">=", jobSearch.title)
-      .where("title", "<=", jobSearch.title + "\uf8ff")
+      // .where("title", ">=", jobSearch.title)
+      // .where("title", "<=", jobSearch.title + "\uf8ff")
       .get();
     const tempJobs = req.docs.map((job) => ({
       ...job.data(),
@@ -108,12 +108,26 @@ function JobLists(props) {
     fetchJobs();
   }, []);
 
+  // const history = useHistory();
+
+  const appKeyPress = (e) => {
+    if (e.key === "Enter") {
+      setSearchKeyword(e.target.value);
+      // history.push("/search/" + searchKeyword);
+    }
+  };
+
+  function handleFilterTextChange(e) {
+    e.preventDefault();
+    setSearchKeyword(e.target.value);
+  }
+
   const Header = lazy(() => import("./components/Header/index"));
   const NewJobModal = lazy(() => import("./components/Job/NewJobModal"));
   const ViewJobModal = lazy(() => import("./components/Job/ViewJobModal"));
   const JobCard = lazy(() => import("./components/Job/JobCard"));
 
-  console.log("searchKeyword", searchKeyword);
+  // console.log("searchKeyword", searchKeyword);
 
   return (
     <ThemeProvider theme={theme} style={{ transition: ".3s" }}>
