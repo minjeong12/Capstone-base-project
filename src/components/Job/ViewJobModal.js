@@ -167,7 +167,7 @@ export default (props) => {
                 {loading ? (
                   <CircularProgress color="secondary" size={22} />
                 ) : (
-                  props.job.userId === currentUser.email && (
+                  props.job.userId !== currentUser.email && (
                     <Button
                       variant="contained"
                       className={classes.openMessageButton}
