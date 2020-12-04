@@ -58,6 +58,8 @@ function JobLists(props) {
       id: job.id,
       postedOn: job.data().postedOn.toDate(),
     }));
+
+    setSearchKeyword(jobSearch.title);
     setJobs(tempJobs);
     setLoading(false);
   };
@@ -108,26 +110,42 @@ function JobLists(props) {
     fetchJobs();
   }, []);
 
-  // const history = useHistory();
-
   const appKeyPress = (e) => {
     if (e.key === "Enter") {
       setSearchKeyword(e.target.value);
-      // history.push("/search/" + searchKeyword);
     }
   };
 
-  function handleFilterTextChange(e) {
-    e.preventDefault();
-    setSearchKeyword(e.target.value);
-  }
+  // function handleFilterTextChange(e) {
+  //   e.preventDefault();
+  //   setSearchKeyword(e.target.value);
+  // }
+
+  const filteredComponents = (jobs) => {
+    jobs = jobs.filter((c) => {
+      return c.title.indexOf(searchKeyword) > -1;
+    });
+    return jobs.map((c, index) => {
+      return (
+        <>
+          {jobs.map((job) => (
+            <Grid item xs={4}>
+              <Box display="flex" justifyContent="row-revers">
+                <JobCard open={() => setViewJob(job)} key={job.id} {...job} />
+              </Box>
+            </Grid>
+          ))}
+        </>
+      );
+    });
+  };
 
   const Header = lazy(() => import("./components/Header/index"));
   const NewJobModal = lazy(() => import("./components/Job/NewJobModal"));
   const ViewJobModal = lazy(() => import("./components/Job/ViewJobModal"));
   const JobCard = lazy(() => import("./components/Job/JobCard"));
 
-  // console.log("searchKeyword", searchKeyword);
+  console.log(searchKeyword);
 
   return (
     <ThemeProvider theme={theme} style={{ transition: ".3s" }}>
@@ -156,6 +174,8 @@ function JobLists(props) {
               <SearchBar
                 fetchJobsCustom={fetchJobsCustom}
                 filterSelect={true}
+                appKeyPress={appKeyPress}
+                // handleFilterTextChange={handleFilterTextChange}
               />
               {loading ? (
                 <Box display="flex" justifyContent="center">
@@ -172,7 +192,8 @@ function JobLists(props) {
                     </Box>
                   )}
                   <Grid container>
-                    {jobs.map((job) => (
+                    {jobs && filteredComponents(jobs)}
+                    {/* {jobs.map((job) => (
                       <Grid item xs={4}>
                         <Box display="flex" justifyContent="row-revers">
                           <JobCard
@@ -182,7 +203,7 @@ function JobLists(props) {
                           />
                         </Box>
                       </Grid>
-                    ))}
+                    ))} */}
                   </Grid>
                 </Grid>
               )}

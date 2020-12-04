@@ -60,22 +60,10 @@ export default (props) => {
     }));
   };
 
-  // const handleChangeSearch = (e) => {
-  //   e.persist();
-  //   setJobSearch((oldState) => ({
-  //     ...oldState,
-  //     location: "",
-  //     reward: "",
-  //     skills: "",
-  //     sex: "",
-  //     title: e.target.value,
-  //   }));
-  // };
-
-
   const search = async () => {
     setLoading(true);
     await props.fetchJobsCustom(jobSearch);
+    // props.handleFilterTextChange();
     setLoading(false);
   };
 
