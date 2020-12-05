@@ -116,11 +116,6 @@ function JobLists(props) {
     }
   };
 
-  // function handleFilterTextChange(e) {
-  //   e.preventDefault();
-  //   setSearchKeyword(e.target.value);
-  // }
-
   const filteredComponents = (jobs) => {
     jobs = jobs.filter((c) => {
       return c.title.indexOf(searchKeyword) > -1;

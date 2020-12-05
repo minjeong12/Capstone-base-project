@@ -1,17 +1,10 @@
 import { firestore } from "../../firebase/config";
-import React, { Suspense, lazy, useState, useEffect } from "react";
+import React, { lazy, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import logo from "../../assets/logo.PNG";
 import talent from "../../assets/talent.PNG";
-import {
-  AppBar,
-  Button,
-  CircularProgress,
-  IconButton,
-  Paper,
-  Toolbar,
-} from "@material-ui/core";
+import { AppBar, Button, IconButton, Paper, Toolbar } from "@material-ui/core";
 import NavSearchBar from "../SearchBar/NavSearchBar";
 
 const UserIcon = lazy(() => import("../../auth/UserIcon"));
@@ -140,6 +133,27 @@ export default function Nav() {
                 style={{ textDecoration: "none", color: "#7563A7" }}
               >
                 쪽지함
+              </Link>
+            </Button>
+          ) : null}
+
+          {currentUser === null ? (
+            <Button variant="outline-light" style={{ marginRight: "5px" }}>
+              <Link
+                to={"/review"}
+                style={{ textDecoration: "none", color: "#7563A7" }}
+              >
+                후기
+              </Link>
+            </Button>
+          ) : null}
+          {currentUser === null ? (
+            <Button variant="outline-light" style={{ marginRight: "5px" }}>
+              <Link
+                to={"/result"}
+                style={{ textDecoration: "none", color: "#7563A7" }}
+              >
+                결과
               </Link>
             </Button>
           ) : null}

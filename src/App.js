@@ -5,7 +5,6 @@ import PrivateRoute from "./auth/PrivateRoute";
 import { CircularProgress } from "@material-ui/core";
 import "./styles.css";
 import styled from "styled-components";
-import ChatRoute from "./auth/ChatRoute";
 
 const UpdateProfilePage = lazy(() => import("./pages/UpdateProfile.page"));
 const ForgotPasswordPage = lazy(() => import("./pages/ForgotPassword.page"));
@@ -17,9 +16,10 @@ const Chatlist = lazy(() => import("./pages/Chatlist"));
 const Chat = lazy(() => import("./pages/Chat"));
 const Nav = lazy(() => import("./components/Header/Nav"));
 const SearchPage = lazy(() => import("./pages/Search.page"));
+const Review = lazy(() => import("./pages/Review"));
+// const Result = lazy(() => import("./pages/Result"));
 
 function App(props) {
-
   return (
     <Container>
       <div style={{ flex: 1, flexDirection: "flex-start" }}>
@@ -42,15 +42,12 @@ function App(props) {
                 <Route path="/login-register" component={LoginRegisterPage} />
                 <Route path="/forgot-password" component={ForgotPasswordPage} />
                 <Route path="/home" component={HomePage} />
-
                 <Route exact path="/search/:sId" component={SearchPage} />
-
                 <PrivateRoute path="/talent" component={JobListsPage} />
-
                 <PrivateRoute exact path="/chat" component={Chatlist} />
-                {/* <PrivateRoute path="/chat/:chatID" component={Chat} /> */}
                 <PrivateRoute path="/chat/:chatID" component={Chat} />
-
+                <Route path="/review" component={Review} />
+                {/* <Route path="/result" component={Result} /> */}
                 <Route component={NoMatchPage} />
               </Switch>
             </AuthProvider>
