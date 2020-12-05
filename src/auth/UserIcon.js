@@ -18,7 +18,8 @@ export default function UserIcon() {
           ></img>
           {/* <AccountCircle style={{ marginRight: "20px" }} /> */}
           <strong style={{ fontSize: "14px" }}>
-            {currentUser.email}
+            {currentUser.displayName}님
+            {/* {currentUser.email} */}
           </strong>
         </Grid>
       ) : null}

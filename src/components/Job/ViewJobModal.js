@@ -100,6 +100,9 @@ export default (props) => {
       await db.ref(`users/${friendID}`).once("value")
     ).val();
     friendObj.chatID = chatIDGenerator(currentUserID, friendID);
+
+    friendObj.post = props.job.title;
+
     delete friendObj.friends; // deleting additional user property
 
     return (

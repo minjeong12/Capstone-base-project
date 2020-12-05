@@ -2,9 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../firebase/config";
-// import { firestore } from "../services/firebase";
 
-// export default class Chat extends Component {
 export default function Chat(props) {
   const { currentUser } = useAuth();
   const history = useHistory();
@@ -20,7 +18,6 @@ export default function Chat(props) {
   const myRef = useRef();
 
   async function getA() {
-    // this.setState({ readError: null, loadingChats: true });
     setReadError(null);
     setLoadingChats(true);
     const chatArea = myRef.current;
@@ -40,14 +37,11 @@ export default function Chat(props) {
         chats.sort(function (a, b) {
           return a.timestamp - b.timestamp;
         });
-        // this.setState({ chats });
-        // this.setState({ loadingChats: false });
         setChats(chats);
         setLoadingChats(false);
         chatArea.scrollBy(0, chatArea.scrollHeight);
       });
     } catch (error) {
-      // this.setState({ readError: error.message, loadingChats: false });
       setReadError(error.message);
       setLoadingChats(false);
     }
@@ -59,17 +53,12 @@ export default function Chat(props) {
 
   // 완성
   function handleChange(event) {
-    // this.setState({
-    //   content: event.target.value,
-    // });
     setContent(event.target.value);
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    // this.setState({ writeError: null });
     setWriteError(null);
-    // const chatArea = this.myRef.current;
     const chatArea = myRef.current;
     if (content) {
       try {
@@ -84,12 +73,10 @@ export default function Chat(props) {
           uid: user.uid,
           uname: user.displayName,
         });
-        // this.setState({ content: "" });
         setContent("");
         document.querySelector(".chat-input").focus();
         chatArea.scrollBy(0, chatArea.scrollHeight);
       } catch (error) {
-        // this.setState({ writeError: error.message });
         setWriteError(error.message);
       }
     }
@@ -118,11 +105,9 @@ export default function Chat(props) {
 
   return (
     <div style={{ marginTop: "150px" }}>
-      {/* loading indicator */}
       {loadingChats ? <div className="spinner"></div> : ""}
       <section className="chat-container">
         <header className="chat-header">
-          {/* <Link to="/chat" className="px-2"> */}
           <Link
             to={{
               pathname: "/chat",
@@ -163,7 +148,6 @@ export default function Chat(props) {
                   onDoubleClick={async () => {
                     if (chat.uid !== user.uid) return;
                     const chatid = props.match.params.chatID;
-                    // this.setState({ deletePrompt: true });
                     setDeletePrompt(true);
                     const x = await db
                       .ref(`chats/${chatid}`)
@@ -189,28 +173,24 @@ export default function Chat(props) {
             className="d-flex justify-content-between align-items-center alert alert-danger mb-0 mt-1 rounded-0 py-1 px-2"
             role="alert"
           >
-            <span>Do you wish to delete that message?</span>
+            <span>메시지를 삭제하시겠습니까?</span>
             <div className="d-flex">
               <button
                 type="button"
                 className="btn btn-sm py-0 mr-1 btn-outline-danger"
                 onClick={() => {
                   db.ref(deletionMsgRef).remove();
-                  // this.setState({ deletePrompt: false });
                   setDeletePrompt(false);
                 }}
               >
-                Yes
+                예
               </button>
               <button
                 type="button"
                 className="btn btn-sm py-0 btn-outline-success"
-                onClick={() =>
-                  // this.setState({ deletePrompt: false })
-                  setDeletePrompt(false)
-                }
+                onClick={() => setDeletePrompt(false)}
               >
-                No
+                아니오
               </button>
             </div>
           </div>

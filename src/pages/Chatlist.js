@@ -153,7 +153,7 @@ export default function Chatlist(props) {
             <i className="fas fa-chevron-left">&lt;&lt;</i>
           </Link>
           <div className="chat-header-title">
-            <Link to="/">Chatalone</Link>
+            <Link to="/">쪽지함</Link>
           </div>
           <div className="chat-settings">
             {/* <Link onClick={() => logout()} to="/" className="px-2"> */}
@@ -171,10 +171,10 @@ export default function Chatlist(props) {
           </div>
         ) : null}
 
-        <form onSubmit={handleSubmit} className="chat-inputarea mt-2">
+        {/* <form onSubmit={handleSubmit} className="chat-inputarea mt-2">
           <input
             type="email"
-            placeholder="Your friend's email..."
+            placeholder="받는 사람"
             name="inputVal"
             onChange={handleChange}
             className="chat-input"
@@ -183,7 +183,7 @@ export default function Chatlist(props) {
           <button type="submit" className="chat-sendbtn">
             Chat
           </button>
-        </form>
+        </form> */}
 
         <main className="chatarea px-0">
           <Card className="list-group" style={{ backgroundColor: "#E0F7FA" }}>
@@ -203,12 +203,16 @@ export default function Chatlist(props) {
                     className="list-group-item list-group-item-action rounded-0"
                   >
                     <div className="d-flex w-100 justify-content-between">
-                      <h5 className="mb-0 font-weight-bold">{friend.uname}</h5>
+                      <h5 className="mb-0 font-weight-bold">
+                        {friend.uname} | {friend.email}
+                      </h5>
                       <small className="text-right">
                         {timeForToday(friend.recentMsgTimestamp)}
                       </small>
                     </div>
-                    <small className="mb-1">{friend.email}</small>
+                    <small className="mb-1" style={{ color: "black" }}>
+                      {friend.post}
+                    </small>
                     <small className="text-muted">{friend.recentMsg}</small>
                   </Link>
                 );
