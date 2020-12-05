@@ -12,12 +12,12 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  function updateDisplayName(name) {
+  function updateDisplayNameAndPhoto(name, url) {
     if (auth.currentUser) {
       return auth.currentUser
         .updateProfile({
           displayName: name,
-          // photoURL: url,
+          photoURL: url,
         })
         .then(
           function (response) {
@@ -74,7 +74,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const value = {
-    updateDisplayName,
+    updateDisplayNameAndPhoto,
     addUserToDB,
     currentUser,
     login,

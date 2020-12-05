@@ -17,6 +17,7 @@ export default function Nav() {
   const [loading, setLoading] = useState(true);
   const [customSearch, setCustomSearch] = useState(false);
   const history = useHistory();
+  const [user, setUser] = useState(currentUser);
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -164,7 +165,7 @@ export default function Nav() {
               flexDirection: "row",
             }}
           >
-            <Paper style={{ width: "120px", marginRight: "10px" }}>
+            <Paper style={{ width: "200px", marginRight: "40px" }}>
               <UserIcon />
             </Paper>
             <Paper>

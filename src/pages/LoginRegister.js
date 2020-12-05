@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
+import { firebase } from "../firebase/config";
 
 export default function Login() {
   const emailRef = useRef();
@@ -15,13 +16,7 @@ export default function Login() {
   const history = useHistory();
   const passwordConfirmRef = useRef();
   const nameRef = useRef();
-  const fileRef = useRef();
-  const {
-    signup,
-    updateDisplayName,
-    addUserToDB,
-    updatePhotoImage,
-  } = useAuth();
+  const { signup, updateDisplayNameAndPhoto, addUserToDB } = useAuth();
   const [file, setFile] = useState(null);
 
   async function handleSubmit(e) {
@@ -52,9 +47,7 @@ export default function Login() {
       console.log("pw", passwordRef2.current.value);
       console.log("nm", nameRef.current.value);
       await signup(emailRef2.current.value, passwordRef2.current.value);
-      // await updateDisplayName(nameRef.current.value, fileRef.current.value);
-      await updateDisplayName(nameRef.current.value);
-      // addImage();
+      await updateDisplayNameAndPhoto(nameRef.current.value, fileUrl);
       await addUserToDB();
 
       history.push("/");
@@ -66,37 +59,105 @@ export default function Login() {
   }
 
   var imageUrl = "https://ifh.cc/g/v0jZ9D.png";
+  const inputRef = useRef();
+  const [fileUrl, setFileUrl] = useState(imageUrl);
+  const previewRef = useRef();
+  const fileTypes = [
+    "image/apng",
+    "image/pjpeg",
+    "image/png",
+    "image/svg+xml",
+    "image/tiff",
+    "image/webp",
+    "image/x-icon",
+    "image/bmp",
+    "image/cgm",
+    "image/vnd.djvu",
+    "image/gif",
+    "image/x-icon",
+    "text/calendar",
+    "image/ief",
+    "image/jp2",
+    "image/jpeg",
+    "image/x-macpaint",
+    "image/x-portable-bitmap",
+    "image/pict",
+    "image/x-portable-anymap",
+    "image/x-macpaint",
+    "image/x-portable-pixmap",
+    "image/x-quicktime",
+    "image/x-cmu-raster",
+    "image/x-rgb",
+    "image/tiff",
+    "image/vnd.wap.wbmp",
+    "image/x-xbitmap",
+    "image/x-xpixmap",
+    "image/x-xwindowdump",
+  ];
 
-  // const handleClick = () => {
-  //   fileRef.current.click();
-  // };
+  function validFileType(file) {
+    return fileTypes.includes(file.type);
+  }
 
-  const handleFileChange = (event) => {
-    console.log("Make something");
-    setFile(event.target.files[0]);
+  const handleFileChange = async (e) => {
+    e.persist();
+    const filed = e.target.files[0];
+    const storageRef = firebase.storage().ref();
+    const fileRef = storageRef.child(filed.name);
+    await fileRef.put(filed);
+    setFileUrl(await fileRef.getDownloadURL());
+
+    const newFile = e.target.files[0];
+    newFile["id"] = Math.random();
+    setFile(newFile);
+    console.log(newFile);
+
+    while (previewRef.current.firstChild) {
+      previewRef.current.removeChild(previewRef.current.firstChild);
+    }
+
+    const curFiles = inputRef.current.files;
+    if (curFiles.length === 0) {
+      const para = document.createElement("p");
+      para.textContent = "No files currently selected for upload";
+      previewRef.current.appendChild(para);
+    } else {
+      const list = document.createElement("ol");
+      previewRef.current.appendChild(list);
+
+      for (const file of curFiles) {
+        const listItem = document.createElement("div");
+        const para = document.createElement("p");
+
+        if (validFileType(file)) {
+          para.style.color = "black";
+          para.textContent = `${file.name}`;
+          const image = document.createElement("img");
+          image.style.height = "400px";
+          image.style.width = "400px";
+          image.src = URL.createObjectURL(file);
+
+          listItem.appendChild(image);
+          listItem.appendChild(para);
+        } else {
+          para.textContent = `${file.name}: Not a valid file type. Update your selection.`;
+          para.style.color = "red";
+          listItem.appendChild(para);
+        }
+
+        list.appendChild(listItem);
+      }
+    }
   };
 
-  // function addImage() {
-  //   try {
-  //     const imageRef = firebase.firestore().collection("images").add({
-  //       userEmail: currentUser.email,
-  //       postedOn: firebase.firestore.FieldValue.serverTimestamp(),
-  //     });
-  //     const imageSnapshot = firebase
-  //       .storage()
-  //       .ref(`images/${imageRef.id}.png`)
-  //       .put(file);
-  //     const imageoUrl = imageSnapshot.ref.getDownloadURL();
-  //     imageRef.update({ image: imageoUrl });
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+  const handleClick = () => {
+    inputRef.current.click();
+  };
 
   console.log(file);
+  console.log(fileUrl);
 
   return (
-    // <div className="w-100" style={{ maxWidth: "400px" }}>
     <div
       className="login-register-area pt-100 pb-100"
       style={{ marginTop: "220px" }}
@@ -189,38 +250,63 @@ export default function Login() {
                             ref={emailRef2}
                             required
                           />
-                          {/* <img
-                            src={imageUrl}
-                            alt="profile"
+                          <div
                             style={{
-                              width: "140px",
-                              height: "140px",
-                              left: "50%",
-                              marginBottom: "10px",
+                              position: "relative",
+                              lineHeight: "1em",
+                              textAlign: "center",
                             }}
-                          />
-                          <input
-                            id="imageInput"
-                            type="file"
-                            ref={fileRef}
-                            hidden="hidden"
-                            onChange={(e) => handleFileChange(e)}
-                            required
-                          />
-                          <Tooltip
-                            title="Edit profile picture"
-                            placement="top"
-                            style={{ marginTop: "100px" }}
                           >
-                            <IconButton className="button">
-                              <EditIcon
-                                color="primary"
+                            <img
+                              src={fileUrl}
+                              alt="profile"
+                              style={{
+                                width: "140px",
+                                height: "140px",
+                                left: "50%",
+                                marginBottom: "10px",
+                              }}
+                              ref={previewRef}
+                            />
+
+                            <input
+                              style={{
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                width: "100%",
+                                marginTop: "-0.5em",
+                                marginLeft: "-50%",
+                                textAlign: "center",
+                              }}
+                              id="imageInput"
+                              type="file"
+                              ref={inputRef}
+                              hidden="hidden"
+                              onChange={(e) => handleFileChange(e)}
+                              required
+                            />
+                            <div className="button-box">
+                              <button
+                                style={{
+                                  width: "145px",
+                                  backgroundColor: "lightgray",
+                                  color: "white",
+                                }}
                                 onClick={() => handleClick()}
-                              />
-                            </IconButton>
-                          </Tooltip> */}
+                              >
+                                사진 등록
+                              </button>
+                            </div>
+                          </div>
+
                           <div className="button-box">
-                            <button type="submit">
+                            <button
+                              type="submit"
+                              style={{
+                                marginTop: "20px",
+                              }}
+                            >
                               <span>Register</span>
                             </button>
                           </div>
