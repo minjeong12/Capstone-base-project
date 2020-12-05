@@ -118,6 +118,7 @@ export default (props) => {
 
   useEffect(() => {
     setInputVal(props.job.userId);
+    
   });
 
   return (
@@ -145,46 +146,46 @@ export default (props) => {
               <img
                 src={props.imageUrl != null ? props.imageUrl : defaultImage}
                 height="200px"
-                width="355px"
-                alt="testA"
+                width="290px"
+                alt="projectImage"
                 style={{ borderRadius: 10 }}
               />
             </Grid>
-            <Typography
+            {/* <Typography
               variant="body2"
               style={{ marginLeft: "-165px", padding: "10px" }}
             >
               Project simple description
-            </Typography>
+            </Typography> */}
             <Typography
               variant="body2"
-              style={{ marginTop: "65px", marginLeft: "-190px" }}
+              style={{ marginTop: "80px", marginLeft: "-230px" }}
             >
               <Grid className={classes.openRewardButton}>
                 {props.job.reward}
               </Grid>
-            </Typography>
 
-            <Box style={{ marginTop: "159px", marginLeft: "-90px" }}>
-              <DialogActions>
-                {loading ? (
-                  <CircularProgress color="secondary" size={22} />
-                ) : (
-                  props.job.userId !== currentUser.email && (
-                    <Button
-                      variant="contained"
-                      className={classes.openMessageButton}
-                      disableElevation
-                      disabled={loading}
-                      style={{ marginLeft: "-10px", marginRight: "-20px" }}
-                    >
-                      <Button onClick={appKeyPress}>쪽지 보내기</Button>
-                      {/* <MessageIcon /> */}
-                    </Button>
-                  )
-                )}
-              </DialogActions>
-            </Box>
+              <Box style={{ marginLeft: "-10px" }}>
+                <DialogActions>
+                  {loading ? (
+                    <CircularProgress color="secondary" size={22} />
+                  ) : (
+                    props.job.userId !== currentUser.email && (
+                      <Button
+                        variant="contained"
+                        className={classes.openMessageButton}
+                        disableElevation
+                        disabled={loading}
+                        style={{ marginLeft: "-10px", marginRight: "-20px" }}
+                      >
+                        <Button onClick={appKeyPress}>쪽지 보내기</Button>
+                        {/* <MessageIcon /> */}
+                      </Button>
+                    )
+                  )}
+                </DialogActions>
+              </Box>
+            </Typography>
           </Box>
 
           <Box
@@ -197,11 +198,29 @@ export default (props) => {
             </Typography>
           </Box>
 
-          <Box className={classes.info} display="flex">
-            <Typography variant="caption">(부엉이 프로필) : </Typography>
-            <Typography variant="body2" style={{ marginBottom: "30px" }}>
-              {props.job.userId}
-            </Typography>
+          <Box className={classes.info}>
+            <span>
+              <Typography
+                variant="caption"
+                style={{ fontSize: "20px", fontWeight: "500" }}
+              >
+                부엉이 정보
+              </Typography>
+            </span>
+            <Box className={classes.info} display="flex">
+              <img
+                src={props.job.userPhoto ? props.job.userPhoto : defaultImage}
+                height="150px"
+                width="150px"
+                alt="profileImage"
+                style={{ borderRadius: 10, marginRight: "20px" }}
+              ></img>
+            </Box>
+            <Box className={classes.info} display="flex">
+              <Typography variant="body2" style={{ marginBottom: "30px" }}>
+                {props.job.userName}
+              </Typography>
+            </Box>
           </Box>
           <Box
             className={classes.info}

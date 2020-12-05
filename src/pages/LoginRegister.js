@@ -16,7 +16,7 @@ export default function Login() {
   const history = useHistory();
   const passwordConfirmRef = useRef();
   const nameRef = useRef();
-  const { signup, updateDisplayNameAndPhoto, addUserToDB } = useAuth();
+  const { signup, updateDisplayName, updateDisplayPhoto, addUserToDB } = useAuth();
   const [file, setFile] = useState(null);
 
   async function handleSubmit(e) {
@@ -47,7 +47,8 @@ export default function Login() {
       console.log("pw", passwordRef2.current.value);
       console.log("nm", nameRef.current.value);
       await signup(emailRef2.current.value, passwordRef2.current.value);
-      await updateDisplayNameAndPhoto(nameRef.current.value, fileUrl);
+      await updateDisplayName(nameRef.current.value);
+      await updateDisplayPhoto(fileUrl);
       await addUserToDB();
 
       history.push("/");

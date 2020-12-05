@@ -138,26 +138,26 @@ export default function Nav() {
             </Button>
           ) : null}
 
-          {currentUser === null ? (
-            <Button variant="outline-light" style={{ marginRight: "5px" }}>
-              <Link
-                to={"/review"}
-                style={{ textDecoration: "none", color: "#7563A7" }}
-              >
-                후기
-              </Link>
-            </Button>
-          ) : null}
-          {currentUser === null ? (
-            <Button variant="outline-light" style={{ marginRight: "5px" }}>
-              <Link
-                to={"/result"}
-                style={{ textDecoration: "none", color: "#7563A7" }}
-              >
-                결과
-              </Link>
-            </Button>
-          ) : null}
+          {/* {currentUser === null ? ( */}
+          <Button variant="outline-light" style={{ marginRight: "5px" }}>
+            <Link
+              to={"/review"}
+              style={{ textDecoration: "none", color: "#7563A7" }}
+            >
+              후기
+            </Link>
+          </Button>
+          {/* ) : null}
+          {currentUser === null ? ( */}
+          <Button variant="outline-light" style={{ marginRight: "5px" }}>
+            <Link
+              to={"/result"}
+              style={{ textDecoration: "none", color: "#7563A7" }}
+            >
+              결과
+            </Link>
+          </Button>
+          {/* ) : null} */}
         </Toolbar>
         {currentUser ? (
           <Toolbar
@@ -165,12 +165,12 @@ export default function Nav() {
               flexDirection: "row",
             }}
           >
-            <Paper style={{ width: "200px", marginRight: "40px" }}>
+            <span
+              style={{ width: "200px", marginRight: "10px", display: "flex" }}
+            >
               <UserIcon />
-            </Paper>
-            <Paper>
               <Logout />
-            </Paper>
+            </span>
           </Toolbar>
         ) : null}
       </AppBar>

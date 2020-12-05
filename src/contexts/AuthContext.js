@@ -12,11 +12,27 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  function updateDisplayNameAndPhoto(name, url) {
+  function updateDisplayName(name) {
     if (auth.currentUser) {
       return auth.currentUser
         .updateProfile({
           displayName: name,
+        })
+        .then(
+          function (response) {
+            console.log("Updated", response);
+          },
+          function (error) {
+            console.log(error);
+          }
+        );
+    }
+  }
+
+  function updateDisplayPhoto(url) {
+    if (auth.currentUser) {
+      return auth.currentUser
+        .updateProfile({
           photoURL: url,
         })
         .then(
@@ -74,7 +90,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   const value = {
-    updateDisplayNameAndPhoto,
+    updateDisplayName,
+    updateDisplayPhoto,
     addUserToDB,
     currentUser,
     login,

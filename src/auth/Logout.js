@@ -19,10 +19,14 @@ export default function Logout() {
     }
   }
   return (
-    <div className="w-100 text-center mt-3 bg-white rounded">
+    <div>
       {currentUser ? (
         <>
-          <Button variant="outline-danger" onClick={handleLogout}>
+          <Button
+            variant="outline-danger"
+            onClick={handleLogout}
+            style={{ backgroundColor: "white", width: "120px" }}
+          >
             로그아웃
           </Button>
         </>

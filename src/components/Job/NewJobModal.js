@@ -91,6 +91,8 @@ export default (props) => {
   ];
   const initState = {
     userId: currentUser.email,
+    userName: currentUser.displayName,
+    userPhoto: currentUser.photoURL,
     chatId: currentUser.uid,
     title: "",
     school: "",
