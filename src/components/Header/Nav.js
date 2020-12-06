@@ -56,7 +56,6 @@ export default function Nav() {
   useEffect(() => {
     fetchJobs();
   }, []);
-
   return (
     <div>
       <AppBar
@@ -67,7 +66,7 @@ export default function Nav() {
           <IconButton>
             <a
               href="/"
-              className="navbar-brand"
+              // className="navbar-brand"
               style={{
                 color: "#7563A7",
                 fontWeight: "500",
@@ -85,33 +84,26 @@ export default function Nav() {
           <Button>
             <a
               href="/talent"
-              class
               Name="talent"
               style={{
                 color: "#7563A7",
                 fontWeight: "500",
               }}
-            >
-              <img
-                src={talent}
-                width="80"
-                height="20"
-                alt="testA"
-                style={{}}
-              ></img>
-            </a>
+            ></a>
 
             {/* 이거 버튼이 안바뀌어서 이미지로 넣었어요 별로면 지워두 됩니다*/}
           </Button>
-          {/* <Button variant="outline-light" style={{ marginRight: "5px", fontsize: "30px" }}>
+          <Button
+            variant="outline-light"
+            style={{ marginRight: "5px", fontsize: "30px" }}
+          >
             <Link
               to={"/talent"}
-              style={{ textDecoration: "none", color: "#7563A7" 
-            }} 
+              style={{ textDecoration: "none", color: "#fff" }}
             >
               재능교환
             </Link>
-            </Button> */}
+          </Button>
 
           {currentUser ? null : (
             <NavSearchBar fetchJobs={fetchJobs} filterSelect={false} />
@@ -121,7 +113,7 @@ export default function Nav() {
             <Button variant="outline-light" style={{ marginRight: "5px" }}>
               <Link
                 to={"/login-register"}
-                style={{ textDecoration: "none", color: "#7563A7" }}
+                style={{ textDecoration: "none", color: "#fff", fontSize: 22 }}
               >
                 로그인/회원가입
               </Link>
@@ -148,7 +140,7 @@ export default function Nav() {
             </Link>
           </Button>
           {/* ) : null}
-          {currentUser === null ? ( */}
+{currentUser === null ? ( */}
           <Button variant="outline-light" style={{ marginRight: "5px" }}>
             <Link
               to={"/result"}
@@ -157,7 +149,6 @@ export default function Nav() {
               결과
             </Link>
           </Button>
-          {/* ) : null} */}
         </Toolbar>
         {currentUser ? (
           <Toolbar
@@ -165,12 +156,24 @@ export default function Nav() {
               flexDirection: "row",
             }}
           >
-            <span
-              style={{ width: "200px", marginRight: "10px", display: "flex" }}
+            <Paper
+              style={{
+                width: "120px",
+                marginRight: "10px",
+                backgroundColor: "transparent",
+              }}
             >
               <UserIcon />
+            </Paper>
+            <Paper
+              style={{
+                width: "120px",
+                marginRight: "10px",
+                backgroundColor: "transparent",
+              }}
+            >
               <Logout />
-            </span>
+            </Paper>
           </Toolbar>
         ) : null}
       </AppBar>

@@ -196,7 +196,7 @@ export default (props) => {
         disableElevation
         onClick={search}
       >
-        {loading ? <CircularProgress color="secondary" size={22} /> : "Search"}
+        {loading ? <CircularProgress color="secondary" size={22} /> : "검색"}
       </Button>
     </Box>
   );

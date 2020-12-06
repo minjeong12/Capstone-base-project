@@ -4,7 +4,7 @@ import React from "react";
 export default (props) => {
   const classes = useStyles();
   return (
-    <Box py={10} bgcolor="transparent" color="white">
+    <Box py={10} bgcolor="transparent" >
       <Grid container justify="center">
         <Grid item xs={10}>
           <Box display="flex" justifyContent="space-between">
@@ -14,11 +14,13 @@ export default (props) => {
             </Typography> */}
             <Button
               onClick={props.openNewJobModal}
-              variant="contained"
+              // variant="contained"
               className={classes.openJobButton}
               disableElevation
+              
+              
             >
-              Post a Job
+              부엉이 어시 구하러 가기
             </Button>
           </Box>
         </Grid>
@@ -30,7 +32,7 @@ export default (props) => {
 const useStyles = makeStyles((theme) => ({
   openJobButton: {
     height: "50px",
-    width: "170px",
+    width: "250px",
     backgroundColor: "#e1bee7",
     marginTop: "100px",
   },

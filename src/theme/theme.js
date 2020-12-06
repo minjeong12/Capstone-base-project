@@ -1,6 +1,6 @@
 import { createMuiTheme } from "@material-ui/core";
 
-const primary = "#18E1D9";
+const primary = "#7A519E";
 const secondary = "#0B0B15";
 
 export default createMuiTheme({

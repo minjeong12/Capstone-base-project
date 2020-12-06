@@ -23,9 +23,8 @@ export default function Logout() {
       {currentUser ? (
         <>
           <Button
-            variant="outline-danger"
             onClick={handleLogout}
-            style={{ backgroundColor: "white", width: "120px" }}
+            style={{ marginTop: "10px", color: "#fff", alignItem: "center" }}
           >
             로그아웃
           </Button>
