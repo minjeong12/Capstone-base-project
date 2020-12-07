@@ -55,7 +55,7 @@ export default function Nav() {
 
   useEffect(() => {
     fetchJobs();
-  }, []);
+  }, [currentUser]);
   return (
     <div>
       <AppBar

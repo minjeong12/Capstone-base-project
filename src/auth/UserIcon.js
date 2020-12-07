@@ -14,7 +14,7 @@ export default function UserIcon() {
       {currentUser ? (
         <Button style={{ marginRight: "5px" }}>
           <Link
-            to={"/update-profile"}
+            to={"/mypage"}
             style={{
               textDecoration: "none",
               color: "#fff",

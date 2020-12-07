@@ -17,6 +17,7 @@ const Chat = lazy(() => import("./pages/Chat"));
 const Nav = lazy(() => import("./components/Header/Nav"));
 const SearchPage = lazy(() => import("./pages/Search.page"));
 const Review = lazy(() => import("./pages/Review"));
+const MyPage = lazy(() => import("./pages/MyPage"));
 // const Result = lazy(() => import("./pages/Result"));
 
 function App(props) {
@@ -25,8 +26,19 @@ function App(props) {
       <div style={{ flex: 1, flexDirection: "flex-start" }}>
         <Suspense
           fallback={
-            <div>
-              <CircularProgress />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "90vh",
+              }}
+            >
+              <CircularProgress
+                variant="static"
+                value={75}
+                style={{ color: "#f9efb8" }}
+              />
             </div>
           }
         >
@@ -47,6 +59,7 @@ function App(props) {
                 <PrivateRoute exact path="/chat" component={Chatlist} />
                 <PrivateRoute path="/chat/:chatID" component={Chat} />
                 <Route path="/review" component={Review} />
+                <Route path="/mypage" component={MyPage} />
                 {/* <Route path="/result" component={Result} /> */}
                 <Route component={NoMatchPage} />
               </Switch>

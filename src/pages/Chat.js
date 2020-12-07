@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import React, { useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -110,20 +111,29 @@ export default function Chat(props) {
         <header className="chat-header">
           <Link
             to={{
-              pathname: "/chat",
-              // query: {
-              //   userId: props.job.userId,
-              // },
+              pathname: "/",
             }}
           >
-            <i className="fas fa-chevron-left" style={{ fontWeight: 800 }}>
+            <i
+              className="fas fa-chevron-left"
+              style={{ color: "black", fontWeight: 800 }}
+            >
               &lt;&lt;
             </i>
           </Link>
-          <div className="chat-header-title">{friendName}</div>
+          <div className="chat-header-t" style={{}}>
+            {friendName}
+          </div>
           <div className="chat-settings">
-            <Link to="/" className="px-2">
-              <i className="fas fa-cog"></i>
+            <Link to="/review">
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation
+                style={{}}
+              >
+                후기 쓰기
+              </Button>
             </Link>
           </div>
         </header>

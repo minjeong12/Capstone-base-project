@@ -112,6 +112,12 @@ form button.btn {
 
 .chat-header a {
   color: var(--primary-bg);
+  margin-top: 5px;
+}
+
+.chat-header-t {
+  margin-left: 60px;
+  margin-top: 5px;
 }
 
 .chatarea {

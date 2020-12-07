@@ -37,12 +37,18 @@ export default function Review() {
     <Survey.Survey
       json={json}
       showCompletedPage={false}
-      onComplete={onCompleteComponent}
+      onComplete={onComplete}
     />
   ) : null;
-  var onCompleteComponent = isCompleted ? (
-    <div style={{ fontSize: "30px" }}>완료되었습니다.</div>
-  ) : null;
+  // var onCompleteComponent = isCompleted
+  //   ? console.log("Survey results: " + JSON.stringify(Survey.data))(
+  //       <div style={{ fontSize: "30px" }}>완료되었습니다.</div>
+  //     )
+  //   : null;
+  function onComplete(survey, options) {
+    //Write survey results into database
+    console.log("Survey results: " + JSON.stringify(survey.data));
+  }
   return (
     <div style={{ marginTop: "300px" }}>
       {surveyRender}

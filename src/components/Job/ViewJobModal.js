@@ -118,7 +118,6 @@ export default (props) => {
 
   useEffect(() => {
     setInputVal(props.job.userId);
-    
   });
 
   return (
@@ -214,7 +213,7 @@ export default (props) => {
                 width="150px"
                 alt="profileImage"
                 style={{ borderRadius: 10, marginRight: "20px" }}
-              ></img>
+              />
             </Box>
             <Box className={classes.info} display="flex">
               <Typography variant="body2" style={{ marginBottom: "30px" }}>

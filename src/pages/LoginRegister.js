@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import { firebase } from "../firebase/config";
+import imageUrl from "../assets/ac.jpg";
 
 export default function Login() {
   const emailRef = useRef();
@@ -56,7 +57,8 @@ export default function Login() {
       await updateDisplayPhoto(fileUrl);
       await addUserToDB();
 
-      history.push("/");
+      // history.push("/");
+      window.location.replace("/"); // 새로고침 효과
     } catch {
       setError("회원가입에 실패했습니다.");
     }
@@ -64,7 +66,7 @@ export default function Login() {
     setLoading(false);
   }
 
-  var imageUrl = "https://ifh.cc/g/v0jZ9D.png";
+  // var imageUrl = "https://ifh.cc/g/v0jZ9D.png";
   const inputRef = useRef();
   const [fileUrl, setFileUrl] = useState(imageUrl);
   const previewRef = useRef();
