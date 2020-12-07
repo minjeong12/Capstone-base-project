@@ -12,49 +12,24 @@ export default function Review() {
   let json = {
     questions: [
       {
-        type: "checkbox",
-        name: "car",
-        title: "What car are you driving?",
-        isRequired: true,
-        hasSelectAll: true,
-        hasNone: true,
-        noneText: "None of the above",
-        colCount: 4,
-        choicesOrder: "asc",
-        choices: [
-          "Ford",
-          "Tesla",
-          "Vauxhall",
-          "Volkswagen",
-          "Nissan",
-          "Audi",
-          "Mercedes-Benz",
-          "BMW",
-          "Peugeot",
-          "Toyota",
-          "Citroen",
-        ],
-      },
-      {
         type: "rating",
         name: "satisfaction",
-        title: "How satisfied are you with the Product?",
-        mininumRateDescription: "Not Satisfied",
-        maximumRateDescription: "Completely satisfied",
+        title: "거래 만족도는 어떠셨나요?",
+        mininumRateDescription: "매우 불만족",
+        maximumRateDescription: "매우 만족",
       },
-      {
-        type: "rating",
-        name: "recommend friends",
-        visibleIf: "{satisfaction} > 3",
-        title:
-          "How likely are you to recommend the Product to a friend or co-worker?",
-        mininumRateDescription: "Will not recommend",
-        maximumRateDescription: "I will recommend",
-      },
+      // {
+      //   type: "rating",
+      //   name: "recommend friends",
+      //   visibleIf: "{satisfaction} > 3",
+      //   title: "친구나 동료에게 추천하실 생각이 있나요?",
+      //   mininumRateDescription: "비추천",
+      //   maximumRateDescription: "추천",
+      // },
       {
         type: "comment",
         name: "suggestions",
-        title: "What would make you more satisfied with the Product?",
+        title: "부엉이 어시 거래에서 어떤 점이 만족스러웠나요?",
       },
     ],
   };
@@ -66,7 +41,7 @@ export default function Review() {
     />
   ) : null;
   var onCompleteComponent = isCompleted ? (
-    <div style={{ fontSize: "30px" }}>The component after onComplete event</div>
+    <div style={{ fontSize: "30px" }}>완료되었습니다.</div>
   ) : null;
   return (
     <div style={{ marginTop: "300px" }}>

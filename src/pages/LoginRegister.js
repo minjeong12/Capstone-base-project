@@ -16,7 +16,12 @@ export default function Login() {
   const history = useHistory();
   const passwordConfirmRef = useRef();
   const nameRef = useRef();
-  const { signup, updateDisplayName, updateDisplayPhoto, addUserToDB } = useAuth();
+  const {
+    signup,
+    updateDisplayName,
+    updateDisplayPhoto,
+    addUserToDB,
+  } = useAuth();
   const [file, setFile] = useState(null);
 
   async function handleSubmit(e) {
@@ -182,7 +187,7 @@ export default function Login() {
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link eventKey="register">
-                      <h4>Register</h4>
+                      <h4>회원가입</h4>
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>
@@ -194,25 +199,25 @@ export default function Login() {
                           <input
                             type="email"
                             name="email"
-                            placeholder="Email"
+                            placeholder="이메일"
                             ref={emailRef}
                             required
                           />
                           <input
                             type="password"
                             name="user-password"
-                            placeholder="Password"
+                            placeholder="비밀번호"
                             ref={passwordRef}
                             required
                           />
                           <div className="button-box">
                             <div className="login-toggle-btn">
                               <input type="checkbox" />
-                              <label className="ml-10">Remember me</label>
+                              <label className="ml-10">아이디 저장</label>
                               <Link to="/forgot-password">비밀번호 재설정</Link>
                             </div>
                             <button type="submit">
-                              <span>Login</span>
+                              <span>로그인</span>
                             </button>
                           </div>
                         </form>
@@ -226,31 +231,32 @@ export default function Login() {
                           <input
                             id="standard-adornment-name-confirm"
                             type="text"
-                            placeholder="user-name"
+                            placeholder="사용자 이름"
                             ref={nameRef}
+                            required
+                          />
+                          <input
+                            id="standard-adornment-email"
+                            type="email"
+                            placeholder="이메일"
+                            ref={emailRef2}
                             required
                           />
                           <input
                             id="standard-adornment-password"
                             type="password"
-                            placeholder="Password"
+                            placeholder="비밀번호"
                             ref={passwordRef2}
                             required
                           />
                           <input
                             id="standard-adornment-password-confirm"
                             type="password"
-                            placeholder="Password-confirm"
+                            placeholder="비밀번호 확인"
                             ref={passwordConfirmRef}
                             required
                           />
-                          <input
-                            id="standard-adornment-email"
-                            type="email"
-                            placeholder="Email"
-                            ref={emailRef2}
-                            required
-                          />
+
                           <div
                             style={{
                               position: "relative",
@@ -308,7 +314,7 @@ export default function Login() {
                                 marginTop: "20px",
                               }}
                             >
-                              <span>Register</span>
+                              <span>가입하기</span>
                             </button>
                           </div>
                         </form>

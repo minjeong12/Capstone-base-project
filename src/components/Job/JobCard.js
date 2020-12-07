@@ -78,7 +78,7 @@ export default (props) => {
           <Grid item>
             <Typography variant="captain">
               {/* {differenceInMinutes(Date.now(), props.postedOn)} min ago |{" "} */}
-              {timeForToday(props.postedOn)} | {props.type} | {props.sex}
+              {timeForToday(props.postedOn)} | {props.type} | {props.sex} | {props.reward}
             </Typography>
           </Grid>
         </Grid>
@@ -88,7 +88,7 @@ export default (props) => {
               variant="captain"
               style={{ fontWeight: 550, color: "#808080" }}
             >
-              {props.reward}
+              
             </Typography>
           </Grid>
         </Grid>
