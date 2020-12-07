@@ -54,28 +54,28 @@ export default function Chatlist(props) {
     }
   }, []);
 
-  const handleChange = (event) => {
-    setInputVal(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setInputVal(event.target.value);
+  // };
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setError(null);
-    var senderID = currentUser.uid;
-    if (inputVal) {
-      try {
-        var receiverID = await emailToID(inputVal);
-        if (!receiverID) throw new Error("No friend found with that email 😕");
-        if (receiverID === senderID)
-          throw new Error("You can't text yourself 💩");
-        await makeFriends(senderID, receiverID);
-        var chatID = chatIDGenerator(senderID, receiverID);
-        history.push("/chat/" + chatID);
-      } catch (error) {
-        setError(error.message);
-      }
-    }
-  }
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+  //   setError(null);
+  //   var senderID = currentUser.uid;
+  //   if (inputVal) {
+  //     try {
+  //       var receiverID = await emailToID(inputVal);
+  //       if (!receiverID) throw new Error("No friend found with that email 😕");
+  //       if (receiverID === senderID)
+  //         throw new Error("You can't text yourself 💩");
+  //       await makeFriends(senderID, receiverID);
+  //       var chatID = chatIDGenerator(senderID, receiverID);
+  //       history.push("/chat/" + chatID);
+  //     } catch (error) {
+  //       setError(error.message);
+  //     }
+  //   }
+  // }
 
   async function emailToID(email) {
     const snapshot = await db.ref("users").once("value");
@@ -92,24 +92,24 @@ export default function Chatlist(props) {
     return null;
   }
 
-  async function makeFriends(currentUserID, friendID) {
-    const currentUserObj = await (
-      await db.ref(`users/${currentUserID}`).once("value")
-    ).val();
-    currentUserObj.chatID = chatIDGenerator(currentUserID, friendID);
-    delete currentUserObj.friends; // deleting additional user property
+  // async function makeFriends(currentUserID, friendID) {
+  //   const currentUserObj = await (
+  //     await db.ref(`users/${currentUserID}`).once("value")
+  //   ).val();
+  //   currentUserObj.chatID = chatIDGenerator(currentUserID, friendID);
+  //   delete currentUserObj.friends; // deleting additional user property
 
-    const friendObj = await (
-      await db.ref(`users/${friendID}`).once("value")
-    ).val();
-    friendObj.chatID = chatIDGenerator(currentUserID, friendID);
-    delete friendObj.friends; // deleting additional user property
+  //   const friendObj = await (
+  //     await db.ref(`users/${friendID}`).once("value")
+  //   ).val();
+  //   friendObj.chatID = chatIDGenerator(currentUserID, friendID);
+  //   delete friendObj.friends; // deleting additional user property
 
-    return (
-      db.ref(`users/${currentUserID}/friends/${friendID}`).set(friendObj) &&
-      db.ref(`users/${friendID}/friends/${currentUserID}`).set(currentUserObj)
-    ); // Adding new Friend in both user's document
-  }
+  //   return (
+  //     db.ref(`users/${currentUserID}/friends/${friendID}`).set(friendObj) &&
+  //     db.ref(`users/${friendID}/friends/${currentUserID}`).set(currentUserObj)
+  //   ); // Adding new Friend in both user's document
+  // }
 
   function timeForToday(value) {
     const today = new Date();
@@ -136,10 +136,10 @@ export default function Chatlist(props) {
     return `${Math.floor(betweenTimeDay / 365)}년 전`;
   }
 
-  function chatIDGenerator(ID1, ID2) {
-    if (ID1 < ID2) return `${ID1}_${ID2}`;
-    else return `${ID2}_${ID1}`;
-  }
+  // function chatIDGenerator(ID1, ID2) {
+  //   if (ID1 < ID2) return `${ID1}_${ID2}`;
+  //   else return `${ID2}_${ID1}`;
+  // }
 
   const { match, location } = props;
 
@@ -150,15 +150,21 @@ export default function Chatlist(props) {
       <div className="chat-container">
         <header className="chat-header">
           <Link to="/" className="px-2">
-            <i className="fas fa-chevron-left">&lt;&lt;</i>
+            <i className="fas fa-chevron-left" style={{ color: "black" }}>
+              &lt;&lt;
+            </i>
           </Link>
           <div className="chat-header-title">
-            <Link to="/">쪽지함</Link>
+            <Link to="/" style={{ color: "black" }}>
+              쪽지함
+            </Link>
           </div>
           <div className="chat-settings">
             {/* <Link onClick={() => logout()} to="/" className="px-2"> */}
             <Link to="/" className="px-2">
-              <i className="fas fa-sign-out-alt">나가기</i>
+              <i className="fas fa-sign-out-alt" style={{ color: "black" }}>
+                나가기
+              </i>
             </Link>
           </div>
         </header>

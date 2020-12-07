@@ -129,24 +129,12 @@ export default function Nav() {
               </Link>
             </Button>
           ) : null}
-
-          {/* {currentUser === null ? ( */}
           <Button variant="outline-light" style={{ marginRight: "5px" }}>
             <Link
               to={"/review"}
               style={{ textDecoration: "none", color: "#7563A7" }}
             >
               후기
-            </Link>
-          </Button>
-          {/* ) : null}
-{currentUser === null ? ( */}
-          <Button variant="outline-light" style={{ marginRight: "5px" }}>
-            <Link
-              to={"/result"}
-              style={{ textDecoration: "none", color: "#7563A7" }}
-            >
-              결과
             </Link>
           </Button>
         </Toolbar>
