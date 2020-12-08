@@ -193,7 +193,7 @@ form button.btn {
 }
 
 .chat-inputarea * {
-  padding: 10px 15px;
+  /* padding: 10px 15px; */
   border: none;
   border-radius: 30px;
   font-size: 1em;
@@ -211,10 +211,25 @@ form button.btn {
 
 .chat-sendbtn {
   width: 20%;
-  background: var(--outgoing-msg-bg);
+  /* background: var(--outgoing-msg-bg); */
   color: #fff;
   font-weight: bold;
   cursor: pointer;
+}
+
+.chat-bt {
+  width: 20%;
+  height: 60%;
+  /* color: black;
+  background-color: transparent !important; */
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mama {
+  /* padding: -5px !important; */
+  width: 32px;
+  height: 32px;
 }
 
 /* Make text unselectable */

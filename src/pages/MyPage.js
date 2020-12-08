@@ -83,7 +83,7 @@ export default function MyPage() {
                       color: "gray",
                     }}
                   >
-                    <span>만족도 센치 : 0cm</span>
+                    <span>만족도 센치 : {now}cm</span>
                   </Col>
                 </Row>
               </Container>

@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { firestore } from "../firebase/config";
 import JobCard from "../components/Job/JobCard";
-import {
-  Box,
-  CircularProgress,
-  Grid,
-  IconButton,
-  ThemeProvider,
-  Typography,
-} from "@material-ui/core";
+import { Box, CircularProgress, Grid, ThemeProvider } from "@material-ui/core";
 import theme from "../theme/theme";
-import LaunchIcon from "@material-ui/icons/Launch";
-import { useHistory } from "react-router-dom";
-import SearchBar from "../components/SearchBar";
-import styled from "styled-components";
 
 export default function HomePage() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [customSearch, setCustomSearch] = useState(false);
-  const history = useHistory();
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -50,8 +37,7 @@ export default function HomePage() {
         </Grid>
       ) : (
         <>
-          <Box mb={3} mt={20}>
-          </Box>
+          <Box mb={3} mt={20}></Box>
           <Box mb={3}>
             <Grid container spacing={2} justify="center">
               <Grid item xs={10}>

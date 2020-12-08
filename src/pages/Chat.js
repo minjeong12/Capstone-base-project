@@ -208,14 +208,19 @@ export default function Chat(props) {
         <form onSubmit={handleSubmit} className="chat-inputarea">
           <input
             type="text"
-            placeholder="Message..."
+            placeholder="메시지를 입력하세요"
             className="chat-input"
             name="content"
             onChange={handleChange}
             value={content}
           ></input>
           <button type="submit" className="chat-sendbtn">
-            Send
+            {/* <SendRoundedIcon /> */}
+            <img
+              class="mama"
+              src={require("../assets/send_79678.svg")}
+              style={{}}
+            />
           </button>
         </form>
       </section>
