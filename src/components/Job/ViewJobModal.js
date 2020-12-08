@@ -124,7 +124,7 @@ export default (props) => {
     <Dialog open={!!Object.keys(props.job).length} fullWidth>
       <DialogTitle>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          [{props.job.location}]{props.job.title}
+          &nbsp;
           <IconButton onClick={props.closeModal}>
             <CloseIcon />
           </IconButton>
@@ -156,15 +156,29 @@ export default (props) => {
             >
               Project simple description
             </Typography> */}
+
             <Typography
               variant="body2"
-              style={{ marginTop: "80px", marginLeft: "-230px" }}
+              style={{
+                marginTop: "80px",
+                marginLeft: "-230px",
+              }}
             >
-              <Grid className={classes.openRewardButton}>
+              <Typography
+                variant="body2"
+                style={{
+                  marginTop: "-70px",
+                  marginBottom: "40px",
+                  fontSize: "18px",
+                }}
+              >
+                [{props.job.location}]{props.job.title}
+              </Typography>
+
+              <Grid className={classes.openRewardButton} style={{}}>
                 {props.job.reward}
               </Grid>
-
-              <Box style={{ marginLeft: "-10px" }}>
+              <Box style={{}}>
                 <DialogActions>
                   {loading ? (
                     <CircularProgress color="secondary" size={22} />
@@ -175,7 +189,7 @@ export default (props) => {
                         className={classes.openMessageButton}
                         disableElevation
                         disabled={loading}
-                        style={{ marginLeft: "-10px", marginRight: "-20px" }}
+                        style={{ marginLeft: "-20px" }}
                       >
                         <Button onClick={appKeyPress}>쪽지 보내기</Button>
                         {/* <MessageIcon /> */}
