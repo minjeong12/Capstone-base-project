@@ -50,6 +50,7 @@ export default function ComplexGrid() {
                     height: "120px",
                     marginBottom: "-10px",
                     boxShadow: "5px 5px 5px 1px rgba(224, 224, 224, 0.8)",
+                    overflow: "auto",
                   }}
                 >
                   <Typography

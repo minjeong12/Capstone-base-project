@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Col, Container, ProgressBar, Row } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import "./mypage.css";
-import ComplexGrid from "../components/ComplexGrid";
+import ReviewGrid from "../components/ReviewGrid";
 
 export default function MyPage() {
   const { currentUser } = useAuth();
@@ -118,7 +118,7 @@ export default function MyPage() {
                 부엉이 만남 후기
               </div>
               <div>
-                <ComplexGrid />
+                <ReviewGrid />
               </div>
             </Grid>
           </Col>
