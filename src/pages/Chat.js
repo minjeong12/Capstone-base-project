@@ -104,6 +104,19 @@ export default function Chat(props) {
     return time;
   }
 
+  function hist(ID) {
+    history.push("/write-review/" + ID);
+  }
+
+  const appKeyPress = async (e) => {
+    try {
+      hist(props.match.params.chatID);
+    } catch (error) {
+      console.log(error.message);
+      console.log("error");
+    }
+  };
+
   return (
     <div style={{ marginTop: "150px" }}>
       {loadingChats ? <div className="spinner"></div> : ""}
@@ -125,16 +138,14 @@ export default function Chat(props) {
             {friendName}
           </div>
           <div className="chat-settings">
-            <Link to="/review">
-              <Button
-                variant="contained"
-                color="primary"
-                disableElevation
-                style={{}}
-              >
-                후기 쓰기
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              color="primary"
+              disableElevation
+              onClick={appKeyPress}
+            >
+              후기 쓰기
+            </Button>
           </div>
         </header>
         {readError ? (

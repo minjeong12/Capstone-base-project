@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Grid, Paper } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { Col, Container, ProgressBar, Row } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import "./mypage.css";
-import ReviewGrid from "../components/ReviewGrid";
+import ReviewGrid from "../components/ReviewSystem/ReviewGrid";
+import { firebase } from "../firebase/config";
 
 export default function MyPage() {
   const { currentUser } = useAuth();
-
-  const now = 5;
+  const [locTitle, setLocTitle] = useState([]);
+  const [cal, setCal] = useState(0);
+  const now = cal;
 
   const progressInstance = (
     <ProgressBar
       variant={"YOU_PICK_A_NAME"}
       className="progress-custom"
       min={0}
-      max={10}
+      max={99}
       now={now}
       label={`${now}cm`}
       style={{
@@ -25,6 +27,47 @@ export default function MyPage() {
       }}
     />
   );
+
+  function handleEval(x) {
+    setCal(x);
+  }
+
+  var ar = [];
+
+  const getJobs = async () => {
+    try {
+      ar.push(currentUser.email);
+      const jobsSnapshot = await firebase
+        .firestore()
+        .collection("jobs")
+        .orderBy("postedOn", "desc")
+        .where("userEmail", "in", ar)
+        .get();
+      const jobsPayload = [];
+      jobsSnapshot.forEach((job) =>
+        jobsPayload.push({
+          ...job.data(),
+          postedOn: job.data().postedOn.toDate(),
+          id: job.id,
+        })
+      );
+      console.log(jobsPayload);
+
+      setLocTitle(jobsPayload);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await getJobs();
+      } catch (err) {}
+    })();
+  }, []);
+
+  console.log(locTitle);
 
   return (
     <Container>
@@ -118,7 +161,7 @@ export default function MyPage() {
                 부엉이 만남 후기
               </div>
               <div>
-                <ReviewGrid />
+                <ReviewGrid st={locTitle} handleEval={handleEval} />
               </div>
             </Grid>
           </Col>

@@ -120,19 +120,17 @@ function JobLists(props) {
     jobs = jobs.filter((c) => {
       return c.title.indexOf(searchKeyword) > -1;
     });
-    return jobs.map((c, index) => {
-      return (
-        <>
-          {jobs.map((job) => (
-            <Grid item xs={4}>
-              <Box display="flex" justifyContent="row-revers">
-                <JobCard open={() => setViewJob(job)} key={job.id} {...job} />
-              </Box>
-            </Grid>
-          ))}
-        </>
-      );
-    });
+    return (
+      <>
+        {jobs.map((job) => (
+          <Grid item xs={4}>
+            <Box display="flex" justifyContent="row-revers">
+              <JobCard open={() => setViewJob(job)} key={job.id} {...job} />
+            </Box>
+          </Grid>
+        ))}
+      </>
+    );
   };
 
   const Header = lazy(() => import("./components/Header/index"));
@@ -141,6 +139,7 @@ function JobLists(props) {
   const JobCard = lazy(() => import("./components/Job/JobCard"));
 
   console.log(searchKeyword);
+  console.log(jobs);
 
   return (
     <ThemeProvider theme={theme} style={{ transition: ".3s" }}>

@@ -101,7 +101,9 @@ export default (props) => {
     ).val();
     friendObj.chatID = chatIDGenerator(currentUserID, friendID);
 
+    // friendObj db 추가시 post 제목, id 추가
     friendObj.post = props.job.title;
+    friendObj.postId = props.job.postId;
 
     delete friendObj.friends; // deleting additional user property
 
@@ -150,13 +152,6 @@ export default (props) => {
                 style={{ borderRadius: 10 }}
               />
             </Grid>
-            {/* <Typography
-              variant="body2"
-              style={{ marginLeft: "-165px", padding: "10px" }}
-            >
-              Project simple description
-            </Typography> */}
-
             <Typography
               variant="body2"
               style={{
