@@ -58,7 +58,7 @@ export default function ComplexGrid() {
                     color="textSecondary"
                     style={{
                       padding: "20px 20px",
-                      paddingTop: "40px",
+                      paddingTop: "20px",
                       paddingBottom: "40px",
                     }}
                   >

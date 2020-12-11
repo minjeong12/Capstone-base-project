@@ -315,3 +315,30 @@ form button.btn {
     background-position: -300px 0;
   }
 }
+
+.splash-container {
+  background: transparent;
+  opacity: 0.5;
+  z-index: 1;
+  overflow: hidden;
+  /* The following styles are required for the "scroll-over" effect */
+  width: 100%;
+  height: 88%;
+  top: 80px;
+  left: 0;
+  position: fixed !important;
+}
+
+.splash {
+  /* absolute center .splash within .splash-container */
+  width: 80%;
+  height: 50%;
+  margin-left: 320px;
+  position: absolute;
+  top: 100px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
