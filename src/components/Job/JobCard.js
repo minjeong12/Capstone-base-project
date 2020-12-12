@@ -2,16 +2,14 @@ import React from "react";
 import { Box, Grid, Typography, makeStyles } from "@material-ui/core";
 import defaultImage from "../../assets/sampleImage.PNG";
 
-export default (props) => {
+export default props => {
   const classes = useStyles();
 
   function timeForToday(value) {
     const today = new Date();
     const timeValue = new Date(value);
 
-    const betweenTime = Math.floor(
-      (today.getTime() - timeValue.getTime()) / 1000 / 60
-    );
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
     if (betweenTime < 1) return "방금 전";
     if (betweenTime < 60) {
       return `${betweenTime}분 전`;
@@ -35,8 +33,9 @@ export default (props) => {
       m={2}
       p={2}
       className={classes.wrapper}
-      style={{ backgroundColor: "#fff", borderRadius: "20" }}
+      style={{ marginTop: "50px", backgroundColor: "#fff", borderRadius: 20 }}
       onClick={props.open}
+     
     >
       {/* <Grid container alignItems="center"> */}
       <Grid container>
@@ -44,9 +43,10 @@ export default (props) => {
           <img
             src={props.imageUrl != null ? props.imageUrl : defaultImage}
             height="200px"
-            width="355px"
+            width="450px"
             alt="testA"
-            style={{ borderRadius: 10}}
+            style={{ borderRadius: 10 }}
+           
           ></img>
         </Grid>
         <Grid
@@ -58,17 +58,12 @@ export default (props) => {
           <Typography className={classes.locationName} variant="subtitle2">
             {props.location}
           </Typography>
-          <Typography variant="subtitle1" style={{ marginTop: "2px" }}>
+          <Typography variant="subtitle1" style={{ marginTop: "5px" , fontSize: "25px"}}>
             &nbsp;&nbsp;{props.title}
           </Typography>
         </Grid>
-        <Grid
-          item
-          container
-          fullWidth
-          style={{ marginTop: "10px", marginLeft: "-4px" }}
-        >
-          {props.skills.map((skill) => (
+        <Grid item container fullWidth style={{ marginTop: "15px", marginLeft: "-0px" }}>
+          {props.skills.map(skill => (
             <Grid key={skill} className={classes.skillChip} item>
               {skill}
             </Grid>
@@ -87,9 +82,7 @@ export default (props) => {
             <Typography
               variant="captain"
               style={{ fontWeight: 550, color: "#808080" }}
-            >
-              
-            </Typography>
+            ></Typography>
           </Grid>
         </Grid>
       </Grid>
@@ -97,12 +90,12 @@ export default (props) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   wrapper: {
     border: "1px solid #e8e8e8",
     cursor: "pointer",
-    height: "350px",
-    borderRadius : "10",
+    height: "400px",
+    borderRadius: "10",
 
     "&:hover": {
       boxShadow: "0px 25px 25px rgba(0,0,0,0.1)",
@@ -110,21 +103,21 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   locationName: {
-    fontSize: "13.5px",
-    backgroundColor: "#e1bee7",
+    fontSize: "18px",
+    backgroundColor: "#B9ACE0",
     padding: theme.spacing(0.75),
     borderRadius: "5px",
     display: "inline-block",
-    fontWeight: 600,
+    fontWeight: 300,
   },
   skillChip: {
     margin: theme.spacing(0.5),
     padding: theme.spacing(0.75),
-    fontSize: "9.5px",
+    fontSize: "15px",
     borderRadius: "5px",
     transition: ".3s",
-    fontWeight: 600,
-    backgroundColor: theme.palette.mainColor.main,
-    color: "#fff",
+    fontWeight: 300,
+    backgroundColor: "#fff",
+    color: "#798893",
   },
 }));

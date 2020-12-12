@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   Box,
   Button,
@@ -12,21 +12,18 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import {
-  Close as CloseIcon,
-  MailOutline as MessageIcon,
-} from "@material-ui/icons";
+import {Close as CloseIcon, MailOutline as MessageIcon} from "@material-ui/icons";
 import * as dateFns from "date-fns";
-import { useAuth } from "../../contexts/AuthContext";
+import {useAuth} from "../../contexts/AuthContext";
 import UpdateJobModal from "./UpdateJobModal";
-import { Link, useHistory } from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import defaultImage from "../../assets/sampleImage.PNG";
-import { db } from "../../firebase/config";
-import { useEffect } from "react";
+import {db} from "../../firebase/config";
+import {useEffect} from "react";
 
-export default (props) => {
+export default props => {
   const classes = useStyles();
-  const { currentUser } = useAuth();
+  const {currentUser} = useAuth();
   const [loading, setLoading] = useState(false);
   const [updateJobModal, setUpdateJobModal] = useState(false);
   const [error, setError] = useState(null);
@@ -59,7 +56,7 @@ export default (props) => {
     history.push("/chat/" + chatID);
   }
 
-  const appKeyPress = async (e) => {
+  const appKeyPress = async e => {
     setError(null);
     var senderID = currentUser.uid;
     if (inputVal) {
@@ -70,8 +67,7 @@ export default (props) => {
         console.log(senderID);
 
         if (!receiverID) throw new Error("No friend found with that email 😕");
-        if (receiverID === senderID)
-          throw new Error("You can't text yourself 💩");
+        if (receiverID === senderID) throw new Error("You can't text yourself 💩");
 
         await makeFriends(senderID, receiverID);
         console.log(receiverID);
@@ -89,37 +85,15 @@ export default (props) => {
     }
   };
 
-  function moveOtherProfile(email) {
-    history.push("/trader/" + email);
-  }
-
-  const keyPressMove = async (e) => {
-    try {
-      // const us = `${props.job.userId}_${props.job.userName}_${props.job.userPhoto}_${props.job.chatId}`;
-      moveOtherProfile(props.job.chatId);
-      // history.push("/chat/" + chatID);
-      console.log(props.job.chatId);
-    } catch (error) {
-      console.log(error.message);
-      console.log("error");
-    }
-  };
-
   async function makeFriends(currentUserID, friendID) {
-    const currentUserObj = await (
-      await db.ref(`users/${currentUserID}`).once("value")
-    ).val();
+    const currentUserObj = await (await db.ref(`users/${currentUserID}`).once("value")).val();
     currentUserObj.chatID = chatIDGenerator(currentUserID, friendID);
     delete currentUserObj.friends; // deleting additional user property
 
-    const friendObj = await (
-      await db.ref(`users/${friendID}`).once("value")
-    ).val();
+    const friendObj = await (await db.ref(`users/${friendID}`).once("value")).val();
     friendObj.chatID = chatIDGenerator(currentUserID, friendID);
 
-    // friendObj db 추가시 post 제목, id 추가
     friendObj.post = props.job.title;
-    friendObj.postId = props.job.postId;
 
     delete friendObj.friends; // deleting additional user property
 
@@ -138,8 +112,6 @@ export default (props) => {
     setInputVal(props.job.userId);
   });
 
-  console.log(props.job.userId);
-
   return (
     <Dialog open={!!Object.keys(props.job).length} fullWidth>
       <DialogTitle>
@@ -153,10 +125,11 @@ export default (props) => {
       <DialogContent>
         <Box>
           <Box className={classes.info} display="flex">
-            <Typography variant="caption">작성일 : </Typography>
-            <Typography variant="body2">
-              {props.job.postedOn &&
-                dateFns.format(props.job.postedOn, "yyyy-MM-dd HH:MM")}
+            <Typography variant="caption" style={{fontSize: "2px"}}>
+              작성일 :{" "}
+            </Typography>
+            <Typography variant="body2" style={{fontSize: "2px"}}>
+              {props.job.postedOn && dateFns.format(props.job.postedOn, "yyyy-MM-dd HH:MM")}
             </Typography>
           </Box>
 
@@ -164,17 +137,25 @@ export default (props) => {
             <Grid item container fullWidth>
               <img
                 src={props.imageUrl != null ? props.imageUrl : defaultImage}
-                height="200px"
+                height="180px"
                 width="290px"
                 alt="projectImage"
-                style={{ borderRadius: 10 }}
+                style={{borderRadius: 10, marginTop: "10px", marginLeft: "10px"}}
               />
             </Grid>
+            {/* <Typography
+              variant="body2"
+              style={{ marginLeft: "-165px", padding: "10px" }}
+            >
+              Project simple description
+            </Typography> */}
+
             <Typography
               variant="body2"
               style={{
                 marginTop: "80px",
-                marginLeft: "-230px",
+                marginLeft: "-200px",
+                fontFamily: "AppleSDGothicNeoEB.ttf",
               }}
             >
               <Typography
@@ -183,12 +164,14 @@ export default (props) => {
                   marginTop: "-70px",
                   marginBottom: "40px",
                   fontSize: "18px",
+                  fontFamily: "AppleSDGothicNeoEB.ttf",
+                  fontWeight: "bold",
                 }}
               >
                 [{props.job.location}]{props.job.title}
               </Typography>
 
-              <Grid className={classes.openRewardButton} style={{}}>
+              <Grid className={classes.openRewardButton} style={{backgroundColor: "#B9ACE0"}}>
                 {props.job.reward}
               </Grid>
               <Box style={{}}>
@@ -202,9 +185,19 @@ export default (props) => {
                         className={classes.openMessageButton}
                         disableElevation
                         disabled={loading}
-                        style={{ marginLeft: "-20px" }}
+                        style={{
+                          marginTop: "10px",
+                          marginLeft: "-20px",
+                          width: "150px",
+                          height: "30px",
+                          backgroundColor: "#B9ACE0",
+                          fontWeight: "bold",
+                          color: "#fff",
+                        }}
                       >
-                        <Button onClick={appKeyPress}>쪽지 보내기</Button>
+                        <Button onClick={appKeyPress} style={{color: "#fff"}}>
+                          쪽지 보내기
+                        </Button>
                         {/* <MessageIcon /> */}
                       </Button>
                     )
@@ -214,11 +207,7 @@ export default (props) => {
             </Typography>
           </Box>
 
-          <Box
-            className={classes.info}
-            display="flex"
-            style={{ marginBottom: "30px" }}
-          >
+          <Box className={classes.info} display="flex" style={{marginBottom: "30px"}}>
             <Typography variant="caption">
               -------------------------------------------------------------------------------
             </Typography>
@@ -228,7 +217,11 @@ export default (props) => {
             <span>
               <Typography
                 variant="caption"
-                style={{ fontSize: "20px", fontWeight: "500" }}
+                style={{
+                  fontFamily: "NotoSansKR-Bold.otf",
+                  fontSize: "25px",
+                  fontWeight: "bold",
+                }}
               >
                 부엉이 정보
               </Typography>
@@ -239,73 +232,57 @@ export default (props) => {
                 height="150px"
                 width="150px"
                 alt="profileImage"
-                style={{ borderRadius: 10, marginRight: "20px" }}
+                style={{borderRadius: 10, marginRight: "20px"}}
               />
             </Box>
             <Box className={classes.info} display="flex">
-              <Typography variant="body2" style={{ marginBottom: "30px" }}>
+              <Typography variant="body2" style={{marginBottom: "30px"}}>
                 {props.job.userName}
               </Typography>
             </Box>
-            {props.job.userId !== currentUser.email && (
-              <Button
-                display="flex"
-                disableElevation
-                disabled={loading}
-                style={{ marginTop: "-20px" }}
-              >
-                <Button onClick={keyPressMove}>프로필 보러가기</Button>
-              </Button>
-            )}
           </Box>
-          <Box
-            className={classes.info}
-            display="flex"
-            style={{ marginBottom: "30px" }}
-          >
+          <Box className={classes.info} display="flex" style={{marginBottom: "30px"}}>
             <Typography variant="caption">
               -------------------------------------------------------------------------------
             </Typography>
           </Box>
           <Box className={classes.info} display="flex">
             <Typography variant="caption">작업실 위치 : </Typography>
-            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+            <Typography variant="body2" style={{marginBottom: "30px"}}>
               {props.job.location}
             </Typography>
           </Box>
 
           <Box className={classes.info} display="flex">
-            <Typography variant="caption">
-              구하는 부엉이 어시 인원수 :{" "}
-            </Typography>
-            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+            <Typography variant="caption">구하는 부엉이 어시 인원수 : </Typography>
+            <Typography variant="body2" style={{marginBottom: "30px"}}>
               {props.job.nOfPeople}
             </Typography>
           </Box>
           <Box className={classes.info} display="flex">
             <Typography variant="caption">부엉이 어시 성별 : </Typography>
-            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+            <Typography variant="body2" style={{marginBottom: "30px"}}>
               {props.job.sex}
             </Typography>
           </Box>
 
           <Box className={classes.info} display="flex">
             <Typography variant="caption">프로젝트 설명 : </Typography>
-            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+            <Typography variant="body2" style={{marginBottom: "30px"}}>
               {props.job.description}
             </Typography>
           </Box>
           <Box className={classes.info} display="flex">
             <Typography variant="caption">부엉이 어시 구하는 날 : </Typography>
-            <Typography variant="body2" style={{ marginBottom: "30px" }}>
+            <Typography variant="body2" style={{marginBottom: "30px"}}>
               {props.job.endDate}
             </Typography>
           </Box>
-          <Box ml={0.5} style={{ marginBottom: "30px" }}>
+          <Box ml={0.5} style={{marginBottom: "30px"}}>
             <Typography variant="caption">부엉이 어시가 할 일 : </Typography>
             <Grid container alignItems="center">
               {props.job.skills &&
-                props.job.skills.map((skill) => (
+                props.job.skills.map(skill => (
                   <Grid item key={skill} className={classes.openJobButton}>
                     {skill}
                   </Grid>
@@ -313,14 +290,8 @@ export default (props) => {
             </Grid>
           </Box>
 
-          <Box
-            className={classes.info}
-            display="flex"
-            style={{ marginBottom: "30px" }}
-          >
-            <Typography variant="caption">
-              부엉이 어시 시다경험 유무 :{" "}
-            </Typography>
+          <Box className={classes.info} display="flex" style={{marginBottom: "30px"}}>
+            <Typography variant="caption">부엉이 어시 시다경험 유무 : </Typography>
             <Typography variant="body2">{props.job.experience}</Typography>
           </Box>
         </Box>
@@ -329,7 +300,7 @@ export default (props) => {
         {props.job.userId === currentUser.email ? (
           <Grid>
             <Button
-              style={{ marginRight: "10px" }}
+              style={{marginRight: "10px"}}
               variant="contained"
               onClick={() => setUpdateJobModal(true)}
             >
@@ -343,12 +314,10 @@ export default (props) => {
               job={props.job}
             />
             <Button
-              style={{ backgroundColor: "red" }}
+              style={{backgroundColor: "red"}}
               variant="contained"
               onClick={() => {
-                if (
-                  window.confirm("Are you sure you wish to delete this post?")
-                ) {
+                if (window.confirm("Are you sure you wish to delete this post?")) {
                   props.deleteJob(props.job);
                   closeModal();
                 }
@@ -363,20 +332,20 @@ export default (props) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   info: {
     "& > *": {
       margin: "4px",
     },
   },
   skillChip: {
-    margin: theme.spacing(0.5),
+    margin: theme.spacing(1),
     padding: theme.spacing(0.75),
     fontSize: "14.5px",
     borderRadius: "5px",
     transition: ".3s",
     fontWeight: 600,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#B9ACE0",
     color: "#fff",
   },
   openJobButton: {
@@ -391,7 +360,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.mainColor.main,
   },
   openMessageButton: {
-    backgroundColor: "#e1bee7",
+    backgroundColor: "#B9ACE0",
   },
   openRewardButton: {
     fontSize: "14.5px",

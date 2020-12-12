@@ -83,14 +83,11 @@ export default function Chat(props) {
     }
   }
 
-  const [fId, setFId] = useState(""); // review
   // 완성
   async function sFriendName() {
     const chatID = props.match.params.chatID;
     const x = chatID.split("_");
     const friendID = x[0] === user.uid ? x[1] : x[0];
-    setFId(friendID);
-    console.log(friendID);
 
     await db
       .ref(`users/${friendID}`)
@@ -107,25 +104,10 @@ export default function Chat(props) {
     return time;
   }
 
-  function hist(ID) {
-    history.push("/write-review/" + ID);
-  }
-
-  const appKeyPress = async (e) => {
-    try {
-      hist(fId);
-    } catch (error) {
-      console.log(error.message);
-      console.log("error");
-    }
-  };
-
-  console.log(fId);
-
   return (
-    <div style={{ marginTop: "150px" }}>
-      {loadingChats ? <div className="spinner"></div> : ""}
-      <section className="chat-container">
+    <div style={{ width: '20%', margin: '120px auto',}}>
+      {loadingChats ? <div className="spinner" color = "white"></div> : ""}
+      <section className="chat-container" style ={{backgroundColor:"#fff",height:"1000px"}}>
         <header className="chat-header">
           <Link
             to={{
@@ -139,18 +121,20 @@ export default function Chat(props) {
               &lt;&lt;
             </i>
           </Link>
-          <div className="chat-header-t" style={{}}>
+          <div className="chat-header-t" style={{color : "#8355AB"}}>
             {friendName}
           </div>
-          <div className="chat-settings">
-            <Button
-              variant="contained"
-              color="primary"
-              disableElevation
-              onClick={appKeyPress}
-            >
-              후기 쓰기
-            </Button>
+          <div className="chat-settings" style={{color : "#8355AB"}}>
+            <Link to="/review">
+              <Button
+                variant="contained"
+                color=""
+                disableElevation
+                style={{color : "#8355AB"}}
+              >
+                후기 쓰기
+              </Button>
+            </Link>
           </div>
         </header>
         {readError ? (
@@ -159,7 +143,7 @@ export default function Chat(props) {
           </div>
         ) : null}
 
-        <main className="chatarea" ref={myRef}>
+        <main className="chatarea" ref={myRef} style={{height: "10%",}}>
           {/* chat area */}
           {chats.map((chat) => {
             return (
@@ -168,9 +152,11 @@ export default function Chat(props) {
                 className={
                   "msg " + (user.uid === chat.uid ? "right-msg" : "left-msg")
                 }
+                
               >
                 <div
-                  className="chat-bubble"
+                  className="chat-bubble" style ={{backgroundColor:"#F5B7B1"}}
+                  
                   onDoubleClick={async () => {
                     if (chat.uid !== user.uid) return;
                     const chatid = props.match.params.chatID;
@@ -184,6 +170,7 @@ export default function Chat(props) {
                       `chats/${chatid}/${Object.keys(x.val())[0]}}`
                     );
                   }}
+                  
                 >
                   <div className="msg-text">{chat.content}</div>
                   <div className="chat-info-time noselect text-right">

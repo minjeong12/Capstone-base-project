@@ -18,18 +18,13 @@ export default function Chatlist(props) {
     setError(null);
     setLoading(true);
     try {
-      const snapshot = await db
-        .ref(`users/${currentUser.uid}/friends`)
-        .once("value");
+      const snapshot = await db.ref(`users/${currentUser.uid}/friends`).once("value");
       var list = [];
       for (const key in snapshot.val()) {
         if (snapshot.val().hasOwnProperty(key)) {
           var element = snapshot.val()[key];
           // Getting recent chat message info with chatID
-          var recentMsg = await db
-            .ref(`chats/${element.chatID}`)
-            .limitToLast(1)
-            .once("value");
+          var recentMsg = await db.ref(`chats/${element.chatID}`).limitToLast(1).once("value");
           if (recentMsg.exists()) {
             const val = recentMsg.val();
             element["recentMsg"] = val[Object.keys(val)[0]].content;
@@ -115,9 +110,7 @@ export default function Chatlist(props) {
     const today = new Date();
     const timeValue = new Date(value);
 
-    const betweenTime = Math.floor(
-      (today.getTime() - timeValue.getTime()) / 1000 / 60
-    );
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
     if (betweenTime < 1) return "방금 전";
     if (betweenTime < 60) {
       return `${betweenTime}분 전`;
@@ -144,10 +137,9 @@ export default function Chatlist(props) {
   const { match, location } = props;
 
   return (
-    <div style={{ marginTop: "150px" }}>
-      {/* loading indicator */}
-      {loading ? <div className="spinner"></div> : ""}
-      <div className="chat-container">
+    <div style={{ width: "20%", margin: "120px auto" }}>
+      {loading ? <div className="spinner" color="white"></div> : ""}
+      <div className="chat-container" style={{ backgroundColor: "#fff", height: "1000px" }}>
         <header className="chat-header">
           <Link to="/" className="px-2">
             <i className="fas fa-chevron-left" style={{ color: "black" }}>
