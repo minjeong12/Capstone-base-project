@@ -44,11 +44,14 @@ export default function ReviewGrid(props) {
 
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const db = firebase.firestore();
+  var st = 0;
 
   const fetchReviews = async () => {
     setLoading(true);
     const id = uuid();
-    if (uId === "") {
+    // if (uId === "") {
+    if (uId === undefined) {
       const req = await firestore
         .collection("reviews")
         .where("TraderId", "==", currentUser.uid)
@@ -135,11 +138,8 @@ export default function ReviewGrid(props) {
     }
   };
 
-  const db = firebase.firestore();
-
+  console.log(uId);
   // console.log(reviews);
-  var st = 0;
-
   return (
     <>
       <div className={classes.root}>
