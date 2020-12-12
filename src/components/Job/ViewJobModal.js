@@ -163,7 +163,11 @@ export default (props) => {
           <Box className={classes.info} display="flex">
             <Grid item container fullWidth>
               <img
-                src={props.imageUrl != null ? props.imageUrl : defaultImage}
+                src={
+                  props.job.userPhoto != null
+                    ? props.job.userPhoto
+                    : defaultImage
+                }
                 height="200px"
                 width="290px"
                 alt="projectImage"

@@ -149,8 +149,8 @@ export default function ReviewGrid(props) {
           </Grid>
         )}
         {reviews.map((x, i) => {
-          console.log(JSON.parse(x["0"]).complement);
-          console.log(JSON.parse(x["0"]).satisfaction);
+          // console.log(JSON.parse(x["0"]).complement);
+          // console.log(JSON.parse(x["0"]).satisfaction);
 
           return loading === true ? (
             <Spinner />
