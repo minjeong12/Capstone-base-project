@@ -157,16 +157,15 @@ export default function Chat(props) {
                     {friendName}
                   </div>
                   <div className="chat-settings" style={{ color: "#8355AB" }}>
-                    <Link to="/review">
-                      <Button
-                        variant="contained"
-                        color=""
-                        disableElevation
-                        style={{ color: "#8355AB" }}
-                      >
-                        후기 쓰기
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="contained"
+                      color=""
+                      disableElevation
+                      style={{ color: "#8355AB" }}
+                      onClick={appKeyPress}
+                    >
+                      후기 쓰기
+                    </Button>
                   </div>
                 </header>
                 {readError ? (

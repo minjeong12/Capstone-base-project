@@ -129,14 +129,6 @@ export default function Nav() {
               </Link>
             </Button>
           ) : null}
-          <Button variant="outline-light" style={{ marginRight: "5px" }}>
-            <Link
-              to={"/write-port"}
-              style={{ textDecoration: "none", color: "#7563A7" }}
-            >
-              포트폴리오
-            </Link>
-          </Button>
         </Toolbar>
         {currentUser ? (
           <Toolbar

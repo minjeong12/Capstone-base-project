@@ -188,7 +188,7 @@ export default function ReviewGrid(props) {
                             paddingBottom: "40px",
                           }}
                         >
-                          {JSON.parse(x["0"]).satisfaction}
+                          {JSON.parse(x["0"]).suggestions}
                         </Typography>
                       </Paper>
                     </Grid>
