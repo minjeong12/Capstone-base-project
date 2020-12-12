@@ -54,7 +54,7 @@ export default function MyPage() {
     try {
       const jobsSnapshot = await firebase
         .firestore()
-        .collection("jobs")
+        .collection("reviews")
         .where("userId", "==", currentUser.email)
         .get();
       const jobsPayload = [];

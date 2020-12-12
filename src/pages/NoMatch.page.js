@@ -1,9 +1,10 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
+import { Button } from "react-bootstrap";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   session: {
     position: "relative",
     zIndex: 4000,
@@ -63,7 +64,9 @@ const NotFound = () => {
         <Typography className={classes.subtitle}>Page not found!</Typography>
         <Typography variant="caption">
           Sorry, but the page you were trying to view does not exist.{" "}
-          <Link to="/">Report this error?</Link>
+          <Button variant="light">
+            <Link to="/">Report this error?</Link>
+          </Button>
         </Typography>
       </div>
     </div>

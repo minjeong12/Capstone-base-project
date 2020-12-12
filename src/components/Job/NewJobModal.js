@@ -131,15 +131,39 @@ export default props => {
     e.persist();
     const filed = e.target.files[0];
     const storageRef = firebase.storage().ref();
+    // if (filed !== undefined) {
+    //   const fileRef = storageRef.child(filed.name);
+    //   await fileRef.put(filed);
+    //   setFileUrl(await fileRef.getDownloadURL());
+
+    //   for (let i = 0; i < e.target.files.length; i++) {
+    //     const newFile = e.target.files[i];
+    //     newFile["id"] = Math.random();
+    //     // add an "id" property to each File object
+    //     setFiles((prevState) => [...prevState, newFile]);
+    //     console.log(newFile);
+    //     console.log(files);
+    //   }
+    //   while (previewRef.current.firstChild) {
+    //     previewRef.current.removeChild(previewRef.current.firstChild);
+    //   }
     const fileRef = storageRef.child(filed.name);
     await fileRef.put(filed);
     setFileUrl(await fileRef.getDownloadURL());
 
+    // const curFiles = inputRef.current.files;
+    // if (curFiles.length === 0) {
+    //   const para = document.createElement("p");
+    //   para.textContent = "No files currently selected for upload";
+    //   previewRef.current.appendChild(para);
+    // } else {
+    //   const list = document.createElement("ol");
+    //   previewRef.current.appendChild(list);
     for (let i = 0; i < e.target.files.length; i++) {
       const newFile = e.target.files[i];
       newFile["id"] = Math.random();
       // add an "id" property to each File object
-      setFiles(prevState => [...prevState, newFile]);
+      setFiles((prevState) => [...prevState, newFile]);
       console.log(newFile);
       console.log(files);
     }
@@ -147,6 +171,9 @@ export default props => {
       previewRef.current.removeChild(previewRef.current.firstChild);
     }
 
+    // for (const file of curFiles) {
+    //   const listItem = document.createElement("div");
+    //   const para = document.createElement("p");
     const curFiles = inputRef.current.files;
     if (curFiles.length === 0) {
       const para = document.createElement("p");
@@ -156,18 +183,33 @@ export default props => {
       const list = document.createElement("ol");
       previewRef.current.appendChild(list);
 
+      // if (validFileType(file)) {
+      //   para.style.color = "black";
+      //   para.textContent = `${file.name},  ${returnFileSize(file.size)}.`;
+      //   const image = document.createElement("img");
+      //   image.style.height = "100px";
+      //   image.style.width = "100px";
+      //   image.src = URL.createObjectURL(file);
+
+      //   listItem.appendChild(image);
+      //   listItem.appendChild(para);
+      // } else {
+      //   para.textContent = `${file.name}: Not a valid file type. Update your selection.`;
+      //   para.style.color = "red";
+      //   listItem.appendChild(para);
+      // }
       for (const file of curFiles) {
         const listItem = document.createElement("div");
         const para = document.createElement("p");
 
+        // list.appendChild(listItem);
         if (validFileType(file)) {
           para.style.color = "black";
           para.textContent = `${file.name},  ${returnFileSize(file.size)}.`;
           const image = document.createElement("img");
-          image.style.height = "400px";
-          image.style.width = "400px";
+          image.style.height = "100px";
+          image.style.width = "100px";
           image.src = URL.createObjectURL(file);
-
           listItem.appendChild(image);
           listItem.appendChild(para);
         } else {
@@ -175,13 +217,12 @@ export default props => {
           para.style.color = "red";
           listItem.appendChild(para);
         }
-
         list.appendChild(listItem);
       }
     }
   };
 
-  const addRemoveSkill = skill => {
+  const addRemoveSkill = (skill) => {
     jobDetails.skills.includes(skill)
       ? setJobDetails(oldState => ({
           ...oldState,
@@ -325,7 +366,15 @@ export default props => {
             <Typography>프로젝트 이미지 업로드*</Typography>
             <Button variant="contained" component="label">
               <label htmlFor="file_uploads">
-                <img src={uploadFilesIcon} width="35" height="35" alt="uploadFilesIcon" />
+                {/* 이미 업로드시 업로드 아이콘 숨김 */}
+                {inputRef.current === undefined ? (
+                  <img
+                    src={uploadFilesIcon}
+                    width="35"
+                    height="35"
+                    alt="uploadFilesIcon"
+                  />
+                ) : null}
               </label>
               <input
                 id={"file-input"}
@@ -341,7 +390,7 @@ export default props => {
                 onChange={onFileChange}
               />
               <div className="preview" ref={previewRef}>
-                <p> 진행중인 프로젝트 사진을 간단하게 올려주세요.</p>
+                <p> 진행중인 프로젝트 사진을 간단하게 올려주세요..</p>
               </div>
             </Button>
           </Grid>
@@ -377,7 +426,7 @@ export default props => {
             </Select>
           </Grid>
 
-          <Box ml={1} mt={2} mb={2}>
+          <Grid item xs={12}>
             <Typography>부엉이 어시의 할일*</Typography>
             <Box display="flex">
               {skills.map(skill => (
@@ -392,7 +441,7 @@ export default props => {
                 </Box>
               ))}
             </Box>
-          </Box>
+          </Grid>
 
           <Grid item xs={6}>
             <Typography>부엉이 어시 성별*</Typography>

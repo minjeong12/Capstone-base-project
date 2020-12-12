@@ -125,22 +125,31 @@ export default props => {
       <DialogContent>
         <Box>
           <Box className={classes.info} display="flex">
-            <Typography variant="caption" style={{fontSize: "2px"}}>
+            <Typography variant="caption" style={{ fontSize: "2px" }}>
               작성일 :{" "}
             </Typography>
-            <Typography variant="body2" style={{fontSize: "2px"}}>
-              {props.job.postedOn && dateFns.format(props.job.postedOn, "yyyy-MM-dd HH:MM")}
+            <Typography variant="body2">
+              {props.job.postedOn &&
+                dateFns.format(props.job.postedOn, "yyyy-MM-dd HH:MM")}
             </Typography>
           </Box>
 
           <Box className={classes.info} display="flex">
             <Grid item container fullWidth>
               <img
-                src={props.imageUrl != null ? props.imageUrl : defaultImage}
+                src={
+                  props.job.userPhoto != null
+                    ? props.job.userPhoto
+                    : defaultImage
+                }
                 height="180px"
                 width="290px"
                 alt="projectImage"
-                style={{borderRadius: 10, marginTop: "10px", marginLeft: "10px"}}
+                style={{
+                  borderRadius: 10,
+                  marginTop: "10px",
+                  marginLeft: "10px",
+                }}
               />
             </Grid>
             {/* <Typography
@@ -171,7 +180,10 @@ export default props => {
                 [{props.job.location}]{props.job.title}
               </Typography>
 
-              <Grid className={classes.openRewardButton} style={{backgroundColor: "#B9ACE0"}}>
+              <Grid
+                className={classes.openRewardButton}
+                style={{ backgroundColor: "#B9ACE0" }}
+              >
                 {props.job.reward}
               </Grid>
               <Box style={{}}>
@@ -195,7 +207,7 @@ export default props => {
                           color: "#fff",
                         }}
                       >
-                        <Button onClick={appKeyPress} style={{color: "#fff"}}>
+                        <Button onClick={appKeyPress} style={{ color: "#fff" }}>
                           쪽지 보내기
                         </Button>
                         {/* <MessageIcon /> */}
