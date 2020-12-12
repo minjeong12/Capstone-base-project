@@ -50,8 +50,6 @@ function JobLists(props) {
       .where("reward", "==", jobSearch.reward)
       .where("skills", "array-contains", jobSearch.skills)
       .where("sex", "==", jobSearch.sex)
-      // .where("title", ">=", jobSearch.title)
-      // .where("title", "<=", jobSearch.title + "\uf8ff")
       .get();
     const tempJobs = req.docs.map((job) => ({
       ...job.data(),
@@ -169,7 +167,6 @@ function JobLists(props) {
                 fetchJobsCustom={fetchJobsCustom}
                 filterSelect={true}
                 appKeyPress={appKeyPress}
-                // handleFilterTextChange={handleFilterTextChange}
               />
               {loading ? (
                 <Box display="flex" justifyContent="center">
@@ -185,20 +182,7 @@ function JobLists(props) {
                       </Button>
                     </Box>
                   )}
-                  <Grid container>
-                    {jobs && filteredComponents(jobs)}
-                    {/* {jobs.map((job) => (
-                      <Grid item xs={4}>
-                        <Box display="flex" justifyContent="row-revers">
-                          <JobCard
-                            open={() => setViewJob(job)}
-                            key={job.id}
-                            {...job}
-                          />
-                        </Box>
-                      </Grid>
-                    ))} */}
-                  </Grid>
+                  <Grid container>{jobs && filteredComponents(jobs)}</Grid>
                 </Grid>
               )}
             </Grid>

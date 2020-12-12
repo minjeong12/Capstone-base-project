@@ -131,10 +131,10 @@ export default function Nav() {
           ) : null}
           <Button variant="outline-light" style={{ marginRight: "5px" }}>
             <Link
-              to={"/review"}
+              to={"/write-port"}
               style={{ textDecoration: "none", color: "#7563A7" }}
             >
-              후기
+              포트폴리오
             </Link>
           </Button>
         </Toolbar>

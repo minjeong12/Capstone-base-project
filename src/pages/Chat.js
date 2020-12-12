@@ -83,11 +83,14 @@ export default function Chat(props) {
     }
   }
 
+  const [fId, setFId] = useState(""); // review
   // 완성
   async function sFriendName() {
     const chatID = props.match.params.chatID;
     const x = chatID.split("_");
     const friendID = x[0] === user.uid ? x[1] : x[0];
+    setFId(friendID);
+    console.log(friendID);
 
     await db
       .ref(`users/${friendID}`)
@@ -110,12 +113,14 @@ export default function Chat(props) {
 
   const appKeyPress = async (e) => {
     try {
-      hist(props.match.params.chatID);
+      hist(fId);
     } catch (error) {
       console.log(error.message);
       console.log("error");
     }
   };
+
+  console.log(fId);
 
   return (
     <div style={{ marginTop: "150px" }}>

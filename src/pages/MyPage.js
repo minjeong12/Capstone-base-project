@@ -1,14 +1,58 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Grid, Paper } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Col, Container, ProgressBar, Row } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import "./mypage.css";
 import ReviewGrid from "../components/ReviewSystem/ReviewGrid";
-import { firebase } from "../firebase/config";
+import PortfolioGrid from "../components/Portfolio/PortfolioGrid";
+import { firestore, firebase, app } from "../firebase/config";
+import { v4 as uuid } from "uuid";
 
 export default function MyPage() {
   const { currentUser } = useAuth();
+  const history = useHistory();
+  const [jobs, setJobs] = useState([]);
+
+  const postPort = async (portDetails, imageUrl) => {
+    const id = uuid();
+    await firestore
+      .collection("portfolio")
+      .doc(id)
+      .set(
+        {
+          ...portDetails,
+          postedOn: app.firestore.FieldValue.serverTimestamp(),
+          imageUrl: imageUrl,
+          postId: id,
+        },
+        { merge: true }
+      )
+      .then(function (doc) {
+        console.log("작성완료");
+        window.setTimeout(() => {
+          history.push("/");
+        }, 1000);
+      });
+    fetchPort();
+  };
+
+  const [port, setPort] = useState([]);
+
+  const fetchPort = async () => {
+    const req = await firestore
+      .collection("portfolio")
+      .where("userId", "==", currentUser.email)
+      .get();
+    const tempPorts = req.docs.map((port) => ({
+      ...port.data(),
+      id: port.id,
+      postedOn: port.data().postedOn.toDate(),
+    }));
+    setPort(tempPorts);
+    console.log(port);
+  };
+
   const [locTitle, setLocTitle] = useState([]);
   const [cal, setCal] = useState(0);
   const now = cal;
@@ -28,27 +72,34 @@ export default function MyPage() {
     />
   );
 
-  function handleEval(x) {
+  function handleEval(x = 50) {
     setCal(x);
   }
 
-  var ar = [];
+  const [ports, setPorts] = useState([]);
+  const getPorts = async () => {
+    const req = await firestore
+      .collection("portfolio")
+      .where("userEmail", "==", currentUser.email)
+      .get();
+    const tempPorts = req.docs.map((port) => ({
+      ...port.data(),
+    }));
+    setPorts(tempPorts);
+    // console.log(jobs);
+  };
 
   const getJobs = async () => {
     try {
-      ar.push(currentUser.email);
       const jobsSnapshot = await firebase
         .firestore()
         .collection("jobs")
-        .orderBy("postedOn", "desc")
-        .where("userEmail", "in", ar)
+        .where("userId", "==", currentUser.email)
         .get();
       const jobsPayload = [];
       jobsSnapshot.forEach((job) =>
         jobsPayload.push({
           ...job.data(),
-          postedOn: job.data().postedOn.toDate(),
-          id: job.id,
         })
       );
       console.log(jobsPayload);
@@ -63,16 +114,61 @@ export default function MyPage() {
     (async () => {
       try {
         await getJobs();
-      } catch (err) {}
+        await getPorts();
+      } catch (err) {
+        console.log("error in mypage");
+      }
     })();
   }, []);
 
-  console.log(locTitle);
+  // console.log(locTitle.length);
+
+  const initState = {
+    userEmail: currentUser.email,
+    userName: currentUser.displayName,
+    userPhoto: currentUser.photoURL,
+    userId: currentUser.uid,
+    intro: "",
+    skills: [],
+    certificate: "",
+  };
+  const [portDetails, setPortDetails] = useState(initState);
+
+  const handleChange = (e) => {
+    e.persist();
+    setPortDetails((oldState) => ({
+      ...oldState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const addRemoveSkill = (skill) => {
+    portDetails.skills.includes(skill)
+      ? setPortDetails((oldState) => ({
+          ...oldState,
+          skills: oldState.skills.filter((s) => s !== skill),
+        }))
+      : setPortDetails((oldState) => ({
+          ...oldState,
+          skills: oldState.skills.concat(skill),
+        }));
+  };
+
+  const [fileUrl, setFileUrl] = useState(null);
+
+  const furl = (x) => {
+    setFileUrl(x);
+  };
+
+  const handleSubmit = async () => {
+    history.push("/write-port");
+  };
+
+  console.log(port);
 
   return (
     <Container>
       <Container
-        //   className="d-flex align-items-center justify-content-center"
         style={{ marginTop: "200px", width: "1000px" }} // 1150px
       >
         <Row>
@@ -114,7 +210,7 @@ export default function MyPage() {
                       display: "flex",
                     }}
                   >
-                    <span>총 작업수 : 00</span>
+                    <span>총 작업수 : {locTitle.length}</span>
                   </Col>
                   <Col
                     xs="3"
@@ -138,11 +234,38 @@ export default function MyPage() {
             </Paper>
           </Col>
         </Row>
-        <Link to="/update-profile">
-          <Button variant="contained" color="primary" disableElevation>
-            프로필 편집
-          </Button>
-        </Link>
+
+        <Grid item xs container direction="row">
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              disableElevation
+              onClick={handleSubmit}
+            >
+              포트폴리오 수정
+            </Button>
+          </Grid>
+        </Grid>
+      </Container>
+
+      {/* 소개 및 포트폴리오 업로드 */}
+      <Container
+        style={{ marginTop: "30px", width: "850px" }} // 1150px
+      >
+        <Row>
+          <Col xs="12">
+            <Grid>
+              <PortfolioGrid
+                handleChange={handleChange}
+                portDetails={portDetails}
+                addRemoveSkill={addRemoveSkill}
+                furl={furl}
+                ports={ports}
+              />
+            </Grid>
+          </Col>
+        </Row>
       </Container>
 
       <Container
@@ -161,7 +284,7 @@ export default function MyPage() {
                 부엉이 만남 후기
               </div>
               <div>
-                <ReviewGrid st={locTitle} handleEval={handleEval} />
+                <ReviewGrid handleEval={handleEval} />
               </div>
             </Grid>
           </Col>

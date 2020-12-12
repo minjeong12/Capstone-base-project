@@ -6,6 +6,7 @@ import { v4 as uuid } from "uuid";
 import { useAuth } from "../../contexts/AuthContext";
 import { firestore, firebase, app } from "../../firebase/config";
 import { ToastContainer, toast } from "react-toastify";
+import { Container } from "@material-ui/core";
 
 Survey.StylesManager.applyTheme("orange");
 // Survey.StylesManager.applyTheme("stone");
@@ -14,32 +15,6 @@ export default function Review(props) {
   const { currentUser } = useAuth();
   const history = useHistory();
 
-  // const postReview = async (details) => {
-  //   const req = await firestore
-  //     .collection("reviews")
-  //     .doc() // currentUser.email+ props.match.params.ID)
-  //     .get()
-  //     .then(function (doc) {
-  //       // 중복 체크
-  //       if (doc.exists === false) {
-  //         push(details);
-  //         console.log("작성중");
-  //       } else {
-  //         // toast();
-  //         alert("이미 작성되었습니다.");
-  //         window.setTimeout(() => {
-  //           history.push("/");
-  //         }, 2000);
-  //       }
-  //     })
-  //     .catch(function (error) {
-  //       console.log("Error getting document:", error);
-  //     });
-  //   window.setTimeout(() => {
-  //     history.push("/");
-  //   }, 2000);
-  // };
-
   const pushF = async (details) => {
     const id = uuid();
     await firestore
@@ -47,22 +22,19 @@ export default function Review(props) {
       //.doc(id) //currentUser.email) // + props.match.params.ID)
       .add({
         ...details,
-        // postedOn: app.firestore.FieldValue.serverTimestamp(),
-        // postId: props.match.params.ID,
+        postedOn: app.firestore.FieldValue.serverTimestamp(),
+        TraderId: props.match.params.ID,
         userId: currentUser.email,
         username: currentUser.displayName,
         photo: currentUser.photoURL,
       })
       .then(function (doc) {
         console.log("작성완료");
+        window.setTimeout(() => {
+          history.push("/");
+        }, 1000);
       });
   };
-  // function toast() {
-  //   toast("이미 후기를 남겼습니다!");
-  //   window.setTimeout(() => {
-  //     history.push("/");
-  //   }, 2000);
-  // }
 
   function onCompleteComponent() {
     setIsCompleted(true);
@@ -98,7 +70,9 @@ export default function Review(props) {
     await pushF(arr);
   }
   return (
-    <>
+    <Container
+      style={{ marginTop: "200px", width: "1000px" }} // 1150px
+    >
       <div style={{ width: "1000px", margin: "0 auto" }}>
         {surveyRender}
         {onCompleteComponent}
@@ -112,6 +86,6 @@ export default function Review(props) {
       >
         <ToastContainer />
       </div>
-    </>
+    </Container>
   );
 }

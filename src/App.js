@@ -16,8 +16,9 @@ const Chatlist = lazy(() => import("./pages/Chatlist"));
 const Chat = lazy(() => import("./pages/Chat"));
 const Nav = lazy(() => import("./components/Header/Nav"));
 const SearchPage = lazy(() => import("./pages/Search.page"));
-const ReviewPage = lazy(() => import("./pages/Review.page"));
+const ReviewPage = lazy(() => import("./components/ReviewSystem/Review"));
 const MyPage = lazy(() => import("./pages/MyPage"));
+const PortPage = lazy(() => import("./pages/Port.page"));
 
 function App(props) {
   return (
@@ -59,6 +60,7 @@ function App(props) {
                 <PrivateRoute path="/chat/:chatID" component={Chat} />
                 <PrivateRoute path="/write-review/:ID" component={ReviewPage} />
                 <Route path="/mypage" component={MyPage} />
+                <Route path="/write-port" component={PortPage} />
                 <Route component={NoMatchPage} />
               </Switch>
             </AuthProvider>
