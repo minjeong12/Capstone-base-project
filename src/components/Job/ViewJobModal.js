@@ -89,6 +89,22 @@ export default (props) => {
     }
   };
 
+  function moveOtherProfile(email) {
+    history.push("/trader/" + email);
+  }
+
+  const keyPressMove = async (e) => {
+    try {
+      // const us = `${props.job.userId}_${props.job.userName}_${props.job.userPhoto}_${props.job.chatId}`;
+      moveOtherProfile(props.job.chatId);
+      // history.push("/chat/" + chatID);
+      console.log(props.job.chatId);
+    } catch (error) {
+      console.log(error.message);
+      console.log("error");
+    }
+  };
+
   async function makeFriends(currentUserID, friendID) {
     const currentUserObj = await (
       await db.ref(`users/${currentUserID}`).once("value")
@@ -121,6 +137,8 @@ export default (props) => {
   useEffect(() => {
     setInputVal(props.job.userId);
   });
+
+  console.log(props.job.userId);
 
   return (
     <Dialog open={!!Object.keys(props.job).length} fullWidth>
@@ -229,6 +247,16 @@ export default (props) => {
                 {props.job.userName}
               </Typography>
             </Box>
+            {props.job.userId !== currentUser.email && (
+              <Button
+                display="flex"
+                disableElevation
+                disabled={loading}
+                style={{ marginTop: "-20px" }}
+              >
+                <Button onClick={keyPressMove}>프로필 보러가기</Button>
+              </Button>
+            )}
           </Box>
           <Box
             className={classes.info}

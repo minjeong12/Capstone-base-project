@@ -19,6 +19,7 @@ const SearchPage = lazy(() => import("./pages/Search.page"));
 const ReviewPage = lazy(() => import("./components/ReviewSystem/Review"));
 const MyPage = lazy(() => import("./pages/MyPage"));
 const PortPage = lazy(() => import("./pages/Port.page"));
+const TraderMyPage = lazy(() => import("./pages/TraderMyPage"));
 
 function App(props) {
   return (
@@ -52,15 +53,19 @@ function App(props) {
                   component={UpdateProfilePage}
                 />
                 <Route path="/login-register" component={LoginRegisterPage} />
-                <Route path="/forgot-password" component={ForgotPasswordPage} />
+                <PrivateRoute
+                  path="/forgot-password"
+                  component={ForgotPasswordPage}
+                />
                 <Route path="/home" component={HomePage} />
                 <Route exact path="/search/:sId" component={SearchPage} />
                 <PrivateRoute path="/talent" component={JobListsPage} />
                 <PrivateRoute exact path="/chat" component={Chatlist} />
                 <PrivateRoute path="/chat/:chatID" component={Chat} />
                 <PrivateRoute path="/write-review/:ID" component={ReviewPage} />
-                <Route path="/mypage" component={MyPage} />
-                <Route path="/write-port" component={PortPage} />
+                <PrivateRoute exact path="/mypage" component={MyPage} />
+                <PrivateRoute path="/trader/:email" component={TraderMyPage} />
+                <PrivateRoute path="/write-port" component={PortPage} />
                 <Route component={NoMatchPage} />
               </Switch>
             </AuthProvider>

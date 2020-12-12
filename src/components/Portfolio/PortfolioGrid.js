@@ -349,7 +349,13 @@ export default function PortfolioGrid(props) {
                     ) : (
                       <>
                         {props.ports[0] && (
-                          <img src={props.ports[0].imageUrl}></img>
+                          <img
+                            src={props.ports[0].imageUrl}
+                            style={{
+                              width: "100px",
+                              height: "100px",
+                            }}
+                          ></img>
                         )}
                       </>
                     )}

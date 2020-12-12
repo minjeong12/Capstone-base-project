@@ -6,14 +6,29 @@ import { useAuth } from "../contexts/AuthContext";
 import "./mypage.css";
 import ReviewGrid from "../components/ReviewSystem/ReviewGrid";
 import PortfolioGrid from "../components/Portfolio/PortfolioGrid";
-import { firestore, firebase, app } from "../firebase/config";
+import { firestore, firebase, db } from "../firebase/config";
 import { v4 as uuid } from "uuid";
 
-export default function MyPage() {
+export default function TraderMyPage(props) {
   const { currentUser } = useAuth();
   const history = useHistory();
   const [jobs, setJobs] = useState([]);
-  const [port, setPort] = useState([]);
+  const user = props.match.params === undefined ? "" : props.match.params.email;
+  const [uname, setUname] = useState("");
+  const [uPhoto, setuPhoto] = useState("");
+  const [email, setEmail] = useState("");
+
+  async function TraderProfile() {
+    await db
+      .ref(`users/${user}`)
+      .once("value")
+      .then((snapshot) => {
+        setUname(snapshot.val().uname);
+        setuPhoto(snapshot.val().photoURL);
+        setEmail(snapshot.val().email);
+      });
+  }
+
   const [locTitle, setLocTitle] = useState([]);
   const [cal, setCal] = useState(0);
   const now = cal;
@@ -41,13 +56,14 @@ export default function MyPage() {
   const getPorts = async () => {
     const req = await firestore
       .collection("portfolio")
-      .where("userEmail", "==", currentUser.email)
+      .where("userId", "==", props.match.params.email)
       .get();
     const tempPorts = req.docs.map((port) => ({
       ...port.data(),
     }));
     setPorts(tempPorts);
     // console.log(jobs);
+    // }
   };
 
   const getJobs = async () => {
@@ -55,7 +71,7 @@ export default function MyPage() {
       const jobsSnapshot = await firebase
         .firestore()
         .collection("jobs")
-        .where("userId", "==", currentUser.email)
+        .where("chatId", "==", props.match.params.email)
         .get();
       const jobsPayload = [];
       jobsSnapshot.forEach((job) =>
@@ -69,11 +85,16 @@ export default function MyPage() {
     } catch (err) {
       throw err;
     }
+    // }
   };
 
   useEffect(() => {
     (async () => {
       try {
+        if (user === "") {
+        } else {
+          TraderProfile();
+        }
         await getJobs();
         await getPorts();
       } catch (err) {
@@ -85,10 +106,10 @@ export default function MyPage() {
   // console.log(locTitle.length);
 
   const initState = {
-    userEmail: currentUser.email,
-    userName: currentUser.displayName,
-    userPhoto: currentUser.photoURL,
-    userId: currentUser.uid,
+    userEmail: email === "" ? currentUser.email : email,
+    userName: uname === "" ? currentUser.displayName : uname,
+    userPhoto: uPhoto === "" ? currentUser.photoURL : uPhoto,
+    // userId: user === "" ? currentUser.uid : user,
     intro: "",
     skills: [],
     certificate: "",
@@ -126,6 +147,13 @@ export default function MyPage() {
   };
 
   // console.log(port);
+  console.log(props.match.params.email);
+  console.log(user);
+  console.log(uname);
+  console.log(uPhoto);
+  console.log(email);
+
+  // console.log(arr);
 
   return (
     <Container>
@@ -139,7 +167,7 @@ export default function MyPage() {
                 <Row>
                   <Col xs="4">
                     <img
-                      src={currentUser.photoURL}
+                      src={uPhoto === "" ? currentUser.photoURL : uPhoto}
                       height="150px"
                       width="150px"
                       alt="profileImage"
@@ -158,7 +186,7 @@ export default function MyPage() {
                       fontWeight: "700",
                     }}
                   >
-                    {currentUser.displayName}
+                    {uname === "" ? currentUser.displayName : uname}
                   </Col>
                   <Col
                     xs="2"
@@ -245,7 +273,13 @@ export default function MyPage() {
                 부엉이 만남 후기
               </div>
               <div>
-                <ReviewGrid handleEval={handleEval} />
+                <ReviewGrid
+                  user={user}
+                  uname={uname}
+                  uPhoto={uPhoto}
+                  email={email}
+                  handleEval={handleEval}
+                />
               </div>
             </Grid>
           </Col>

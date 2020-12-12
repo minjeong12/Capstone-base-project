@@ -33,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewGrid(props) {
   const classes = useStyles();
   const { currentUser } = useAuth();
+  const uId = props.user;
+  const uname = props.uname;
+  const uPhoto = props.uPhoto;
+  const email = props.email;
 
   useEffect(() => {
     fetchReviews();
@@ -44,48 +48,91 @@ export default function ReviewGrid(props) {
   const fetchReviews = async () => {
     setLoading(true);
     const id = uuid();
+    if (uId === "") {
+      const req = await firestore
+        .collection("reviews")
+        .where("TraderId", "==", currentUser.uid)
+        .orderBy("postedOn", "desc")
+        .get();
+      const tempReviews = req.docs.map((review) => ({
+        ...review.data(),
+        id: review.id,
+        postedOn: review.data().postedOn.toDate(),
+      }));
 
-    const req = await firestore
-      .collection("reviews")
-      .where("TraderId", "==", currentUser.uid)
-      .orderBy("postedOn", "desc")
-      .get();
-    const tempReviews = req.docs.map((review) => ({
-      ...review.data(),
-      id: review.id,
-      postedOn: review.data().postedOn.toDate(),
-    }));
+      tempReviews.map((x, i) => {
+        if (JSON.parse(x["0"]).satisfaction === 1) {
+          st -= 0.5;
+        } else if (JSON.parse(x["0"]).satisfaction == 2) {
+          st -= 0.25;
+        } else if (JSON.parse(x["0"]).satisfaction == 3) {
+          st -= 0;
+        } else if (JSON.parse(x["0"]).satisfaction == 4) {
+          st += 0.25;
+        } else {
+          st += 0.5;
+        }
+      });
+      const fileRef = db.collection("scores").doc(currentUser.uid);
+      fileRef.set(
+        {
+          st: 50 + st,
+          userId: currentUser.uid,
+          email: currentUser.email,
+          username: currentUser.displayName,
+          postedOn: app.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
 
-    tempReviews.map((x, i) => {
-      if (JSON.parse(x["0"]).satisfaction === 1) {
-        st -= 0.5;
-      } else if (JSON.parse(x["0"]).satisfaction == 2) {
-        st -= 0.25;
-      } else if (JSON.parse(x["0"]).satisfaction == 3) {
-        st -= 0;
-      } else if (JSON.parse(x["0"]).satisfaction == 4) {
-        st += 0.25;
-      } else {
-        st += 0.5;
-      }
-    });
-    const fileRef = db.collection("scores").doc(currentUser.uid);
-    fileRef.set(
-      {
-        st: 50 + st,
-        userId: currentUser.uid,
-        email: currentUser.email,
-        username: currentUser.displayName,
-        postedOn: app.firestore.FieldValue.serverTimestamp(),
-      },
-      { merge: true }
-    );
+      setReviews(tempReviews);
+      props.handleEval(50 + st);
+      console.log(tempReviews);
 
-    setReviews(tempReviews);
-    props.handleEval(50 + st);
-    console.log(tempReviews);
+      setLoading(false);
+    } else {
+      const req = await firestore
+        .collection("reviews")
+        .where("TraderId", "==", uId)
+        .orderBy("postedOn", "desc")
+        .get();
+      const tempReviews = req.docs.map((review) => ({
+        ...review.data(),
+        id: review.id,
+        postedOn: review.data().postedOn.toDate(),
+      }));
 
-    setLoading(false);
+      tempReviews.map((x, i) => {
+        if (JSON.parse(x["0"]).satisfaction === 1) {
+          st -= 0.5;
+        } else if (JSON.parse(x["0"]).satisfaction == 2) {
+          st -= 0.25;
+        } else if (JSON.parse(x["0"]).satisfaction == 3) {
+          st -= 0;
+        } else if (JSON.parse(x["0"]).satisfaction == 4) {
+          st += 0.25;
+        } else {
+          st += 0.5;
+        }
+      });
+      const fileRef = db.collection("scores").doc(uId);
+      fileRef.set(
+        {
+          st: 50 + st,
+          userId: uId,
+          email: email,
+          username: uname,
+          postedOn: app.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
+
+      setReviews(tempReviews);
+      props.handleEval(50 + st);
+      console.log(tempReviews);
+
+      setLoading(false);
+    }
   };
 
   const db = firebase.firestore();
