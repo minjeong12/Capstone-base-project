@@ -1,4 +1,4 @@
-import { Box, Button, Grid, makeStyles } from "@material-ui/core";
+import { Box, Button, Container, Grid, makeStyles } from "@material-ui/core";
 import React from "react";
 
 export default (props) => {
@@ -6,30 +6,31 @@ export default (props) => {
   return (
     <Box py={10} bgcolor="transparent">
       <Grid container justify="center">
-        <Grid item xs={10}>
-          <Box display="flex" justifyContent="space-between">
-            {/* <div class="splash-container">
-              <div class="splash">
+        <Container display="flex" flexDirection="row" alignItems="flex-end">
+          <Box>
+            <div class="splash-container">
+              {/* <div>
                 <Button
                   onClick={props.openNewJobModal}
-                  // variant="contained"
                   className={classes.openJobButton}
                   disableElevation
                 >
-                  부엉이 어시 구하러 가기
+                  부엉이 어시
+                  <br />
+                  구하러 가기
                 </Button>
-              </div>
-            </div> */}
-            <Button
+              </div> */}
+            </div>
+            {/* <Button
               onClick={props.openNewJobModal}
               // variant="contained"
               className={classes.openJobButton}
               disableElevation
             >
               부엉이 어시 구하러 가기
-            </Button>
+            </Button> */}
           </Box>
-        </Grid>
+        </Container>
       </Grid>
     </Box>
   );
@@ -38,7 +39,7 @@ export default (props) => {
 const useStyles = makeStyles((theme) => ({
   openJobButton: {
     height: "50px",
-    width: "250px",
+    width: "95px",
     backgroundColor: "#e1bee7",
     marginTop: "100px",
   },

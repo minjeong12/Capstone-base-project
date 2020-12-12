@@ -4,6 +4,7 @@ import defaultImage from "../../assets/sampleImage.PNG";
 
 export default (props) => {
   const classes = useStyles();
+  const job = props.job;
 
   function timeForToday(value) {
     const today = new Date();
@@ -30,6 +31,9 @@ export default (props) => {
     return `${Math.floor(betweenTimeDay / 365)}년 전`;
   }
 
+  console.log(props.job);
+  console.log(job);
+
   return (
     <Box
       m={2}
@@ -42,11 +46,19 @@ export default (props) => {
       <Grid container>
         <Grid item container fullWidth>
           <img
-            src={props.imageUrl != null ? props.imageUrl : defaultImage}
+            src={
+              props.imageUrl !== null ? props.imageUrl : defaultImage
+              // props.imageUrl
+
+              // defaultImage
+              // props.job.imageUrl === undefined || props.job.imageUrl === null
+              //   ? defaultImage
+              //   : props.job.imageUrl
+            }
             height="200px"
             width="355px"
             alt="testA"
-            style={{ borderRadius: 10}}
+            style={{ borderRadius: 10 }}
           ></img>
         </Grid>
         <Grid
@@ -77,8 +89,9 @@ export default (props) => {
         <Grid item container fullWidth style={{ marginTop: "10px" }}>
           <Grid item>
             <Typography variant="captain">
-              {/* {differenceInMinutes(Date.now(), props.postedOn)} min ago |{" "} */}
-              {timeForToday(props.postedOn)} | {props.type} | {props.sex} | {props.reward}
+              {/* {differenceInMinutes(Date.now(), props.job.postedOn)} min ago |{" "} */}
+              {timeForToday(props.postedOn)} | {props.type} | {props.sex} |
+              {props.reward}
             </Typography>
           </Grid>
         </Grid>
@@ -87,9 +100,7 @@ export default (props) => {
             <Typography
               variant="captain"
               style={{ fontWeight: 550, color: "#808080" }}
-            >
-              
-            </Typography>
+            ></Typography>
           </Grid>
         </Grid>
       </Grid>
@@ -102,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #e8e8e8",
     cursor: "pointer",
     height: "350px",
-    borderRadius : "10",
+    borderRadius: "10",
 
     "&:hover": {
       boxShadow: "0px 25px 25px rgba(0,0,0,0.1)",

@@ -139,6 +139,7 @@ export default (props) => {
   });
 
   console.log(props.job.userId);
+  console.log(props.job.userPhoto);
 
   return (
     <Dialog open={!!Object.keys(props.job).length} fullWidth>
@@ -166,8 +167,8 @@ export default (props) => {
             <Grid item container fullWidth>
               <img
                 src={
-                  props.job.userPhoto != null
-                    ? props.job.userPhoto
+                  props.job.imageUrl !== null
+                    ? props.job.imageUrl
                     : defaultImage
                 }
                 height="180px"
