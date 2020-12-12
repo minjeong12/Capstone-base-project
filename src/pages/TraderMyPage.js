@@ -7,26 +7,31 @@ import "./mypage.css";
 import ReviewGrid from "../components/ReviewSystem/ReviewGrid";
 import PortfolioGrid from "../components/Portfolio/PortfolioGrid";
 import { firestore, firebase, db } from "../firebase/config";
-import { v4 as uuid } from "uuid";
 
 export default function TraderMyPage(props) {
   const { currentUser } = useAuth();
-  const history = useHistory();
-  const [jobs, setJobs] = useState([]);
   const user = props.match.params === undefined ? "" : props.match.params.email;
   const [uname, setUname] = useState("");
   const [uPhoto, setuPhoto] = useState("");
   const [email, setEmail] = useState("");
+  var emailtoJob = "";
 
   async function TraderProfile() {
-    await db
-      .ref(`users/${user}`)
-      .once("value")
-      .then((snapshot) => {
-        setUname(snapshot.val().uname);
-        setuPhoto(snapshot.val().photoURL);
-        setEmail(snapshot.val().email);
-      });
+    try {
+      await db
+        .ref(`users/${user}`)
+        .once("value")
+        .then((snapshot) => {
+          setUname(snapshot.val().uname);
+          setuPhoto(snapshot.val().photoURL);
+          setEmail(snapshot.val().email);
+          emailtoJob = snapshot.val().email;
+        });
+    } catch (err) {
+      console.log("traderProfile에러");
+
+      throw err;
+    }
   }
 
   const [locTitle, setLocTitle] = useState([]);
@@ -54,24 +59,30 @@ export default function TraderMyPage(props) {
 
   const [ports, setPorts] = useState([]);
   const getPorts = async () => {
-    const req = await firestore
-      .collection("portfolio")
-      .where("userId", "==", props.match.params.email)
-      .get();
-    const tempPorts = req.docs.map((port) => ({
-      ...port.data(),
-    }));
-    setPorts(tempPorts);
-    // console.log(jobs);
-    // }
+    try {
+      const req = await firestore
+        .collection("portfolio")
+        .where("userId", "==", props.match.params.email)
+        .get();
+      const tempPorts = req.docs.map((port) => ({
+        ...port.data(),
+      }));
+      setPorts(tempPorts);
+    } catch (err) {
+      console.log("getPorts에러");
+
+      throw err;
+    }
   };
 
   const getJobs = async () => {
     try {
+      console.log(emailtoJob);
+
       const jobsSnapshot = await firebase
         .firestore()
-        .collection("jobs")
-        .where("chatId", "==", props.match.params.email)
+        .collection("reviews")
+        .where("userId", "==", emailtoJob)
         .get();
       const jobsPayload = [];
       jobsSnapshot.forEach((job) =>
@@ -83,6 +94,8 @@ export default function TraderMyPage(props) {
 
       setLocTitle(jobsPayload);
     } catch (err) {
+      console.log("getJobs에러");
+
       throw err;
     }
     // }
@@ -91,19 +104,14 @@ export default function TraderMyPage(props) {
   useEffect(() => {
     (async () => {
       try {
-        if (user === "") {
-        } else {
-          TraderProfile();
-        }
-        await getJobs();
+        await TraderProfile();
         await getPorts();
       } catch (err) {
         console.log("error in mypage");
       }
+      await getJobs();
     })();
   }, []);
-
-  // console.log(locTitle.length);
 
   const initState = {
     userEmail: email === "" ? currentUser.email : email,
@@ -142,18 +150,11 @@ export default function TraderMyPage(props) {
     setFileUrl(x);
   };
 
-  const handleSubmit = async () => {
-    history.push("/write-port");
-  };
-
-  // console.log(port);
-  console.log(props.match.params.email);
-  console.log(user);
-  console.log(uname);
-  console.log(uPhoto);
-  console.log(email);
-
-  // console.log(arr);
+  // console.log(props.match.params.email);
+  // console.log(user);
+  // console.log(uname);
+  // console.log(uPhoto);
+  console.log(emailtoJob);
 
   return (
     <Container>
@@ -223,19 +224,6 @@ export default function TraderMyPage(props) {
             </Paper>
           </Col>
         </Row>
-
-        <Grid item xs container direction="row">
-          <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              disableElevation
-              onClick={handleSubmit}
-            >
-              포트폴리오 수정
-            </Button>
-          </Grid>
-        </Grid>
       </Container>
 
       {/* 소개 및 포트폴리오 업로드 */}
