@@ -45,7 +45,7 @@ export default props => {
             height="200px"
             width="450px"
             alt="testA"
-            style={{ borderRadius: 10 }}
+            style={{ borderRadius: 10 , alignItems: "center"}}
            
           ></img>
         </Grid>
@@ -95,6 +95,7 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid #e8e8e8",
     cursor: "pointer",
     height: "400px",
+    width: "500px",
     borderRadius: "10",
 
     "&:hover": {
