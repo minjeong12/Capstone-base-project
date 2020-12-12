@@ -153,7 +153,9 @@ export default (props) => {
       <DialogContent>
         <Box>
           <Box className={classes.info} display="flex">
-            <Typography variant="caption">작성일 : </Typography>
+            <Typography variant="caption" style={{ fontSize: "2px" }}>
+              작성일 :{" "}
+            </Typography>
             <Typography variant="body2">
               {props.job.postedOn &&
                 dateFns.format(props.job.postedOn, "yyyy-MM-dd HH:MM")}
@@ -168,17 +170,22 @@ export default (props) => {
                     ? props.job.userPhoto
                     : defaultImage
                 }
-                height="200px"
+                height="180px"
                 width="290px"
                 alt="projectImage"
-                style={{ borderRadius: 10 }}
+                style={{
+                  borderRadius: 10,
+                  marginTop: "10px",
+                  marginLeft: "10px",
+                }}
               />
             </Grid>
             <Typography
               variant="body2"
               style={{
                 marginTop: "80px",
-                marginLeft: "-230px",
+                marginLeft: "-200px",
+                fontFamily: "AppleSDGothicNeoEB.ttf",
               }}
             >
               <Typography
@@ -187,12 +194,17 @@ export default (props) => {
                   marginTop: "-70px",
                   marginBottom: "40px",
                   fontSize: "18px",
+                  fontFamily: "AppleSDGothicNeoEB.ttf",
+                  fontWeight: "bold",
                 }}
               >
                 [{props.job.location}]{props.job.title}
               </Typography>
 
-              <Grid className={classes.openRewardButton} style={{}}>
+              <Grid
+                className={classes.openRewardButton}
+                style={{ backgroundColor: "#B9ACE0" }}
+              >
                 {props.job.reward}
               </Grid>
               <Box style={{}}>
@@ -206,9 +218,19 @@ export default (props) => {
                         className={classes.openMessageButton}
                         disableElevation
                         disabled={loading}
-                        style={{ marginLeft: "-20px" }}
+                        style={{
+                          marginTop: "10px",
+                          marginLeft: "-20px",
+                          width: "150px",
+                          height: "30px",
+                          backgroundColor: "#B9ACE0",
+                          fontWeight: "bold",
+                          color: "#fff",
+                        }}
                       >
-                        <Button onClick={appKeyPress}>쪽지 보내기</Button>
+                        <Button onClick={appKeyPress} style={{ color: "#fff" }}>
+                          쪽지 보내기
+                        </Button>
                         {/* <MessageIcon /> */}
                       </Button>
                     )
@@ -232,7 +254,11 @@ export default (props) => {
             <span>
               <Typography
                 variant="caption"
-                style={{ fontSize: "20px", fontWeight: "500" }}
+                style={{
+                  fontFamily: "NotoSansKR-Bold.otf",
+                  fontSize: "25px",
+                  fontWeight: "bold",
+                }}
               >
                 부엉이 정보
               </Typography>
@@ -374,13 +400,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   skillChip: {
-    margin: theme.spacing(0.5),
+    margin: theme.spacing(1),
     padding: theme.spacing(0.75),
     fontSize: "14.5px",
     borderRadius: "5px",
     transition: ".3s",
     fontWeight: 600,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#B9ACE0",
     color: "#fff",
   },
   openJobButton: {
@@ -395,7 +421,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.mainColor.main,
   },
   openMessageButton: {
-    backgroundColor: "#e1bee7",
+    backgroundColor: "#B9ACE0",
   },
   openRewardButton: {
     fontSize: "14.5px",

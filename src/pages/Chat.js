@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../firebase/config";
+import { Container, Row, Col } from "react-bootstrap";
 
 export default function Chat(props) {
   const { currentUser } = useAuth();
@@ -123,123 +124,151 @@ export default function Chat(props) {
   console.log(fId);
 
   return (
-    <div style={{ marginTop: "150px" }}>
-      {loadingChats ? <div className="spinner"></div> : ""}
-      <section className="chat-container">
-        <header className="chat-header">
-          <Link
-            to={{
-              pathname: "/",
-            }}
-          >
-            <i
-              className="fas fa-chevron-left"
-              style={{ color: "black", fontWeight: 800 }}
-            >
-              &lt;&lt;
-            </i>
-          </Link>
-          <div className="chat-header-t" style={{}}>
-            {friendName}
-          </div>
-          <div className="chat-settings">
-            <Button
-              variant="contained"
-              color="primary"
-              disableElevation
-              onClick={appKeyPress}
-            >
-              후기 쓰기
-            </Button>
-          </div>
-        </header>
-        {readError ? (
-          <div className="alert alert-danger py-0 rounded-0" role="alert">
-            {readError}
-          </div>
-        ) : null}
-
-        <main className="chatarea" ref={myRef}>
-          {/* chat area */}
-          {chats.map((chat) => {
-            return (
-              <div
-                key={chat.timestamp}
-                className={
-                  "msg " + (user.uid === chat.uid ? "right-msg" : "left-msg")
-                }
+    <Container>
+      <Container
+        style={{ marginTop: "200px", width: "500px" }} // 1150px
+      >
+        <Row>
+          <Col xs="12">
+            <div style={{}}>
+              {loadingChats ? (
+                <div className="spinner" color="white"></div>
+              ) : (
+                ""
+              )}
+              <section
+                className="chat-container"
+                style={{ backgroundColor: "#fff", height: "1000px" }}
               >
-                <div
-                  className="chat-bubble"
-                  onDoubleClick={async () => {
-                    if (chat.uid !== user.uid) return;
-                    const chatid = props.match.params.chatID;
-                    setDeletePrompt(true);
-                    const x = await db
-                      .ref(`chats/${chatid}`)
-                      .orderByChild("timestamp")
-                      .equalTo(chat.timestamp)
-                      .once("value");
-                    setDeletionMsgRef(
-                      `chats/${chatid}/${Object.keys(x.val())[0]}}`
-                    );
-                  }}
-                >
-                  <div className="msg-text">{chat.content}</div>
-                  <div className="chat-info-time noselect text-right">
-                    {formatTime(chat.timestamp)}
+                <header className="chat-header">
+                  <Link
+                    to={{
+                      pathname: "/",
+                    }}
+                  >
+                    <i
+                      className="fas fa-chevron-left"
+                      style={{ color: "black", fontWeight: 800 }}
+                    >
+                      &lt;&lt;
+                    </i>
+                  </Link>
+                  <div className="chat-header-t" style={{ color: "#8355AB" }}>
+                    {friendName}
                   </div>
-                </div>
-              </div>
-            );
-          })}
-        </main>
-        {deletePrompt ? (
-          <div
-            className="d-flex justify-content-between align-items-center alert alert-danger mb-0 mt-1 rounded-0 py-1 px-2"
-            role="alert"
-          >
-            <span>메시지를 삭제하시겠습니까?</span>
-            <div className="d-flex">
-              <button
-                type="button"
-                className="btn btn-sm py-0 mr-1 btn-outline-danger"
-                onClick={() => {
-                  db.ref(deletionMsgRef).remove();
-                  setDeletePrompt(false);
-                }}
-              >
-                예
-              </button>
-              <button
-                type="button"
-                className="btn btn-sm py-0 btn-outline-success"
-                onClick={() => setDeletePrompt(false)}
-              >
-                아니오
-              </button>
+                  <div className="chat-settings" style={{ color: "#8355AB" }}>
+                    <Link to="/review">
+                      <Button
+                        variant="contained"
+                        color=""
+                        disableElevation
+                        style={{ color: "#8355AB" }}
+                      >
+                        후기 쓰기
+                      </Button>
+                    </Link>
+                  </div>
+                </header>
+                {readError ? (
+                  <div
+                    className="alert alert-danger py-0 rounded-0"
+                    role="alert"
+                  >
+                    {readError}
+                  </div>
+                ) : null}
+
+                <main
+                  className="chatarea"
+                  ref={myRef}
+                  style={{ height: "10%" }}
+                >
+                  {/* chat area */}
+                  {chats.map((chat) => {
+                    return (
+                      <div
+                        key={chat.timestamp}
+                        className={
+                          "msg " +
+                          (user.uid === chat.uid ? "right-msg" : "left-msg")
+                        }
+                      >
+                        <div
+                          className="chat-bubble"
+                          style={{ backgroundColor: "#F5B7B1" }}
+                          onDoubleClick={async () => {
+                            if (chat.uid !== user.uid) return;
+                            const chatid = props.match.params.chatID;
+                            setDeletePrompt(true);
+                            const x = await db
+                              .ref(`chats/${chatid}`)
+                              .orderByChild("timestamp")
+                              .equalTo(chat.timestamp)
+                              .once("value");
+                            setDeletionMsgRef(
+                              `chats/${chatid}/${Object.keys(x.val())[0]}}`
+                            );
+                          }}
+                        >
+                          <div className="msg-text">{chat.content}</div>
+                          <div className="chat-info-time noselect text-right">
+                            {formatTime(chat.timestamp)}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </main>
+                {deletePrompt ? (
+                  <div
+                    className="d-flex justify-content-between align-items-center alert alert-danger mb-0 mt-1 rounded-0 py-1 px-2"
+                    role="alert"
+                  >
+                    <span>메시지를 삭제하시겠습니까?</span>
+                    <div className="d-flex">
+                      <button
+                        type="button"
+                        className="btn btn-sm py-0 mr-1 btn-outline-danger"
+                        onClick={() => {
+                          db.ref(deletionMsgRef).remove();
+                          setDeletePrompt(false);
+                        }}
+                      >
+                        예
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-sm py-0 btn-outline-success"
+                        onClick={() => setDeletePrompt(false)}
+                      >
+                        아니오
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
+                <form onSubmit={handleSubmit} className="chat-inputarea">
+                  <input
+                    type="text"
+                    placeholder="메시지를 입력하세요"
+                    className="chat-input"
+                    name="content"
+                    onChange={handleChange}
+                    value={content}
+                  ></input>
+                  <button type="submit" className="chat-sendbtn">
+                    {/* <SendRoundedIcon /> */}
+                    <img
+                      class="mama"
+                      src={require("../assets/send_79678.svg")}
+                      style={{}}
+                    />
+                  </button>
+                </form>
+              </section>
             </div>
-          </div>
-        ) : null}
-        <form onSubmit={handleSubmit} className="chat-inputarea">
-          <input
-            type="text"
-            placeholder="메시지를 입력하세요"
-            className="chat-input"
-            name="content"
-            onChange={handleChange}
-            value={content}
-          ></input>
-          <button type="submit" className="chat-sendbtn">
-            {/* <SendRoundedIcon /> */}
-            <img
-              class="mama"
-              src={require("../assets/send_79678.svg")}
-              style={{}}
-            />
-          </button>
-        </form>
-      </section>
-    </div>
+          </Col>
+        </Row>
+      </Container>
+    </Container>
   );
 }

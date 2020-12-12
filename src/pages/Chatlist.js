@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../firebase/config";
+import { Container, Row, Col } from "react-bootstrap";
 
 export default function Chatlist(props) {
   const { currentUser, logout } = useAuth();
@@ -144,40 +145,58 @@ export default function Chatlist(props) {
   const { match, location } = props;
 
   return (
-    <div style={{ marginTop: "150px" }}>
-      {/* loading indicator */}
-      {loading ? <div className="spinner"></div> : ""}
-      <div className="chat-container">
-        <header className="chat-header">
-          <Link to="/" className="px-2">
-            <i className="fas fa-chevron-left" style={{ color: "black" }}>
-              &lt;&lt;
-            </i>
-          </Link>
-          <div className="chat-header-title">
-            <Link to="/" style={{ color: "black" }}>
-              쪽지함
-            </Link>
-          </div>
-          <div className="chat-settings">
-            {/* <Link onClick={() => logout()} to="/" className="px-2"> */}
-            <Link to="/" className="px-2">
-              <i className="fas fa-sign-out-alt" style={{ color: "black" }}>
-                나가기
-              </i>
-            </Link>
-          </div>
-        </header>
-        <Card className="alert alert-success m-0 py-0 rounded-0" role="alert">
-          Logged in: {user.displayName} ({user.email})
-        </Card>
-        {error ? (
-          <div className="alert alert-danger m-0 py-0 rounded-0" role="alert">
-            {error}
-          </div>
-        ) : null}
+    <Container>
+      <Container
+        style={{ marginTop: "200px", width: "500px" }} // 1150px
+      >
+        <Row>
+          <Col xs="12">
+            <div style={{}}>
+              {/* loading indicator */}
+              {loading ? <div className="spinner"></div> : ""}
+              <div className="chat-container">
+                <header className="chat-header">
+                  <Link to="/" className="px-2">
+                    <i
+                      className="fas fa-chevron-left"
+                      style={{ color: "black" }}
+                    >
+                      &lt;&lt;
+                    </i>
+                  </Link>
+                  <div className="chat-header-title">
+                    <Link to="/" style={{ color: "black" }}>
+                      쪽지함
+                    </Link>
+                  </div>
+                  <div className="chat-settings">
+                    {/* <Link onClick={() => logout()} to="/" className="px-2"> */}
+                    <Link to="/" className="px-2">
+                      <i
+                        className="fas fa-sign-out-alt"
+                        style={{ color: "black" }}
+                      >
+                        나가기
+                      </i>
+                    </Link>
+                  </div>
+                </header>
+                <Card
+                  className="alert alert-success m-0 py-0 rounded-0"
+                  role="alert"
+                >
+                  Logged in: {user.displayName} ({user.email})
+                </Card>
+                {error ? (
+                  <div
+                    className="alert alert-danger m-0 py-0 rounded-0"
+                    role="alert"
+                  >
+                    {error}
+                  </div>
+                ) : null}
 
-        {/* <form onSubmit={handleSubmit} className="chat-inputarea mt-2">
+                {/* <form onSubmit={handleSubmit} className="chat-inputarea mt-2">
           <input
             type="email"
             placeholder="받는 사람"
@@ -191,41 +210,50 @@ export default function Chatlist(props) {
           </button>
         </form> */}
 
-        <main className="chatarea px-0">
-          <Card className="list-group" style={{ backgroundColor: "#E0F7FA" }}>
-            {friendsList
-              .sort((a, b) => {
-                // Filters to prevent any undefined/NaN/null values from getting sorted
-                // and keep Falsy values at the end of the array
-                if (!a.recentMsgTimestamp) a.recentMsgTimestamp = 0;
-                if (!b.recentMsgTimestamp) b.recentMsgTimestamp = 0;
-                return b.recentMsgTimestamp - a.recentMsgTimestamp;
-              }) // sort friends list according to recent message
-              .map((friend, index) => {
-                return (
-                  <Link
-                    key={index}
-                    to={"/chat/" + friend.chatID}
-                    className="list-group-item list-group-item-action rounded-0"
+                <main className="chatarea px-0">
+                  <Card
+                    className="list-group"
+                    style={{ backgroundColor: "#E0F7FA" }}
                   >
-                    <div className="d-flex w-100 justify-content-between">
-                      <h5 className="mb-0 font-weight-bold">
-                        {friend.uname} | {friend.email}
-                      </h5>
-                      <small className="text-right">
-                        {timeForToday(friend.recentMsgTimestamp)}
-                      </small>
-                    </div>
-                    <small className="mb-1" style={{ color: "black" }}>
-                      {friend.post}
-                    </small>
-                    <small className="text-muted">{friend.recentMsg}</small>
-                  </Link>
-                );
-              })}
-          </Card>
-        </main>
-      </div>
-    </div>
+                    {friendsList
+                      .sort((a, b) => {
+                        // Filters to prevent any undefined/NaN/null values from getting sorted
+                        // and keep Falsy values at the end of the array
+                        if (!a.recentMsgTimestamp) a.recentMsgTimestamp = 0;
+                        if (!b.recentMsgTimestamp) b.recentMsgTimestamp = 0;
+                        return b.recentMsgTimestamp - a.recentMsgTimestamp;
+                      }) // sort friends list according to recent message
+                      .map((friend, index) => {
+                        return (
+                          <Link
+                            key={index}
+                            to={"/chat/" + friend.chatID}
+                            className="list-group-item list-group-item-action rounded-0"
+                          >
+                            <div className="d-flex w-100 justify-content-between">
+                              <h5 className="mb-0 font-weight-bold">
+                                {friend.uname} | {friend.email}
+                              </h5>
+                              <small className="text-right">
+                                {timeForToday(friend.recentMsgTimestamp)}
+                              </small>
+                            </div>
+                            <small className="mb-1" style={{ color: "black" }}>
+                              {friend.post}
+                            </small>
+                            <small className="text-muted">
+                              {friend.recentMsg}
+                            </small>
+                          </Link>
+                        );
+                      })}
+                  </Card>
+                </main>
+              </div>
+            </div>{" "}
+          </Col>
+        </Row>
+      </Container>
+    </Container>
   );
 }

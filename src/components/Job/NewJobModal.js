@@ -138,110 +138,96 @@ export default (props) => {
     e.persist();
     const filed = e.target.files[0];
     const storageRef = firebase.storage().ref();
-    if (filed !== undefined) {
-      const fileRef = storageRef.child(filed.name);
-      await fileRef.put(filed);
-      setFileUrl(await fileRef.getDownloadURL());
+    // if (filed !== undefined) {
+    //   const fileRef = storageRef.child(filed.name);
+    //   await fileRef.put(filed);
+    //   setFileUrl(await fileRef.getDownloadURL());
 
-      for (let i = 0; i < e.target.files.length; i++) {
-        const newFile = e.target.files[i];
-        newFile["id"] = Math.random();
-        // add an "id" property to each File object
-        setFiles((prevState) => [...prevState, newFile]);
-        console.log(newFile);
-        console.log(files);
-      }
-      while (previewRef.current.firstChild) {
-        previewRef.current.removeChild(previewRef.current.firstChild);
-      }
+    //   for (let i = 0; i < e.target.files.length; i++) {
+    //     const newFile = e.target.files[i];
+    //     newFile["id"] = Math.random();
+    //     // add an "id" property to each File object
+    //     setFiles((prevState) => [...prevState, newFile]);
+    //     console.log(newFile);
+    //     console.log(files);
+    //   }
+    //   while (previewRef.current.firstChild) {
+    //     previewRef.current.removeChild(previewRef.current.firstChild);
+    //   }
+    const fileRef = storageRef.child(filed.name);
+    await fileRef.put(filed);
+    setFileUrl(await fileRef.getDownloadURL());
 
-      const curFiles = inputRef.current.files;
-      if (curFiles.length === 0) {
+    // const curFiles = inputRef.current.files;
+    // if (curFiles.length === 0) {
+    //   const para = document.createElement("p");
+    //   para.textContent = "No files currently selected for upload";
+    //   previewRef.current.appendChild(para);
+    // } else {
+    //   const list = document.createElement("ol");
+    //   previewRef.current.appendChild(list);
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newFile = e.target.files[i];
+      newFile["id"] = Math.random();
+      // add an "id" property to each File object
+      setFiles((prevState) => [...prevState, newFile]);
+      console.log(newFile);
+      console.log(files);
+    }
+    while (previewRef.current.firstChild) {
+      previewRef.current.removeChild(previewRef.current.firstChild);
+    }
+
+    // for (const file of curFiles) {
+    //   const listItem = document.createElement("div");
+    //   const para = document.createElement("p");
+    const curFiles = inputRef.current.files;
+    if (curFiles.length === 0) {
+      const para = document.createElement("p");
+      para.textContent = "진행중인 프로젝트 사진을 업로드 해 주세요";
+      previewRef.current.appendChild(para);
+    } else {
+      const list = document.createElement("ol");
+      previewRef.current.appendChild(list);
+
+      // if (validFileType(file)) {
+      //   para.style.color = "black";
+      //   para.textContent = `${file.name},  ${returnFileSize(file.size)}.`;
+      //   const image = document.createElement("img");
+      //   image.style.height = "100px";
+      //   image.style.width = "100px";
+      //   image.src = URL.createObjectURL(file);
+
+      //   listItem.appendChild(image);
+      //   listItem.appendChild(para);
+      // } else {
+      //   para.textContent = `${file.name}: Not a valid file type. Update your selection.`;
+      //   para.style.color = "red";
+      //   listItem.appendChild(para);
+      // }
+      for (const file of curFiles) {
+        const listItem = document.createElement("div");
         const para = document.createElement("p");
-        para.textContent = "No files currently selected for upload";
-        previewRef.current.appendChild(para);
-      } else {
-        const list = document.createElement("ol");
-        previewRef.current.appendChild(list);
 
-        for (const file of curFiles) {
-          const listItem = document.createElement("div");
-          const para = document.createElement("p");
-
-          if (validFileType(file)) {
-            para.style.color = "black";
-            para.textContent = `${file.name},  ${returnFileSize(file.size)}.`;
-            const image = document.createElement("img");
-            image.style.height = "100px";
-            image.style.width = "100px";
-            image.src = URL.createObjectURL(file);
-
-            listItem.appendChild(image);
-            listItem.appendChild(para);
-          } else {
-            para.textContent = `${file.name}: Not a valid file type. Update your selection.`;
-            para.style.color = "red";
-            listItem.appendChild(para);
-          }
-
-          list.appendChild(listItem);
+        // list.appendChild(listItem);
+        if (validFileType(file)) {
+          para.style.color = "black";
+          para.textContent = `${file.name},  ${returnFileSize(file.size)}.`;
+          const image = document.createElement("img");
+          image.style.height = "100px";
+          image.style.width = "100px";
+          image.src = URL.createObjectURL(file);
+          listItem.appendChild(image);
+          listItem.appendChild(para);
+        } else {
+          para.textContent = `${file.name}: Not a valid file type. Update your selection.`;
+          para.style.color = "red";
+          listItem.appendChild(para);
         }
+        list.appendChild(listItem);
       }
     }
   };
-  // const onFileChange = async (e) => {
-  //   e.persist();
-  //   const filed = e.target.files[0];
-  //   const storageRef = firebase.storage().ref();
-  //   const fileRef = storageRef.child(filed.name);
-  //   await fileRef.put(filed);
-  //   setFileUrl(await fileRef.getDownloadURL());
-
-  //   for (let i = 0; i < e.target.files.length; i++) {
-  //     const newFile = e.target.files[i];
-  //     newFile["id"] = Math.random();
-  //     // add an "id" property to each File object
-  //     setFiles((prevState) => [...prevState, newFile]);
-  //     console.log(newFile);
-  //     console.log(files);
-  //   }
-  //   while (previewRef.current.firstChild) {
-  //     previewRef.current.removeChild(previewRef.current.firstChild);
-  //   }
-
-  //   const curFiles = inputRef.current.files;
-  //   if (curFiles.length === 0) {
-  //     const para = document.createElement("p");
-  //     para.textContent = "No files currently selected for upload";
-  //     previewRef.current.appendChild(para);
-  //   } else {
-  //     const list = document.createElement("ol");
-  //     previewRef.current.appendChild(list);
-
-  //     for (const file of curFiles) {
-  //       const listItem = document.createElement("div");
-  //       const para = document.createElement("p");
-
-  //       if (validFileType(file)) {
-  //         para.style.color = "black";
-  //         para.textContent = `${file.name},  ${returnFileSize(file.size)}.`;
-  //         const image = document.createElement("img");
-  //         image.style.height = "400px";
-  //         image.style.width = "400px";
-  //         image.src = URL.createObjectURL(file);
-
-  //         listItem.appendChild(image);
-  //         listItem.appendChild(para);
-  //       } else {
-  //         para.textContent = `${file.name}: Not a valid file type. Update your selection.`;
-  //         para.style.color = "red";
-  //         listItem.appendChild(para);
-  //       }
-
-  //       list.appendChild(listItem);
-  //     }
-  //   }
-  // };
 
   const addRemoveSkill = (skill) => {
     jobDetails.skills.includes(skill)
@@ -285,33 +271,34 @@ export default (props) => {
         </Box>
       </DialogTitle>
       <DialogContent>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Typography>Title*</Typography>
+            <Typography>글 제목*</Typography>
             <FilledInput
               onChange={handleChange}
               name="title"
               value={jobDetails.title}
               autoComplete="off"
-              placeholder="Job title *"
+              placeholder="12자 이내로 적어주세요. *"
               disableUnderline
               fullWidth
+              line-height="2.5"
             />
           </Grid>
           <Grid item xs={6}>
-            <Typography>School*</Typography>
+            <Typography>학교*</Typography>
             <FilledInput
               onChange={handleChange}
               name="school"
               value={jobDetails.school}
               autoComplete="off"
-              placeholder="Job school *"
+              placeholder="00대학교*"
               disableUnderline
               fullWidth
             />
           </Grid>
           <Grid item xs={6}>
-            <Typography>Location*</Typography>
+            <Typography>지역*</Typography>
             <Select
               onChange={handleChange}
               name="location"
@@ -326,8 +313,8 @@ export default (props) => {
             </Select>
           </Grid>
 
-          <Grid item xs={6}>
-            <Typography>endDate*</Typography>
+          <Grid item xs={6} className={classes.container} noValidate>
+            <Typography>마감일*</Typography>
             <FilledInput
               onChange={handleChange}
               name="endDate"
@@ -335,11 +322,17 @@ export default (props) => {
               autoComplete="off"
               placeholder="Job endDate *"
               disableUnderline
-              fullWidth
+              fullwidth
+              id="date"
+              type="date"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
           </Grid>
           <Grid item xs={6}>
-            <Typography># of people*</Typography>
+            <Typography>부엉이 어시 인원*</Typography>
             <TextField
               onChange={handleChange}
               type="number"
@@ -360,13 +353,13 @@ export default (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <Typography>Description*</Typography>
+            <Typography>프로젝트 간단 설명*</Typography>
             <FilledInput
               onChange={handleChange}
               name="description"
               value={jobDetails.description}
               autoComplete="off"
-              placeholder="Job description *"
+              placeholder="진행중인 프로젝트에 대한 간략한 설명을 10자 이상 써 주세요. 어시가 할 일 등에 대해 구체적으로 적어주세요."
               disableUnderline
               fullWidth
               multiline
@@ -375,15 +368,18 @@ export default (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <Typography>Upload Image*</Typography>
+            <Typography>프로젝트 이미지 업로드*</Typography>
             <Button variant="contained" component="label">
               <label htmlFor="file_uploads">
-                <img
-                  src={uploadFilesIcon}
-                  width="35"
-                  height="35"
-                  alt="uploadFilesIcon"
-                />
+                {/* 이미 업로드시 업로드 아이콘 숨김 */}
+                {inputRef.current === undefined ? (
+                  <img
+                    src={uploadFilesIcon}
+                    width="35"
+                    height="35"
+                    alt="uploadFilesIcon"
+                  />
+                ) : null}
               </label>
               <input
                 id={"file-input"}
@@ -392,20 +388,20 @@ export default (props) => {
                 style={{
                   display: "none",
                   opacity: 0,
-                  width: "500px",
+                  width: "300px",
                   height: "400px",
                 }}
                 ref={inputRef}
                 onChange={onFileChange}
               />
               <div className="preview" ref={previewRef}>
-                <p>No files currently selected for upload</p>
+                <p> 진행중인 프로젝트 사진을 간단하게 올려주세요..</p>
               </div>
             </Button>
           </Grid>
 
           <Grid item xs={6}>
-            <Typography>Type*</Typography>
+            <Typography>프로젝트 분류*</Typography>
             <Select
               onChange={handleChange}
               fullWidth
@@ -420,7 +416,7 @@ export default (props) => {
             </Select>
           </Grid>
           <Grid item xs={6}>
-            <Typography>Reward*</Typography>
+            <Typography>대가 형태*</Typography>
             <Select
               onChange={handleChange}
               name="reward"
@@ -435,8 +431,8 @@ export default (props) => {
             </Select>
           </Grid>
 
-          <Box ml={1} mt={2} mb={2}>
-            <Typography>Todos*</Typography>
+          <Grid item xs={12}>
+            <Typography>부엉이 어시의 할일*</Typography>
             <Box display="flex">
               {skills.map((skill) => (
                 <Box
@@ -450,10 +446,10 @@ export default (props) => {
                 </Box>
               ))}
             </Box>
-          </Box>
+          </Grid>
 
           <Grid item xs={6}>
-            <Typography>Sex*</Typography>
+            <Typography>부엉이 어시 성별*</Typography>
             <Select
               onChange={handleChange}
               name="sex"
@@ -468,7 +464,7 @@ export default (props) => {
             </Select>
           </Grid>
           <Grid item xs={6}>
-            <Typography>Experience*</Typography>
+            <Typography>어시 경험 유무*</Typography>
             <Select
               onChange={handleChange}
               name="Experience"
