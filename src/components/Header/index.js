@@ -1,37 +1,30 @@
-import { Box, Button, Container, Grid, makeStyles } from "@material-ui/core";
+import { Box, Button, Grid, makeStyles } from "@material-ui/core";
 import React from "react";
+import { Col, Row, Container } from "react-bootstrap";
+import clickImage from "../../assets/click.png";
 
 export default (props) => {
   const classes = useStyles();
   return (
-    <Box py={10} bgcolor="transparent">
-      <Grid container justify="center">
-        <Container display="flex" flexDirection="row" alignItems="flex-end">
-          <Box>
-            <div class="splash-container">
-              {/* <div>
-                <Button
-                  onClick={props.openNewJobModal}
-                  className={classes.openJobButton}
-                  disableElevation
-                >
-                  부엉이 어시
-                  <br />
-                  구하러 가기
-                </Button>
-              </div> */}
-            </div>
-            {/* <Button
-              onClick={props.openNewJobModal}
-              // variant="contained"
-              className={classes.openJobButton}
-              disableElevation
-            >
-              부엉이 어시 구하러 가기
-            </Button> */}
-          </Box>
-        </Container>
-      </Grid>
+    <Box pt={10} pb={10} bgcolor="transparent">
+      <Container
+        style={{ marginTop: "100px" }} // 1150px
+      >
+        <Row>
+          <Col xs="4"></Col>
+          <Col xs="4"></Col>
+          <Col xs="4" className="splash-container">
+            <button style={{ border: 0, outline: 0 }}>
+              <img
+                src={clickImage}
+                alt="my image"
+                onClick={props.openNewJobModal}
+                style={{ width: "110px", height: "100px" }}
+              />
+            </button>
+          </Col>
+        </Row>
+      </Container>
     </Box>
   );
 };
