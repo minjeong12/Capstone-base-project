@@ -202,7 +202,6 @@ export default function PortfolioGrid(props) {
                     }}
                   >
                     <h3>소개</h3>
-                    {/* 안녕하세요 :) 설계실 곰돌이 입니다. 앞으로 많은 소통해요~ */}
                     {props.ports === undefined ? (
                       <FilledInput
                         onChange={props.handleChange}

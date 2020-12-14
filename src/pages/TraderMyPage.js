@@ -18,6 +18,8 @@ export default function TraderMyPage(props) {
 
   async function TraderProfile() {
     try {
+      console.log(user);
+
       await db
         .ref(`users/${user}`)
         .once("value")
