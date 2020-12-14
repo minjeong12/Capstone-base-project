@@ -23,6 +23,9 @@ import { Link, useHistory } from "react-router-dom";
 import defaultImage from "../../assets/sampleImage.PNG";
 import { db } from "../../firebase/config";
 import { useEffect } from "react";
+import { Col, Container, ProgressBar, Row } from "react-bootstrap";
+import { firestore } from "../../firebase/config";
+import "./mypage.css";
 
 export default (props) => {
   const classes = useStyles();
@@ -134,12 +137,90 @@ export default (props) => {
     else return `${ID2}_${ID1}`;
   }
 
+  const [ports, setPorts] = useState([]);
+  const getPorts = async () => {
+    const req = await firestore
+      .collection("portfolio")
+      .where("userEmail", "==", props.job.userId)
+      .get();
+    const tempPorts = req.docs.map((port) => ({
+      ...port.data(),
+    }));
+    setPorts(tempPorts);
+  };
+  const [scores, setScores] = useState([]);
+  const getScores = async () => {
+    const req = await firestore
+      .collection("scores")
+      .where("email", "==", props.job.userId)
+      .get();
+    const tempScs = req.docs.map((sc) => ({
+      ...sc.data(),
+    }));
+    setScores(tempScs);
+  };
+
+  // const [cal, setCal] = useState(0);
+  const now = scores["0"] === undefined ? 50 : scores["0"].st;
+
+  const progressInstance = (
+    <ProgressBar
+      variant={"YOU_PICK_A_NAME"}
+      className="progress-custom"
+      min={0}
+      max={99}
+      now={now}
+      label={`${now}cm`}
+      style={{
+        height: "50px",
+        fontColor: "gray",
+      }}
+    />
+  );
+
   useEffect(() => {
     setInputVal(props.job.userId);
-  });
+    (async () => {
+      try {
+        await getPorts();
+        await getScores();
+      } catch (err) {
+        console.log("error in review");
+      }
+      // setCal(scores["0"].st);
+      // getPorts();
+    })();
+  }, []);
 
   console.log(props.job.userId);
   console.log(props.job.userPhoto);
+  console.log(ports);
+  console.log(scores);
+
+  // console.log(pts);
+
+  // var scores = [];
+  // async function getScore() {
+  //   try {
+  //     const req = await firestore
+  //       .collection("scores")
+  //       .where("email", "==", inputVal)
+  //       .orderBy("postedOn", "desc")
+  //       .get();
+  //     const tempReviews = req.docs.map((review) => ({
+  //       ...review.data(),
+  //       // id: review.id,
+  //       // postedOn: review.data().postedOn.toDate(),
+  //     }));
+  //     console.log(tempReviews);
+
+  //     scores.push(tempReviews);
+  //   } catch (err) {
+  //     console.log("getScore 에러");
+
+  //     throw err;
+  //   }
+  // }
 
   return (
     <Dialog open={!!Object.keys(props.job).length} fullWidth>
@@ -264,20 +345,53 @@ export default (props) => {
                 부엉이 정보
               </Typography>
             </span>
-            <Box className={classes.info} display="flex">
-              <img
-                src={props.job.userPhoto ? props.job.userPhoto : defaultImage}
-                height="150px"
-                width="150px"
-                alt="profileImage"
-                style={{ borderRadius: 10, marginRight: "20px" }}
-              />
-            </Box>
-            <Box className={classes.info} display="flex">
-              <Typography variant="body2" style={{ marginBottom: "30px" }}>
-                {props.job.userName}
-              </Typography>
-            </Box>
+            <Container style={{ marginLeft: "-10px" }}>
+              <Row>
+                <Col xs="4">
+                  <img
+                    src={
+                      props.job.userPhoto ? props.job.userPhoto : defaultImage
+                    }
+                    height="150px"
+                    width="150px"
+                    alt="profileImage"
+                    style={{ borderRadius: 10 }}
+                  />
+                  <Typography
+                    variant="body2"
+                    style={{
+                      marginBottom: "30px",
+                      textAlign: "center",
+                      marginTop: "5px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {props.job.userName}
+                  </Typography>
+                </Col>
+                <Col xs="8">
+                  <Container>
+                    <Row>
+                      <Col xs="12" style={{ height: "75px" }}>
+                        <Typography>
+                          소개
+                          <br />
+                          {ports["0"] &&
+                            (ports["0"].intro === ""
+                              ? "아직 작성되지 않았습니다."
+                              : ports["0"].intro)}
+                        </Typography>
+                      </Col>
+                      <Col xs="12" style={{ height: "75px" }}>
+                        <Typography>매너 룰러</Typography>
+                        <Typography>{progressInstance}</Typography>
+                      </Col>
+                    </Row>
+                  </Container>
+                </Col>
+              </Row>
+            </Container>
+
             {props.job.userId !== currentUser.email && (
               <Button
                 display="flex"

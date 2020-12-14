@@ -31,9 +31,6 @@ export default (props) => {
     return `${Math.floor(betweenTimeDay / 365)}년 전`;
   }
 
-  console.log(props.job);
-  console.log(job);
-
   return (
     <Box
       m={2}
