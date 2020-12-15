@@ -50,7 +50,6 @@ export default function ReviewGrid(props) {
   const fetchReviews = async () => {
     setLoading(true);
     const id = uuid();
-    // if (uId === "") {
     if (uId === undefined) {
       const req = await firestore
         .collection("reviews")
@@ -59,8 +58,6 @@ export default function ReviewGrid(props) {
         .get();
       const tempReviews = req.docs.map((review) => ({
         ...review.data(),
-        id: review.id,
-        postedOn: review.data().postedOn.toDate(),
       }));
 
       tempReviews.map((x, i) => {
@@ -101,8 +98,6 @@ export default function ReviewGrid(props) {
         .get();
       const tempReviews = req.docs.map((review) => ({
         ...review.data(),
-        id: review.id,
-        postedOn: review.data().postedOn.toDate(),
       }));
 
       tempReviews.map((x, i) => {
@@ -188,7 +183,7 @@ export default function ReviewGrid(props) {
                             paddingBottom: "40px",
                           }}
                         >
-                          {JSON.parse(x["0"]).satisfaction}
+                          {JSON.parse(x["0"]).suggestions}
                         </Typography>
                       </Paper>
                     </Grid>

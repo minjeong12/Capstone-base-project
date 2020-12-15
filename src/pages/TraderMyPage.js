@@ -18,6 +18,8 @@ export default function TraderMyPage(props) {
 
   async function TraderProfile() {
     try {
+      console.log(user);
+
       await db
         .ref(`users/${user}`)
         .once("value")
@@ -194,7 +196,7 @@ export default function TraderMyPage(props) {
                     style={{
                       marginLeft: "-30px",
                       lineHeight: "190px",
-                      fontSize: "21px",
+                      fontSize: "11px",
                       fontWeight: "400",
                       color: "gray",
                       display: "flex",
@@ -207,7 +209,7 @@ export default function TraderMyPage(props) {
                     style={{
                       marginLeft: "20px",
                       lineHeight: "190px",
-                      fontSize: "21px",
+                      fontSize: "11px",
                       fontWeight: "400",
                       color: "gray",
                     }}

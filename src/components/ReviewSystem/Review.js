@@ -4,7 +4,7 @@ import * as Survey from "survey-react";
 import "survey-react/survey.css";
 import { v4 as uuid } from "uuid";
 import { useAuth } from "../../contexts/AuthContext";
-import { firestore, firebase, app } from "../../firebase/config";
+import { firestore, db, app } from "../../firebase/config";
 import { ToastContainer, toast } from "react-toastify";
 import { Container } from "@material-ui/core";
 
@@ -15,11 +15,94 @@ export default function Review(props) {
   const { currentUser } = useAuth();
   const history = useHistory();
 
+  const [uName, setuName] = useState("");
+  const [uPhoto, setuPhoto] = useState("");
+  const [email, setEmail] = useState("");
+  var emailtoJob = "";
+
+  async function TraderProfile() {
+    try {
+      await db
+        .ref(`users/${props.match.params.ID}`)
+        .once("value")
+        .then((snapshot) => {
+          setuName(snapshot.val().uname);
+          setuPhoto(snapshot.val().photoURL);
+          setEmail(snapshot.val().email);
+          emailtoJob = snapshot.val().email;
+        });
+    } catch (err) {
+      console.log("traderProfile에러");
+
+      throw err;
+    }
+  }
+
+  async function putScore() {
+    try {
+      const id = uuid();
+      const req = await firestore
+        .collection("reviews")
+        .where("TraderId", "==", props.match.params.ID)
+        .orderBy("postedOn", "desc")
+        .get();
+      const tempReviews = req.docs.map((review) => ({
+        ...review.data(),
+        // id: review.id,
+        // postedOn: review.data().postedOn.toDate(),
+      }));
+
+      tempReviews.map((x, i) => {
+        if (JSON.parse(x["0"]).satisfaction === 1) {
+          st -= 0.5;
+        } else if (JSON.parse(x["0"]).satisfaction == 2) {
+          st -= 0.25;
+        } else if (JSON.parse(x["0"]).satisfaction == 3) {
+          st -= 0;
+        } else if (JSON.parse(x["0"]).satisfaction == 4) {
+          st += 0.25;
+        } else {
+          st += 0.5;
+        }
+      });
+      const fileRef = firestore.collection("scores").doc(props.match.params.ID);
+      fileRef.set(
+        {
+          st: 50 + st,
+          userId: props.match.params.ID,
+          email: email,
+          username: uName,
+          postedOn: app.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
+    } catch (err) {
+      console.log("putScore 에러");
+
+      throw err;
+    }
+  }
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await TraderProfile();
+        // await getPorts();
+      } catch (err) {
+        console.log("error in review");
+      }
+      // await getJobs();
+    })();
+  }, []);
+
+  var st = 0;
+
   const pushF = async (details) => {
+    // const id = uuid();
     const id = uuid();
+
     await firestore
       .collection("reviews")
-      //.doc(id) //currentUser.email) // + props.match.params.ID)
       .add({
         ...details,
         postedOn: app.firestore.FieldValue.serverTimestamp(),
@@ -68,6 +151,7 @@ export default function Review(props) {
     console.log("Survey results: " + JSON.stringify(survey.data));
     arr.push(JSON.stringify(survey.data));
     await pushF(arr);
+    await putScore();
   }
   return (
     <Container

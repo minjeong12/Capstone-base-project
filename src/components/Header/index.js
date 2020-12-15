@@ -1,36 +1,30 @@
 import { Box, Button, Grid, makeStyles } from "@material-ui/core";
 import React from "react";
+import { Col, Row, Container } from "react-bootstrap";
+import clickImage from "../../assets/click.png";
 
 export default (props) => {
   const classes = useStyles();
   return (
-    <Box py={10} bgcolor="transparent">
-      <Grid container justify="center">
-        <Grid item xs={10}>
-          <Box display="flex" justifyContent="space-between">
-            {/* <div class="splash-container">
-              <div class="splash">
-                <Button
-                  onClick={props.openNewJobModal}
-                  // variant="contained"
-                  className={classes.openJobButton}
-                  disableElevation
-                >
-                  부엉이 어시 구하러 가기
-                </Button>
-              </div>
-            </div> */}
-            <Button
-              onClick={props.openNewJobModal}
-              // variant="contained"
-              className={classes.openJobButton}
-              disableElevation
-            >
-              부엉이 어시 구하러 가기
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
+    <Box pt={10} pb={10} bgcolor="transparent">
+      <Container
+        style={{ marginTop: "100px" }} // 1150px
+      >
+        <Row>
+          <Col xs="4"></Col>
+          <Col xs="4"></Col>
+          <Col xs="4" className="splash-container">
+            <button style={{ border: 0, outline: 0 }}>
+              <img
+                src={clickImage}
+                alt="my image"
+                onClick={props.openNewJobModal}
+                style={{ marginTop: "-100px", marginLeft: "-130px", width: "100px", height: "130px" , backgroundColor: 'transparent' }}
+              />
+            </button>
+          </Col>
+        </Row>
+      </Container>
     </Box>
   );
 };
@@ -38,8 +32,8 @@ export default (props) => {
 const useStyles = makeStyles((theme) => ({
   openJobButton: {
     height: "50px",
-    width: "250px",
-    backgroundColor: "#e1bee7",
+    width: "95px",
+    backgroundColor: 'transparent',
     marginTop: "100px",
   },
   img: {

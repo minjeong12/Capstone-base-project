@@ -1,9 +1,10 @@
 import React from "react";
-import { Box, Grid, Typography, makeStyles } from "@material-ui/core";
+import {Box, Grid, Typography, makeStyles} from "@material-ui/core";
 import defaultImage from "../../assets/sampleImage.PNG";
 
 export default props => {
   const classes = useStyles();
+  const job = props.job;
 
   function timeForToday(value) {
     const today = new Date();
@@ -33,56 +34,64 @@ export default props => {
       m={2}
       p={2}
       className={classes.wrapper}
-      style={{ marginTop: "50px", backgroundColor: "#fff", borderRadius: 20 }}
+      style={{
+        marginTop: "50px",
+        backgroundColor: "#fff",
+        borderRadius: 20,
+        height: "400px",
+      }}
       onClick={props.open}
-     
     >
       {/* <Grid container alignItems="center"> */}
       <Grid container>
         <Grid item container fullWidth>
           <img
-            src={props.imageUrl != null ? props.imageUrl : defaultImage}
+            src={
+              props.imageUrl !== null ? props.imageUrl : defaultImage
+              // props.imageUrl
+
+              // defaultImage
+              // props.job.imageUrl === undefined || props.job.imageUrl === null
+              //   ? defaultImage
+              //   : props.job.imageUrl
+            }
             height="200px"
             width="450px"
             alt="testA"
-            style={{ borderRadius: 10 , alignItems: "center"}}
-           
+            style={{borderRadius: 10}}
           ></img>
         </Grid>
         <Grid
           item
           container
           fullWidth
-          style={{ marginTop: "10px", alignItem: "center", marginleft: "1px" }}
+          style={{marginTop: "10px", alignItem: "center", marginleft: "1px"}}
         >
           <Typography className={classes.locationName} variant="subtitle2">
             {props.location}
           </Typography>
-          <Typography variant="subtitle1" style={{ marginTop: "5px" , fontSize: "25px"}}>
+          <Typography variant="subtitle1" style={{marginTop: "5px", fontSize: "25px"}}>
             &nbsp;&nbsp;{props.title}
           </Typography>
         </Grid>
-        <Grid item container fullWidth style={{ marginTop: "15px", marginLeft: "-0px" }}>
+        <Grid item container fullWidth style={{marginTop: "15px", marginLeft: "-0px"}}>
           {props.skills.map(skill => (
             <Grid key={skill} className={classes.skillChip} item>
               {skill}
             </Grid>
           ))}
         </Grid>
-        <Grid item container fullWidth style={{ marginTop: "10px" }}>
+        <Grid item container fullWidth style={{marginTop: "10px"}}>
           <Grid item>
             <Typography variant="captain">
-              {/* {differenceInMinutes(Date.now(), props.postedOn)} min ago |{" "} */}
-              {timeForToday(props.postedOn)} | {props.type} | {props.sex} | {props.reward}
+              {/* {differenceInMinutes(Date.now(), props.job.postedOn)} min ago |{" "} */}
+              {timeForToday(props.postedOn)} | {props.type} | {props.sex} |{props.reward}
             </Typography>
           </Grid>
         </Grid>
-        <Grid item container fullWidth style={{ marginTop: "10px" }}>
+        <Grid item container fullWidth style={{marginTop: "10px"}}>
           <Grid item>
-            <Typography
-              variant="captain"
-              style={{ fontWeight: 550, color: "#808080" }}
-            ></Typography>
+            <Typography variant="captain" style={{fontWeight: 550, color: "#808080"}}></Typography>
           </Grid>
         </Grid>
       </Grid>
@@ -94,8 +103,7 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     border: "1px solid #e8e8e8",
     cursor: "pointer",
-    height: "400px",
-    width: "500px",
+    height: "350px",
     borderRadius: "10",
 
     "&:hover": {
