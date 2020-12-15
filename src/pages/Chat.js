@@ -84,11 +84,14 @@ export default function Chat(props) {
     }
   }
 
+  const [fId, setFId] = useState(""); // review
   // 완성
   async function sFriendName() {
     const chatID = props.match.params.chatID;
     const x = chatID.split("_");
     const friendID = x[0] === user.uid ? x[1] : x[0];
+    setFId(friendID);
+    console.log(friendID);
 
     await db
       .ref(`users/${friendID}`)
@@ -105,6 +108,21 @@ export default function Chat(props) {
     return time;
   }
 
+  function hist(ID) {
+    history.push("/write-review/" + ID);
+  }
+
+  const appKeyPress = async e => {
+    try {
+      hist(fId);
+    } catch (error) {
+      console.log(error.message);
+      console.log("error");
+    }
+  };
+
+  console.log(fId);
+
   return (
     <Container>
       <Container
@@ -113,10 +131,10 @@ export default function Chat(props) {
         <Row>
           <Col xs="12">
             <div style={{}}>
-              {loadingChats ? <div className="spinner" color="white"></div> : ""}
+              {loadingChats ? <div className="spinner" color="white" width="1000px" ></div> : ""}
               <section
                 className="chat-container"
-                style={{backgroundColor: "#fff", height: "1000px"}}
+                style={{backgroundColor: "#fff", width: "1000px", height: "500px"}}
               >
                 <header className="chat-header">
                   <Link
@@ -132,16 +150,15 @@ export default function Chat(props) {
                     {friendName}
                   </div>
                   <div className="chat-settings" style={{color: "#8355AB"}}>
-                    <Link to="/write-review/:ID">
-                      <Button
-                        variant="contained"
-                        color=""
-                        disableElevation
-                        style={{color: "#8355AB"}}
-                      >
-                        후기 쓰기
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="contained"
+                      color="#F9EFB8"
+                      disableElevation
+                      style={{color: "#8355AB"}}
+                      onClick={appKeyPress}
+                    >
+                      후기 쓰기
+                    </Button>
                   </div>
                 </header>
                 {readError ? (

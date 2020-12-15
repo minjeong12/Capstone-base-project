@@ -20,6 +20,9 @@ import {Link, useHistory} from "react-router-dom";
 import defaultImage from "../../assets/sampleImage.PNG";
 import {db} from "../../firebase/config";
 import {useEffect} from "react";
+import {Col, Container, ProgressBar, Row} from "react-bootstrap";
+import {firestore} from "../../firebase/config";
+import "./mypage.css";
 
 export default props => {
   const classes = useStyles();
@@ -126,12 +129,61 @@ export default props => {
     else return `${ID2}_${ID1}`;
   }
 
+  const [ports, setPorts] = useState([]);
+  const getPorts = async () => {
+    const req = await firestore
+      .collection("portfolio")
+      .where("userEmail", "==", props.job.userId)
+      .get();
+    const tempPorts = req.docs.map(port => ({
+      ...port.data(),
+    }));
+    setPorts(tempPorts);
+  };
+  const [scores, setScores] = useState([]);
+  const getScores = async () => {
+    const req = await firestore.collection("scores").where("email", "==", props.job.userId).get();
+    const tempScs = req.docs.map(sc => ({
+      ...sc.data(),
+    }));
+    setScores(tempScs);
+  };
+
+  const now = scores["0"] === undefined ? 50 : scores["0"].st;
+
+  const progressInstance = (
+    <ProgressBar
+      variant={"YOU_PICK_A_NAME"}
+      className="progress-custom"
+      min={0}
+      max={99}
+      now={now}
+      label={`${now}cm`}
+      style={{
+        height: "50px",
+        fontColor: "gray",
+      }}
+    />
+  );
+
   useEffect(() => {
     setInputVal(props.job.userId);
-  });
+    (async () => {
+      try {
+        await getPorts();
+        await getScores();
+      } catch (err) {
+        console.log("error in review");
+      }
+      // setCal(scores["0"].st);
+      // getPorts();
+    })();
+  }, []);
 
   console.log(props.job.userId);
   console.log(props.job.userPhoto);
+  console.log(ports);
+  console.log(scores);
 
   return (
     <Dialog open={!!Object.keys(props.job).length} fullWidth>
@@ -209,11 +261,11 @@ export default props => {
                           width: "150px",
                           height: "30px",
                           backgroundColor: "#B9ACE0",
-                          fontWeight: "bold",
-                          color: "#fff",
+
+                          fontColor: "#fff",
                         }}
                       >
-                        <Button onClick={appKeyPress} style={{color: "#fff"}}>
+                        <Button onClick={appKeyPress} style={{color: "B9ACE0"}}>
                           쪽지 보내기
                         </Button>
                         {/* <MessageIcon /> */}
@@ -236,6 +288,8 @@ export default props => {
               <Typography
                 variant="caption"
                 style={{
+                  marginLeft: "20px",
+                  marginBottom: "50px",
                   fontFamily: "NotoSansKR-Bold.otf",
                   fontSize: "25px",
                   fontWeight: "bold",
@@ -244,26 +298,59 @@ export default props => {
                 부엉이 정보
               </Typography>
             </span>
-            <Box className={classes.info} display="flex">
-              <img
-                src={props.job.userPhoto ? props.job.userPhoto : defaultImage}
-                height="150px"
-                width="150px"
-                alt="profileImage"
-                style={{borderRadius: 10, marginRight: "20px"}}
-              />
-            </Box>
-            <Box className={classes.info} display="flex">
-              <Typography variant="body2" style={{marginBottom: "30px"}}>
-                {props.job.userName}
-              </Typography>
-            </Box>
+            <Container style={{marginLeft: "10px"}}>
+              <Row>
+                <Col xs="5">
+                  <img
+                    src={props.job.userPhoto ? props.job.userPhoto : defaultImage}
+                    height="150px"
+                    width="150px"
+                    alt="profileImage"
+                    style={{borderRadius: 80}}
+                  />
+                  <Typography
+                    variant="body2"
+                    style={{
+                      marginBottom: "30px",
+                      textAlign: "40px",
+                      marginTop: "20px",
+                      fontWeight: 600,
+                      marginLeft: "0px",
+                    }}
+                  >
+                    {props.job.userName}
+                  </Typography>
+                </Col>
+                <Col xs="20">
+                  <Container>
+                    <Row>
+                      <Col xs="12" style={{height: "75px"}}>
+                        <Typography style={{fontFamily: "NotoSansKR-Bold.otf", fontWeight: "bold"}}>
+                          소개
+                          <br />
+                          {ports["0"] &&
+                            (ports["0"].intro === ""
+                              ? "아직 작성되지 않았습니다."
+                              : ports["0"].intro)}
+                        </Typography>
+                      </Col>
+
+                      <Col xs="12" style={{height: "75px", fontWeight: "bold"}}>
+                        <Typography style={{fontFamily: "NotoSansKR-Bold.otf", fontWeight: "bold"}}>매너 룰러</Typography>
+                        <Typography>{progressInstance}</Typography>
+                      </Col>
+                    </Row>
+                  </Container>
+                </Col>
+              </Row>
+            </Container>
+
             {props.job.userId !== currentUser.email && (
               <Button
                 display="flex"
                 disableElevation
                 disabled={loading}
-                style={{marginTop: "-20px"}}
+                style={{marginTop: "0px", marginLeft: "380px"}}
               >
                 <Button onClick={keyPressMove}>프로필 보러가기</Button>
               </Button>
@@ -276,37 +363,37 @@ export default props => {
           </Box>
           <Box className={classes.info} display="flex">
             <Typography variant="caption">작업실 위치 : </Typography>
-            <Typography variant="body2" style={{marginBottom: "30px"}}>
+            <Typography variant="body2" style={{marginBottom: "50px"}}>
               {props.job.location}
             </Typography>
           </Box>
 
           <Box className={classes.info} display="flex">
             <Typography variant="caption">구하는 부엉이 어시 인원수 : </Typography>
-            <Typography variant="body2" style={{marginBottom: "30px"}}>
+            <Typography variant="body2" style={{marginBottom: "50px"}}>
               {props.job.nOfPeople}
             </Typography>
           </Box>
           <Box className={classes.info} display="flex">
             <Typography variant="caption">부엉이 어시 성별 : </Typography>
-            <Typography variant="body2" style={{marginBottom: "30px"}}>
+            <Typography variant="body2" style={{marginBottom: "50px"}}>
               {props.job.sex}
             </Typography>
           </Box>
 
           <Box className={classes.info} display="flex">
             <Typography variant="caption">프로젝트 설명 : </Typography>
-            <Typography variant="body2" style={{marginBottom: "30px"}}>
+            <Typography variant="body2" style={{marginBottom: "50px"}}>
               {props.job.description}
             </Typography>
           </Box>
           <Box className={classes.info} display="flex">
             <Typography variant="caption">부엉이 어시 구하는 날 : </Typography>
-            <Typography variant="body2" style={{marginBottom: "30px"}}>
+            <Typography variant="body2" style={{marginBottom: "50px"}}>
               {props.job.endDate}
             </Typography>
           </Box>
-          <Box ml={0.5} style={{marginBottom: "30px"}}>
+          <Box ml={0.5} style={{marginBottom: "50px"}}>
             <Typography variant="caption">부엉이 어시가 할 일 : </Typography>
             <Grid container alignItems="center">
               {props.job.skills &&
@@ -342,10 +429,10 @@ export default props => {
               job={props.job}
             />
             <Button
-              style={{backgroundColor: "red"}}
+              style={{backgroundColor: "#F9D598"}}
               variant="contained"
               onClick={() => {
-                if (window.confirm("Are you sure you wish to delete this post?")) {
+                if (window.confirm("정말로 삭제하시겠습니까?")) {
                   props.deleteJob(props.job);
                   closeModal();
                 }

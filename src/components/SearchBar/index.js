@@ -10,9 +10,9 @@ import {
   SvgIcon,
   TextField,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-export default (props) => {
+export default props => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [jobSearch, setJobSearch] = useState({
@@ -42,19 +42,12 @@ export default (props) => {
     "울산",
   ];
   const menuItemRew = ["돈", "어시교환", "돈or어시교환"];
-  const skills = [
-    "판넬작업",
-    "다이어그램",
-    "도면작업",
-    "심부름",
-    "모형작업",
-    "기타업무",
-  ];
+  const skills = ["판넬작업", "다이어그램", "도면작업", "심부름", "모형작업", "기타업무"];
   const menuItemSex = ["여성", "남성", "무관"];
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     e.persist();
-    setJobSearch((oldState) => ({
+    setJobSearch(oldState => ({
       ...oldState,
       [e.target.name]: e.target.value,
     }));
@@ -67,7 +60,7 @@ export default (props) => {
     setLoading(false);
   };
 
-  const onKeyPress = (e) => {
+  const onKeyPress = e => {
     if (e.key === "Enter") {
       search();
     }
@@ -76,10 +69,7 @@ export default (props) => {
   return (
     <Box p={2} mt={-5} mb={2} className={classes.wrapper}>
       <>
-        <FormControl
-          className={classes.formControl}
-          style={{ borderBottom: "5px solid #8C76CC" }}
-        >
+        <FormControl className={classes.formControl} style={{borderBottom: "2px solid #F9D598"}}>
           <InputLabel shrink htmlFor="location-native-label-placeholder">
             지역
           </InputLabel>
@@ -97,10 +87,7 @@ export default (props) => {
             })}
           </NativeSelect>
         </FormControl>
-        <FormControl
-          className={classes.formControl}
-          style={{ borderBottom: "2px solid #8C76CC" }}
-        >
+        <FormControl className={classes.formControl} style={{borderBottom: "2px solid #F9D598"}}>
           <InputLabel shrink htmlFor="reward-native-label-placeholder">
             대가 설정
           </InputLabel>
@@ -118,10 +105,7 @@ export default (props) => {
             })}
           </NativeSelect>
         </FormControl>
-        <FormControl
-          className={classes.formControl}
-          style={{ borderBottom: "2px solid #8C76CC" }}
-        >
+        <FormControl className={classes.formControl} style={{borderBottom: "2px solid #F9D598"}}>
           <InputLabel shrink htmlFor="reward-native-label-placeholder">
             할 일
           </InputLabel>
@@ -139,10 +123,7 @@ export default (props) => {
             })}
           </NativeSelect>
         </FormControl>
-        <FormControl
-          className={classes.formControl}
-          style={{ borderBottom: "2px solid #8C76CC" }}
-        >
+        <FormControl className={classes.formControl} style={{borderBottom: "2px solid #F9D598"}}>
           <InputLabel shrink htmlFor="reward-native-label-placeholder">
             성별
           </InputLabel>
@@ -162,10 +143,7 @@ export default (props) => {
         </FormControl>
       </>
 
-      <FormControl
-        className={classes.formControl}
-        style={{ borderBottom: "2px solid #8C76CC" }}
-      >
+      <FormControl className={classes.formControl} style={{borderBottom: "2px solid #F9D598"}}>
         <InputLabel shrink htmlFor="search-native-label-placeholder">
           검색어
         </InputLabel>
@@ -173,9 +151,9 @@ export default (props) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <SvgIcon color="primary">
+                <SvgIcon color="#F9D598">
                   <path
-                    fill="currentColor"
+                    fill="#F9D598"
                     d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
                   />
                 </SvgIcon>
@@ -185,24 +163,19 @@ export default (props) => {
           name="title"
           disableUnderline
           onChange={handleChange}
-          style={{ marginTop: "15px" }}
+          style={{marginTop: "15px"}}
           onKeyPress={onKeyPress}
         />
       </FormControl>
       {/* =================================================================================== */}
-      <Button
-        disabled={loading}
-        variant="contained"
-        disableElevation
-        onClick={search}
-      >
+      <Button disabled={loading} variant="contained" disableElevation onClick={search}>
         {loading ? <CircularProgress color="secondary" size={22} /> : "검색"}
       </Button>
     </Box>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   wrapper: {
     backgroundColor: "#fff",
     display: "flex",

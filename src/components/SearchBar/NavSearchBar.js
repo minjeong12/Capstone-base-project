@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
       flex: 1,
       height: "45px",
       margin: "8px",
-      backgroundColor: "#e1bee7",
+      backgroundColor: "#F9D598",
     },
   },
   formControl: {

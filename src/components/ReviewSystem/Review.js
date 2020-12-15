@@ -155,9 +155,9 @@ export default function Review(props) {
   }
   return (
     <Container
-      style={{ marginTop: "200px", width: "1000px" }} // 1150px
+      style={{ marginTop: "200px", width: "1000px" , }} // 1150px
     >
-      <div style={{ width: "1000px", margin: "0 auto" }}>
+      <div style={{ height: "800px", width: "1000px", margin: "0 auto" }}>
         {surveyRender}
         {onCompleteComponent}
       </div>

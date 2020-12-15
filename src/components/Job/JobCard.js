@@ -32,10 +32,11 @@ export default props => {
   return (
     <Box
       m={2}
-      p={2}
+      p={2.5}
       className={classes.wrapper}
       style={{
         marginTop: "50px",
+
         backgroundColor: "#fff",
         borderRadius: 20,
         height: "400px",
@@ -44,7 +45,10 @@ export default props => {
     >
       {/* <Grid container alignItems="center"> */}
       <Grid container>
-        <Grid item container fullWidth>
+        <Grid item container fullWidth >
+        
+      
+
           <img
             src={
               props.imageUrl !== null ? props.imageUrl : defaultImage
@@ -103,7 +107,8 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     border: "1px solid #e8e8e8",
     cursor: "pointer",
-    height: "350px",
+    height: "400px",
+    width: "500px",
     borderRadius: "10",
 
     "&:hover": {

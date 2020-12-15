@@ -163,7 +163,7 @@ export default props => {
       const newFile = e.target.files[i];
       newFile["id"] = Math.random();
       // add an "id" property to each File object
-      setFiles((prevState) => [...prevState, newFile]);
+      setFiles(prevState => [...prevState, newFile]);
       console.log(newFile);
       console.log(files);
     }
@@ -222,7 +222,7 @@ export default props => {
     }
   };
 
-  const addRemoveSkill = (skill) => {
+  const addRemoveSkill = skill => {
     jobDetails.skills.includes(skill)
       ? setJobDetails(oldState => ({
           ...oldState,
@@ -368,12 +368,7 @@ export default props => {
               <label htmlFor="file_uploads">
                 {/* 이미 업로드시 업로드 아이콘 숨김 */}
                 {inputRef.current === undefined ? (
-                  <img
-                    src={uploadFilesIcon}
-                    width="35"
-                    height="35"
-                    alt="uploadFilesIcon"
-                  />
+                  <img src={uploadFilesIcon} width="35" height="35" alt="uploadFilesIcon" />
                 ) : null}
               </label>
               <input
@@ -426,7 +421,7 @@ export default props => {
             </Select>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={15}>
             <Typography>부엉이 어시의 할일*</Typography>
             <Box display="flex">
               {skills.map(skill => (
@@ -491,19 +486,15 @@ export default props => {
             // color="primary"
             disabled={loading}
           >
-                        {loading ? (
-              <CircularProgress color="secondary" size={22} />
-            ) : (
-              "Post job"
-            )}
-                      </Button>
+            {loading ? <CircularProgress color="secondary" size={22} /> : "Post job"}
+          </Button>
         </Box>
       </DialogActions>
     </Dialog>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   skillChip: {
     margin: theme.spacing(0.5),
     padding: theme.spacing(0.75),

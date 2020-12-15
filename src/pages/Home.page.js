@@ -28,7 +28,10 @@ export default function HomePage() {
   }, []);
 
   return (
+    
+    
     <ThemeProvider theme={theme} style={{ transition: ".3s" }}>
+      
       {loading ? (
         <Grid container spacing={2} justify="center">
           <Box display="flex" justifyContent="center">
