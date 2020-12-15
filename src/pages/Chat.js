@@ -1,12 +1,12 @@
-import { Button } from "@material-ui/core";
-import React, { useRef, useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import { db } from "../firebase/config";
-import { Container, Row, Col } from "react-bootstrap";
+import {Button} from "@material-ui/core";
+import React, {useRef, useState, useEffect} from "react";
+import {Link, useHistory} from "react-router-dom";
+import {useAuth} from "../contexts/AuthContext";
+import {db} from "../firebase/config";
+import {Container, Row, Col} from "react-bootstrap";
 
 export default function Chat(props) {
-  const { currentUser } = useAuth();
+  const {currentUser} = useAuth();
   const history = useHistory();
   const [user, setUser] = useState(currentUser);
   const [friendName, setFriendName] = useState(null);
@@ -31,9 +31,9 @@ export default function Chat(props) {
       }
 
       await sFriendName();
-      db.ref(`chats/${chatid}`).on("value", (snapshot) => {
+      db.ref(`chats/${chatid}`).on("value", snapshot => {
         let chats = [];
-        snapshot.forEach((snap) => {
+        snapshot.forEach(snap => {
           chats.push(snap.val());
         });
         chats.sort(function (a, b) {
@@ -93,7 +93,7 @@ export default function Chat(props) {
     await db
       .ref(`users/${friendID}`)
       .once("value")
-      .then((snapshot) => {
+      .then(snapshot => {
         setFriendName(snapshot.val().uname);
       });
   }
@@ -108,19 +108,15 @@ export default function Chat(props) {
   return (
     <Container>
       <Container
-        style={{ marginTop: "200px", width: "500px" }} // 1150px
+        style={{marginTop: "200px", width: "500px"}} // 1150px
       >
         <Row>
           <Col xs="12">
             <div style={{}}>
-              {loadingChats ? (
-                <div className="spinner" color="white"></div>
-              ) : (
-                ""
-              )}
+              {loadingChats ? <div className="spinner" color="white"></div> : ""}
               <section
                 className="chat-container"
-                style={{ backgroundColor: "#fff", height: "1000px" }}
+                style={{backgroundColor: "#fff", height: "1000px"}}
               >
                 <header className="chat-header">
                   <Link
@@ -128,23 +124,20 @@ export default function Chat(props) {
                       pathname: "/",
                     }}
                   >
-                    <i
-                      className="fas fa-chevron-left"
-                      style={{ color: "black", fontWeight: 800 }}
-                    >
+                    <i className="fas fa-chevron-left" style={{color: "black", fontWeight: 800}}>
                       &lt;&lt;
                     </i>
                   </Link>
-                  <div className="chat-header-t" style={{ color: "#8355AB" }}>
+                  <div className="chat-header-t" style={{color: "#8355AB"}}>
                     {friendName}
                   </div>
-                  <div className="chat-settings" style={{ color: "#8355AB" }}>
-                    <Link to="/review">
+                  <div className="chat-settings" style={{color: "#8355AB"}}>
+                    <Link to="/write-review/:ID">
                       <Button
                         variant="contained"
                         color=""
                         disableElevation
-                        style={{ color: "#8355AB" }}
+                        style={{color: "#8355AB"}}
                       >
                         후기 쓰기
                       </Button>
@@ -152,32 +145,22 @@ export default function Chat(props) {
                   </div>
                 </header>
                 {readError ? (
-                  <div
-                    className="alert alert-danger py-0 rounded-0"
-                    role="alert"
-                  >
+                  <div className="alert alert-danger py-0 rounded-0" role="alert">
                     {readError}
                   </div>
                 ) : null}
 
-                <main
-                  className="chatarea"
-                  ref={myRef}
-                  style={{ height: "10%" }}
-                >
+                <main className="chatarea" ref={myRef} style={{height: "10%"}}>
                   {/* chat area */}
-                  {chats.map((chat) => {
+                  {chats.map(chat => {
                     return (
                       <div
                         key={chat.timestamp}
-                        className={
-                          "msg " +
-                          (user.uid === chat.uid ? "right-msg" : "left-msg")
-                        }
+                        className={"msg " + (user.uid === chat.uid ? "right-msg" : "left-msg")}
                       >
                         <div
                           className="chat-bubble"
-                          style={{ backgroundColor: "#F5B7B1" }}
+                          style={{backgroundColor: "#F5B7B1"}}
                           onDoubleClick={async () => {
                             if (chat.uid !== user.uid) return;
                             const chatid = props.match.params.chatID;
@@ -187,9 +170,7 @@ export default function Chat(props) {
                               .orderByChild("timestamp")
                               .equalTo(chat.timestamp)
                               .once("value");
-                            setDeletionMsgRef(
-                              `chats/${chatid}/${Object.keys(x.val())[0]}}`
-                            );
+                            setDeletionMsgRef(`chats/${chatid}/${Object.keys(x.val())[0]}}`);
                           }}
                         >
                           <div className="msg-text">{chat.content}</div>
@@ -239,11 +220,7 @@ export default function Chat(props) {
                   ></input>
                   <button type="submit" className="chat-sendbtn">
                     {/* <SendRoundedIcon /> */}
-                    <img
-                      class="mama"
-                      src={require("../assets/send_79678.svg")}
-                      style={{}}
-                    />
+                    <img class="mama" src={require("../assets/send_79678.svg")} style={{}} />
                   </button>
                 </form>
               </section>
