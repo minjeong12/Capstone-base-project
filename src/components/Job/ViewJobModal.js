@@ -160,7 +160,6 @@ export default (props) => {
     setScores(tempScs);
   };
 
-  // const [cal, setCal] = useState(0);
   const now = scores["0"] === undefined ? 50 : scores["0"].st;
 
   const progressInstance = (
@@ -196,31 +195,6 @@ export default (props) => {
   console.log(props.job.userPhoto);
   console.log(ports);
   console.log(scores);
-
-  // console.log(pts);
-
-  // var scores = [];
-  // async function getScore() {
-  //   try {
-  //     const req = await firestore
-  //       .collection("scores")
-  //       .where("email", "==", inputVal)
-  //       .orderBy("postedOn", "desc")
-  //       .get();
-  //     const tempReviews = req.docs.map((review) => ({
-  //       ...review.data(),
-  //       // id: review.id,
-  //       // postedOn: review.data().postedOn.toDate(),
-  //     }));
-  //     console.log(tempReviews);
-
-  //     scores.push(tempReviews);
-  //   } catch (err) {
-  //     console.log("getScore 에러");
-
-  //     throw err;
-  //   }
-  // }
 
   return (
     <Dialog open={!!Object.keys(props.job).length} fullWidth>
